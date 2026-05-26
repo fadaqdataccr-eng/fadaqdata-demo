@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>FadaqData</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -30,11 +32,9 @@
 
 <h2>Wallet Balance</h2>
 
-<div class="balance" id="balance">
-₦0.00
-</div>
+<h1 id="balance">₦0.00</h1>
 
-<button onclick="fundWallet()">
+<button onclick="openFunding()">
 Fund Wallet
 </button>
 
@@ -80,135 +80,54 @@ View
 
 </div>
 
-<div class="history" id="historySection">
+<div class="card" id="historySection">
 
 <h2>Transaction History</h2>
 
 <div id="historyList">
-
-<div class="history-item">
-No transaction yet
-</div>
-
+<p>No transaction yet</p>
 </div>
 
 </div>
 
 <div class="bottom-nav">
-<div>🏠 Home</div>
-<div>👤 Profile</div>
+
+<div onclick="window.scrollTo(0,0)">
+🏠 Home
 </div>
 
-<script>
+<div onclick="showProfile()">
+👤 Profile
+</div>
 
-let balance = 0;
-let totalFunding = 0;
-let transactionCount = 0;
+</div>
 
-function updateBalance(){
-document.getElementById("balance").innerHTML =
-"₦" + balance.toFixed(2);
+<div class="popup" id="fundPopup">
 
-document.getElementById("fundingStat").innerHTML =
-"₦" + totalFunding;
+<div class="popup-box">
 
-document.getElementById("transactionStat").innerHTML =
-transactionCount;
-}
+<h2>Fund Wallet</h2>
 
-function addHistory(text){
+<input
+type="number"
+id="fundAmount"
+placeholder="Enter amount">
 
-const history =
-document.getElementById("historyList");
+<button onclick="fundWallet()">
+Add Money
+</button>
 
-if(history.innerHTML.includes("No transaction yet")){
-history.innerHTML = "";
-}
+<button
+class="close-btn"
+onclick="closeFunding()">
+Close
+</button>
 
-history.innerHTML =
-'<div class="history-item">' +
-text +
-'</div>' +
-history.innerHTML;
+</div>
 
-transactionCount++;
+</div>
 
-updateBalance();
-}
-
-function fundWallet(){
-
-balance += 1000;
-totalFunding += 1000;
-
-updateBalance();
-
-addHistory("Wallet funded ₦1000");
-
-alert("₦1000 added successfully");
-
-}
-
-function buyData(){
-
-if(balance < 500){
-
-alert("Insufficient balance");
-
-return;
-
-}
-
-balance -= 500;
-
-updateBalance();
-
-addHistory("1GB purchased - ₦500");
-
-alert("1GB purchased successfully");
-
-}
-
-function buyAirtime(){
-
-if(balance < 100){
-
-alert("Insufficient balance");
-
-return;
-
-}
-
-balance -= 100;
-
-updateBalance();
-
-addHistory("Airtime purchased - ₦100");
-
-alert("₦100 airtime purchased");
-
-}
-
-function showProfile(){
-
-alert(
-"Username: Fadaq User\nEmail: user@fadaqdata.com"
-);
-
-}
-
-function scrollToHistory(){
-
-document.getElementById("historySection")
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-updateBalance();
-
-</script>
+<script src="script.js"></script>
 
 </body>
-  </html>
+</html>
