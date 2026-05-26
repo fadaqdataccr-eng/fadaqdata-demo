@@ -2,18 +2,56 @@
 <html>
 <head>
 <title>Login</title>
+
+<style>
+body{
+background:#2b160d;
+color:white;
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.box{
+width:300px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:gold;
+border:none;
+border-radius:8px;
+font-weight:bold;
+}
+</style>
 </head>
 
-<body style="background:#2b160d;color:white;text-align:center;padding-top:100px;">
+<body>
 
+<div class="box">
 <h1>Login</h1>
 
-<input type="text" placeholder="Username"><br><br>
+<form action="dashboard.html">
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password">
 
-<input type="password" placeholder="Password"><br><br>
+<button type="submit">Login</button>
+</form>
 
-<a href="dashboard.html">
-<button>Login</button>
-</a>
+</div>
+
 </body>
 </html>
