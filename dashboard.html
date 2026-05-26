@@ -5,53 +5,113 @@
 
 <title>FadaqData Dashboard</title>
 
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <style>
 
 body{
 background:#2b160d;
 font-family:Arial,sans-serif;
-color:white;
 margin:0;
-padding:20px;
+color:white;
+}
+
+.header{
+padding:25px;
+text-align:center;
+font-size:32px;
+font-weight:bold;
 }
 
 .container{
-max-width:400px;
-margin:auto;
+padding:15px;
+padding-bottom:100px;
 }
 
-h1{
-text-align:center;
+.balance-card{
+background:linear-gradient(
+135deg,
+#6d260d,
+#4b1908
+);
+padding:25px;
+border-radius:20px;
 margin-bottom:20px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.balance{
+font-size:35px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 }
 
 .card{
 background:#5a2410;
 padding:20px;
-margin-bottom:20px;
-border-radius:15px;
+border-radius:18px;
+text-align:center;
+}
+
+.card h3{
+margin-top:10px;
+font-size:18px;
+}
+
+.card p{
+font-size:13px;
+opacity:0.8;
 }
 
 button{
 width:100%;
-padding:15px;
+padding:13px;
 border:none;
 border-radius:10px;
 background:gold;
 font-weight:bold;
-font-size:16px;
-margin-top:10px;
+margin-top:15px;
+font-size:15px;
 cursor:pointer;
 }
 
-.profile-btn{
-width:150px;
-margin-bottom:20px;
+.history-card{
+background:#5a2410;
+padding:20px;
+border-radius:18px;
+margin-top:20px;
 }
 
-.history{
-line-height:28px;
+.history-item{
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,0.1);
 font-size:14px;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#3b170b;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.4);
+}
+
+.nav-btn{
+color:white;
+text-decoration:none;
+font-size:14px;
+text-align:center;
 }
 
 </style>
@@ -68,22 +128,39 @@ localStorage.getItem("history")
 
 function updateScreen(){
 
-document.getElementById("balance")
-.innerHTML = "₦" + balance + ".00";
+document.getElementById(
+"balance"
+).innerHTML =
+"₦" + balance + ".00";
+
+let historyHTML = "";
 
 if(historyData.length > 0){
 
-document.getElementById("history")
-.innerHTML =
-historyData.join("<br>");
+for(let i=0;
+i<historyData.length;
+i++){
+
+historyHTML +=
+'<div class="history-item">'
++
+historyData[i]
++
+'</div>';
+
+}
 
 }else{
 
-document.getElementById("history")
-.innerHTML =
-"No transactions yet";
+historyHTML =
+'<div class="history-item">No transactions yet</div>';
 
 }
+
+document.getElementById(
+"history"
+).innerHTML =
+historyHTML;
 
 }
 
@@ -105,9 +182,10 @@ updateScreen();
 
 function fundWallet(){
 
-balance = parseInt(balance) + 1000;
+balance =
+parseInt(balance) + 1000;
 
-historyData.push(
+historyData.unshift(
 "Wallet funded ₦1000"
 );
 
@@ -125,7 +203,7 @@ if(balance >= 500){
 
 balance -= 500;
 
-historyData.push(
+historyData.unshift(
 "1GB purchased - ₦500"
 );
 
@@ -151,7 +229,7 @@ if(balance >= 100){
 
 balance -= 100;
 
-historyData.push(
+historyData.unshift(
 "Airtime purchased - ₦100"
 );
 
@@ -171,7 +249,8 @@ alert(
 
 }
 
-window.onload = updateScreen;
+window.onload =
+updateScreen;
 
 </script>
 
@@ -179,63 +258,135 @@ window.onload = updateScreen;
 
 <body>
 
+<div class="header">
+FadaqData
+</div>
+
 <div class="container">
 
-<h1>FadaqData Dashboard</h1>
+<div class="balance-card">
 
-<center>
+<div>
+Wallet Balance
+</div>
 
-<a href="profile.html">
+<div
+class="balance"
+id="balance">
+₦0.00
+</div>
 
-<button class="profile-btn">
-Profile
-</button>
-
-</a>
-
-</center>
-
-<div class="card">
-
-<h2>Wallet Balance</h2>
-
-<p id="balance">₦0.00</p>
-
-<button onclick="fundWallet()">
+<button
+onclick="fundWallet()">
 Fund Wallet
 </button>
 
 </div>
 
+<div class="grid">
+
 <div class="card">
 
-<h2>Buy Data</h2>
+<h3>Buy Data</h3>
 
-<button onclick="buyData()">
-Purchase Data
+<p>
+Purchase affordable data
+</p>
+
+<button
+onclick="buyData()">
+Buy Now
 </button>
 
 </div>
 
 <div class="card">
 
-<h2>Airtime</h2>
+<h3>Airtime</h3>
 
-<button onclick="buyAirtime()">
-Buy Airtime
+<p>
+Recharge instantly
+</p>
+
+<button
+onclick="buyAirtime()">
+Buy Now
 </button>
 
 </div>
 
 <div class="card">
 
-<h2>Transaction History</h2>
+<h3>Profile</h3>
 
-<div id="history" class="history">
-No transactions yet
+<p>
+Manage your account
+</p>
+
+<a href="profile.html">
+
+<button>
+Open
+</button>
+
+</a>
+
+</div>
+
+<div class="card">
+
+<h3>Transactions</h3>
+
+<p>
+View recent activities
+</p>
+
+<button
+onclick="
+document
+.getElementById(
+'history-card'
+)
+scrollIntoView(
+{behavior:'smooth'}
+)
+">
+View
+</button>
+
 </div>
 
 </div>
+
+<div
+class="history-card"
+id="history-card">
+
+<h2>
+Transaction History
+</h2>
+
+<div id="history">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<a
+class="nav-btn"
+href="dashboard.html">
+Home
+</a>
+
+<a
+class="nav-btn"
+href="profile.html">
+Profile
+</a>
 
 </div>
 
