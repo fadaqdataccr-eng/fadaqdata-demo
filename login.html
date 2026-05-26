@@ -1,17 +1,123 @@
 <!DOCTYPE html>
 <html>
-<body style="background:#2b160d;text-align:center;padding-top:200px;">
+<head>
+<title>Login</title>
 
-<a href="/dashboard.html" style="
-background:gold;
-padding:15px 40px;
+<style>
+
+body{
+background:#2b160d;
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+color:white;
+}
+
+.box{
+width:320px;
+background:#5a2410;
+padding:25px;
+border-radius:15px;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
 border-radius:8px;
-text-decoration:none;
-color:black;
+}
+
+button{
+width:100%;
+padding:12px;
+background:gold;
+border:none;
+border-radius:8px;
 font-weight:bold;
-display:inline-block;">
-GO TO DASHBOARD
+cursor:pointer;
+}
+
+a{
+color:gold;
+text-decoration:none;
+}
+
+</style>
+
+<script>
+
+function login(){
+
+let username=
+document.getElementById("username").value;
+
+let password=
+document.getElementById("password").value;
+
+let savedUser=
+localStorage.getItem("username");
+
+let savedPass=
+localStorage.getItem("password");
+
+if(
+username===savedUser &&
+password===savedPass
+){
+
+window.location.href=
+"dashboard.html";
+
+}else{
+
+alert("Invalid login details");
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Login</h1>
+
+<input
+id="username"
+placeholder="Username">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+<br><br>
+
+<center>
+
+<a href="register.html">
+Create account
 </a>
+
+</center>
+
+</div>
 
 </body>
 </html>
