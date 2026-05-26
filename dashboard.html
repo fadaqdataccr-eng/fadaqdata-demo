@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>FadaqData Dashboard</title>
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -11,7 +13,6 @@
 
 body{
 margin:0;
-padding:0;
 font-family:Arial;
 background:#3b0000;
 color:white;
@@ -23,9 +24,9 @@ padding-bottom:120px;
 }
 
 .logo{
-text-align:center;
 font-size:55px;
 font-weight:bold;
+text-align:center;
 margin-top:20px;
 margin-bottom:30px;
 }
@@ -59,10 +60,10 @@ width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
-cursor:pointer;
 margin-top:20px;
+cursor:pointer;
 }
 
 .yellow{
@@ -97,6 +98,7 @@ font-weight:bold;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -117,12 +119,16 @@ Welcome
 
 <div class="card small-card">
 <h2>Total Funding</h2>
-<h1 id="funding">₦0</h1>
+<h1 id="funding">
+₦0
+</h1>
 </div>
 
 <div class="card small-card">
 <h2>Transactions</h2>
-<h1>0</h1>
+<h1>
+0
+</h1>
 </div>
 
 </div>
@@ -133,44 +139,56 @@ Welcome
 ₦0.00
 </div>
 
-<button class="btn yellow" onclick="fundWallet()">
+<button class="btn yellow" id="fundBtn">
 Fund Wallet
 </button>
 
 <div class="card">
+
 <h2>Buy Data</h2>
+
 <p>Purchase affordable data</p>
 
 <button class="btn yellow">
 Buy Now
 </button>
+
 </div>
 
 <div class="card">
+
 <h2>Airtime</h2>
+
 <p>Recharge instantly</p>
 
 <button class="btn yellow">
 Buy Now
 </button>
+
 </div>
 
 <div class="card">
+
 <h2>Transactions</h2>
+
 <p>Recent activities</p>
 
 <button class="btn yellow">
 View
 </button>
+
 </div>
 
 <div class="card">
+
 <h2>Logout</h2>
+
 <p>Sign out from account</p>
 
-<button class="btn red" onclick="logout()">
+<button class="btn red" id="logoutBtn">
 Logout
 </button>
+
 </div>
 
 </div>
@@ -202,8 +220,7 @@ getFirestore,
 doc,
 getDoc,
 setDoc,
-updateDoc,
-increment
+updateDoc
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -249,7 +266,8 @@ await setDoc(userRef,{
 wallet:0
 });
 
-document.getElementById("balance").innerHTML = "₦0.00";
+document.getElementById("balance").innerHTML =
+"₦0.00";
 
 }else{
 
@@ -271,15 +289,23 @@ window.location.href = "login.html";
 
 });
 
-window.logout = async function(){
+document.getElementById("logoutBtn").addEventListener("click", async()=>{
 
 await signOut(auth);
 
 window.location.href = "login.html";
 
-}
+});
 
-window.fundWallet = function(){
+document.getElementById("fundBtn").addEventListener("click", ()=>{
+
+if(!currentUser){
+
+alert("User not logged in");
+
+return;
+
+}
 
 let amount = prompt("Enter Amount");
 
@@ -295,7 +321,7 @@ return;
 
 }
 
-let handler = PaystackPop.setup({
+const handler = PaystackPop.setup({
 
 key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
@@ -305,7 +331,7 @@ amount: amount * 100,
 
 currency: "NGN",
 
-ref: "FDQ" + Math.floor(Math.random() * 1000000000),
+ref: "FADAQ" + Date.now(),
 
 callback: async function(response){
 
@@ -313,11 +339,27 @@ alert("Payment Successful");
 
 const userRef = doc(db,"users",currentUser.uid);
 
+const snap = await getDoc(userRef);
+
+let oldBalance = 0;
+
+if(snap.exists()){
+
+oldBalance = snap.data().wallet || 0;
+
+}
+
+const newBalance = oldBalance + amount;
+
 await updateDoc(userRef,{
-wallet: increment(amount)
+wallet:newBalance
 });
 
-location.reload();
+document.getElementById("balance").innerHTML =
+"₦" + newBalance.toFixed(2);
+
+document.getElementById("funding").innerHTML =
+"₦" + newBalance;
 
 },
 
@@ -331,7 +373,7 @@ alert("Transaction Cancelled");
 
 handler.openIframe();
 
-}
+});
 
 </script>
 
