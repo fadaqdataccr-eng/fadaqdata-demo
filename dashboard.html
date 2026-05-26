@@ -10,7 +10,7 @@ background:#2b160d;
 color:white;
 font-family:Arial,sans-serif;
 margin:0;
-padding:15px;
+padding:40px 15px 15px 15px;
 }
 
 .container{
@@ -20,22 +20,25 @@ margin:auto;
 
 h1{
 text-align:center;
+margin-top:30px;
 margin-bottom:20px;
+font-size:30px;
 }
 
 .card{
-background:#3b2013;
-padding:15px;
-border-radius:10px;
-margin-bottom:15px;
+background:#4a2313;
+padding:18px;
+border-radius:15px;
+margin-bottom:20px;
 }
 
 button{
 width:100%;
-padding:12px;
+padding:14px;
 background:gold;
 border:none;
-border-radius:8px;
+border-radius:10px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
 margin-top:10px;
@@ -58,14 +61,14 @@ document.getElementById("balance").innerHTML="₦"+balance+".00";
 function fundWallet(){
 balance+=1000;
 updateBalance();
-alert("₦1000 added");
+alert("₦1000 added successfully");
 }
 
 function buyData(){
 if(balance>=500){
 balance-=500;
 updateBalance();
-alert("1GB purchased");
+alert("1GB purchased successfully");
 }else{
 alert("Insufficient balance");
 }
