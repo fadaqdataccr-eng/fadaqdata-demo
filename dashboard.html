@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<title>FadaqData Dashboard</title>
 
 <style>
+
 body{
 background:#2b160d;
 color:white;
 font-family:Arial,sans-serif;
 margin:0;
-padding:20px;
+padding:15px;
+}
+
+.container{
+max-width:400px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
 }
 
 .card{
 background:#3b2013;
 padding:15px;
 border-radius:10px;
-margin:15px 0;
-}
-
-h1{
-text-align:center;
+margin-bottom:15px;
 }
 
 button{
@@ -33,6 +40,11 @@ font-weight:bold;
 cursor:pointer;
 margin-top:10px;
 }
+
+p,h3{
+margin:5px 0;
+}
+
 </style>
 
 <script>
@@ -44,16 +56,16 @@ document.getElementById("balance").innerHTML="₦"+balance+".00";
 }
 
 function fundWallet(){
-balance +=1000;
+balance+=1000;
 updateBalance();
-alert("₦1000 added successfully");
+alert("₦1000 added");
 }
 
 function buyData(){
 if(balance>=500){
-balance -=500;
+balance-=500;
 updateBalance();
-alert("1GB purchased successfully");
+alert("1GB purchased");
 }else{
 alert("Insufficient balance");
 }
@@ -61,7 +73,7 @@ alert("Insufficient balance");
 
 function buyAirtime(){
 if(balance>=100){
-balance -=100;
+balance-=100;
 updateBalance();
 alert("₦100 airtime purchased");
 }else{
@@ -71,7 +83,7 @@ alert("Insufficient balance");
 
 function viewHistory(){
 alert(
-"Transaction History:\n\n"+
+"Transaction History\n\n"+
 "Wallet funded\n"+
 "Data purchased\n"+
 "Airtime purchased"
@@ -83,6 +95,8 @@ alert(
 </head>
 
 <body>
+
+<div class="container">
 
 <h1>FadaqData Dashboard</h1>
 
@@ -105,6 +119,8 @@ alert(
 <div class="card">
 <h3>Transaction History</h3>
 <button onclick="viewHistory()">View History</button>
+</div>
+
 </div>
 
 </body>
