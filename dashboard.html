@@ -1,160 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>FadaqData</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-
-body{
-margin:0;
-padding:20px;
-padding-bottom:100px;
-font-family:Arial,sans-serif;
-background:#2b0d00;
-color:white;
-}
-
-h1{
-text-align:center;
-font-size:45px;
-margin-bottom:25px;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:20px;
-}
-
-.stat-box{
-background:#6b1f08;
-padding:20px;
-border-radius:25px;
-text-align:center;
-}
-
-.stat-box h3{
-margin:0;
-font-size:20px;
-}
-
-.stat-box p{
-font-size:35px;
-font-weight:bold;
-margin-top:15px;
-}
-
-.card{
-background:#6b1f08;
-padding:25px;
-border-radius:25px;
-margin-bottom:20px;
-}
-
-.balance-title{
-font-size:20px;
-margin-bottom:10px;
-}
-
-.balance{
-font-size:60px;
-font-weight:bold;
-margin-bottom:20px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:20px;
-}
-
-.small-card{
-background:#6b1f08;
-padding:20px;
-border-radius:25px;
-text-align:center;
-}
-
-.small-card h2{
-margin-top:0;
-}
-
-.small-card p{
-color:#ddd;
-margin-bottom:20px;
-}
-
-button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:15px;
-background:gold;
-font-size:20px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.history-item{
-padding:15px 0;
-border-bottom:1px solid rgba(255,255,255,0.1);
-font-size:18px;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#1a0800;
-display:flex;
-justify-content:space-around;
-padding:18px 0;
-font-size:22px;
-}
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.popup-box{
-background:#6b1f08;
-padding:25px;
-border-radius:25px;
-width:80%;
-max-width:400px;
-}
-
-input{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:15px;
-font-size:18px;
-}
-
-.close-btn{
-background:red;
-color:white;
-margin-top:10px;
-}
-
-</style>
-
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -177,15 +28,13 @@ margin-top:10px;
 
 <div class="card">
 
-<div class="balance-title">
-Wallet Balance
-</div>
+<h2>Wallet Balance</h2>
 
 <div class="balance" id="balance">
 ₦0.00
 </div>
 
-<button onclick="openPopup()">
+<button onclick="fundWallet()">
 Fund Wallet
 </button>
 
@@ -194,7 +43,7 @@ Fund Wallet
 <div class="grid">
 
 <div class="small-card">
-<h2>Buy Data</h2>
+<h3>Buy Data</h3>
 <p>Purchase affordable data</p>
 
 <button onclick="buyData()">
@@ -203,7 +52,7 @@ Buy Now
 </div>
 
 <div class="small-card">
-<h2>Airtime</h2>
+<h3>Airtime</h3>
 <p>Recharge instantly</p>
 
 <button onclick="buyAirtime()">
@@ -212,7 +61,7 @@ Buy Now
 </div>
 
 <div class="small-card">
-<h2>Profile</h2>
+<h3>Profile</h3>
 <p>Manage account</p>
 
 <button onclick="showProfile()">
@@ -221,7 +70,7 @@ Open
 </div>
 
 <div class="small-card">
-<h2>Transactions</h2>
+<h3>Transactions</h3>
 <p>Recent activities</p>
 
 <button onclick="scrollToHistory()">
@@ -231,11 +80,11 @@ View
 
 </div>
 
-<div class="card" id="historySection">
+<div class="history" id="historySection">
 
 <h2>Transaction History</h2>
 
-<div id="history">
+<div id="historyList">
 
 <div class="history-item">
 No transaction yet
@@ -246,161 +95,57 @@ No transaction yet
 </div>
 
 <div class="bottom-nav">
-
 <div>🏠 Home</div>
 <div>👤 Profile</div>
-
-</div>
-
-<!-- POPUP -->
-
-<div class="popup" id="popup">
-
-<div class="popup-box">
-
-<h2>Fund Wallet</h2>
-
-<input type="number" id="fundAmount" placeholder="Enter amount">
-
-<button onclick="fundWallet()">
-Add Money
-</button>
-
-<button class="close-btn" onclick="closePopup()">
-Close
-</button>
-
-</div>
-
 </div>
 
 <script>
 
-let balance =
-Number(localStorage.getItem("balance")) || 0;
-
-let totalFunding =
-Number(localStorage.getItem("totalFunding")) || 0;
-
-let history =
-JSON.parse(localStorage.getItem("history")) || [];
-
-updateBalance();
-renderHistory();
-updateStats();
+let balance = 0;
+let totalFunding = 0;
+let transactionCount = 0;
 
 function updateBalance(){
-
 document.getElementById("balance").innerHTML =
 "₦" + balance.toFixed(2);
-
-localStorage.setItem("balance", balance);
-
-}
-
-function updateStats(){
 
 document.getElementById("fundingStat").innerHTML =
 "₦" + totalFunding;
 
 document.getElementById("transactionStat").innerHTML =
-history.length;
-
+transactionCount;
 }
 
 function addHistory(text){
 
-let date = new Date();
+const history =
+document.getElementById("historyList");
 
-let item =
-text + " • " + date.toLocaleString();
-
-history.unshift(item);
-
-localStorage.setItem(
-"history",
-JSON.stringify(history)
-);
-
-renderHistory();
-updateStats();
-
+if(history.innerHTML.includes("No transaction yet")){
+history.innerHTML = "";
 }
 
-function renderHistory(){
-
-let historyBox =
-document.getElementById("history");
-
-if(history.length === 0){
-
-historyBox.innerHTML =
-'<div class="history-item">No transaction yet</div>';
-
-return;
-
-}
-
-historyBox.innerHTML = "";
-
-history.forEach(function(item){
-
-historyBox.innerHTML +=
+history.innerHTML =
 '<div class="history-item">' +
-item +
-'</div>';
+text +
+'</div>' +
+history.innerHTML;
 
-});
+transactionCount++;
 
-}
-
-function openPopup(){
-
-document.getElementById("popup").style.display =
-"flex";
-
-}
-
-function closePopup(){
-
-document.getElementById("popup").style.display =
-"none";
-
+updateBalance();
 }
 
 function fundWallet(){
 
-let amount =
-Number(document.getElementById("fundAmount").value);
-
-if(amount <= 0){
-
-alert("Enter valid amount");
-
-return;
-
-}
-
-balance += amount;
-
-totalFunding += amount;
-
-localStorage.setItem(
-"totalFunding",
-totalFunding
-);
+balance += 1000;
+totalFunding += 1000;
 
 updateBalance();
 
-addHistory(
-"Wallet funded ₦" + amount
-);
+addHistory("Wallet funded ₦1000");
 
-document.getElementById("fundAmount").value = "";
-
-closePopup();
-
-alert("Wallet funded successfully");
+alert("₦1000 added successfully");
 
 }
 
@@ -418,11 +163,9 @@ balance -= 500;
 
 updateBalance();
 
-addHistory(
-"1GB purchased - ₦500"
-);
+addHistory("1GB purchased - ₦500");
 
-alert("1GB data purchased");
+alert("1GB purchased successfully");
 
 }
 
@@ -440,9 +183,7 @@ balance -= 100;
 
 updateBalance();
 
-addHistory(
-"Airtime purchased - ₦100"
-);
+addHistory("Airtime purchased - ₦100");
 
 alert("₦100 airtime purchased");
 
@@ -464,6 +205,8 @@ behavior:"smooth"
 });
 
 }
+
+updateBalance();
 
 </script>
 
