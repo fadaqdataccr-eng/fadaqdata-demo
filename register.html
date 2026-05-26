@@ -7,7 +7,7 @@
 body{
 background:#2b160d;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -16,24 +16,48 @@ margin:0;
 }
 
 .container{
-text-align:center;
 width:80%;
 max-width:350px;
+text-align:center;
 }
 
 input{
 width:100%;
-padding:14px;
+padding:12px;
 margin:10px 0;
 border:none;
 border-radius:8px;
-font-size:16px;
+box-sizing:border-box;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:12px;
 background:gold;
 border:none;
 border-radius:8px;
-font-size:
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Register</h1>
+
+<input type="text" placeholder="Username">
+
+<input type="email" placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<button>Register</button>
+
+</div>
+
+</body>
+</html>
