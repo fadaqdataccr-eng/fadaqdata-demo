@@ -8,87 +8,94 @@
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
+
 body{
-    margin:0;
-    font-family:Arial;
-    background:#3b0000;
-    color:white;
+margin:0;
+padding:0;
+font-family:Arial;
+background:#3b0000;
+color:white;
 }
 
 .container{
-    padding:20px;
-    padding-bottom:100px;
+padding:20px;
+padding-bottom:120px;
 }
 
 .logo{
-    text-align:center;
-    font-size:55px;
-    font-weight:bold;
-    margin-top:20px;
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-top:20px;
+margin-bottom:30px;
 }
 
 .card{
-    background:#8b1300;
-    padding:20px;
-    border-radius:25px;
-    margin-top:20px;
-}
-
-.balance{
-    text-align:center;
-    font-size:65px;
-    font-weight:bold;
-}
-
-.btn{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:18px;
-    font-size:20px;
-    font-weight:bold;
-    margin-top:20px;
-    cursor:pointer;
-}
-
-.yellow{
-    background:gold;
-    color:black;
-}
-
-.red{
-    background:red;
-    color:white;
+background:#8b1300;
+padding:20px;
+border-radius:25px;
+margin-top:20px;
 }
 
 .flex{
-    display:flex;
-    gap:15px;
+display:flex;
+gap:15px;
 }
 
 .small-card{
-    flex:1;
-    text-align:center;
+flex:1;
+text-align:center;
+}
+
+.balance{
+font-size:65px;
+font-weight:bold;
+text-align:center;
+margin-top:20px;
+}
+
+.btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.yellow{
+background:gold;
+color:black;
+}
+
+.red{
+background:red;
+color:white;
 }
 
 .bottom-nav{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    display:flex;
-    background:#3b0000;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:flex;
+background:#3b0000;
+padding:10px 0;
 }
 
 .nav-btn{
-    flex:1;
-    margin:10px;
-    padding:20px;
-    border:none;
-    border-radius:18px;
-    background:gold;
-    font-size:18px;
-    font-weight:bold;
+flex:1;
+margin:0 10px;
+padding:18px;
+border:none;
+border-radius:18px;
+background:gold;
+font-size:20px;
+font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -96,17 +103,21 @@ body{
 
 <div class="container">
 
-<div class="logo">FadaqData</div>
+<div class="logo">
+FadaqData
+</div>
 
 <div class="card">
-<h2 id="welcome">Welcome</h2>
+<h2 id="welcome">
+Welcome
+</h2>
 </div>
 
 <div class="flex">
 
 <div class="card small-card">
 <h2>Total Funding</h2>
-<h1>₦0</h1>
+<h1 id="funding">₦0</h1>
 </div>
 
 <div class="card small-card">
@@ -118,7 +129,9 @@ body{
 
 <h1>Wallet Balance</h1>
 
-<div class="balance" id="balance">₦0.00</div>
+<div class="balance" id="balance">
+₦0.00
+</div>
 
 <button class="btn yellow" onclick="fundWallet()">
 Fund Wallet
@@ -163,8 +176,15 @@ Logout
 </div>
 
 <div class="bottom-nav">
-<button class="nav-btn">🏠 Home</button>
-<button class="nav-btn">👤 Profile</button>
+
+<button class="nav-btn">
+🏠 Home
+</button>
+
+<button class="nav-btn">
+👤 Profile
+</button>
+
 </div>
 
 <script type="module">
@@ -181,17 +201,25 @@ import {
 getFirestore,
 doc,
 getDoc,
+setDoc,
 updateDoc,
 increment
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
+
 apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
 projectId: "fadaqdata-3bd14",
+
 storageBucket: "fadaqdata-3bd14.firebasestorage.app",
+
 messagingSenderId: "609845657857",
+
 appId: "1:609845657857:web:48817ce972c054e203db00"
+
 };
 
 const app = initializeApp(firebaseConfig);
@@ -215,12 +243,23 @@ const userRef = doc(db,"users",user.uid);
 
 const snap = await getDoc(userRef);
 
-if(snap.exists()){
+if(!snap.exists()){
+
+await setDoc(userRef,{
+wallet:0
+});
+
+document.getElementById("balance").innerHTML = "₦0.00";
+
+}else{
 
 const data = snap.data();
 
 document.getElementById("balance").innerHTML =
-"₦" + (data.wallet || 0).toFixed(2);
+"₦" + Number(data.wallet || 0).toFixed(2);
+
+document.getElementById("funding").innerHTML =
+"₦" + Number(data.wallet || 0);
 
 }
 
@@ -246,15 +285,27 @@ let amount = prompt("Enter Amount");
 
 if(!amount) return;
 
+amount = Number(amount);
+
+if(amount < 100){
+
+alert("Minimum amount is ₦100");
+
+return;
+
+}
+
 let handler = PaystackPop.setup({
 
-key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
+key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
 email: currentUser.email,
 
 amount: amount * 100,
 
 currency: "NGN",
+
+ref: "FDQ" + Math.floor(Math.random() * 1000000000),
 
 callback: async function(response){
 
@@ -263,7 +314,7 @@ alert("Payment Successful");
 const userRef = doc(db,"users",currentUser.uid);
 
 await updateDoc(userRef,{
-wallet: increment(Number(amount))
+wallet: increment(amount)
 });
 
 location.reload();
@@ -271,7 +322,9 @@ location.reload();
 },
 
 onClose: function(){
+
 alert("Transaction Cancelled");
+
 }
 
 });
