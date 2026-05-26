@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>FadaqData Dashboard</title>
+<title>Dashboard</title>
 
 <style>
 body{
@@ -12,15 +12,15 @@ margin:0;
 padding:20px;
 }
 
-h1{
-text-align:center;
-}
-
 .card{
 background:#3b2013;
 padding:15px;
 border-radius:10px;
 margin:15px 0;
+}
+
+h1{
+text-align:center;
 }
 
 button{
@@ -36,10 +36,48 @@ margin-top:10px;
 </style>
 
 <script>
-function fundWallet(){
-alert("Wallet funded successfully: ₦1000");
-document.getElementById("balance").innerHTML="₦1000";
+
+let balance=0;
+
+function updateBalance(){
+document.getElementById("balance").innerHTML="₦"+balance+".00";
 }
+
+function fundWallet(){
+balance +=1000;
+updateBalance();
+alert("₦1000 added successfully");
+}
+
+function buyData(){
+if(balance>=500){
+balance -=500;
+updateBalance();
+alert("1GB purchased successfully");
+}else{
+alert("Insufficient balance");
+}
+}
+
+function buyAirtime(){
+if(balance>=100){
+balance -=100;
+updateBalance();
+alert("₦100 airtime purchased");
+}else{
+alert("Insufficient balance");
+}
+}
+
+function viewHistory(){
+alert(
+"Transaction History:\n\n"+
+"Wallet funded\n"+
+"Data purchased\n"+
+"Airtime purchased"
+);
+}
+
 </script>
 
 </head>
@@ -56,17 +94,17 @@ document.getElementById("balance").innerHTML="₦1000";
 
 <div class="card">
 <h3>Buy Data</h3>
-<button>Purchase Data</button>
+<button onclick="buyData()">Purchase Data</button>
 </div>
 
 <div class="card">
 <h3>Airtime</h3>
-<button>Buy Airtime</button>
+<button onclick="buyAirtime()">Buy Airtime</button>
 </div>
 
 <div class="card">
 <h3>Transaction History</h3>
-<button>View History</button>
+<button onclick="viewHistory()">View History</button>
 </div>
 
 </body>
