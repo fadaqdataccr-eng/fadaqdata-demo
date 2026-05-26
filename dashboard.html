@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>FadaqData Dashboard</title>
 
 <style>
@@ -37,9 +39,9 @@ border:none;
 border-radius:10px;
 background:gold;
 font-weight:bold;
+font-size:16px;
 margin-top:10px;
 cursor:pointer;
-font-size:16px;
 }
 
 .profile-btn{
@@ -48,8 +50,8 @@ margin-bottom:20px;
 }
 
 .history{
-font-size:14px;
 line-height:28px;
+font-size:14px;
 }
 
 </style>
@@ -169,4 +171,74 @@ alert(
 
 }
 
-window.onload = updateScreen
+window.onload = updateScreen;
+
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>FadaqData Dashboard</h1>
+
+<center>
+
+<a href="profile.html">
+
+<button class="profile-btn">
+Profile
+</button>
+
+</a>
+
+</center>
+
+<div class="card">
+
+<h2>Wallet Balance</h2>
+
+<p id="balance">₦0.00</p>
+
+<button onclick="fundWallet()">
+Fund Wallet
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Buy Data</h2>
+
+<button onclick="buyData()">
+Purchase Data
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Airtime</h2>
+
+<button onclick="buyAirtime()">
+Buy Airtime
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Transaction History</h2>
+
+<div id="history" class="history">
+No transactions yet
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
