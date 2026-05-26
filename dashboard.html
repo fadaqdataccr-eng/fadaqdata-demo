@@ -4,6 +4,7 @@
 <title>FadaqData Dashboard</title>
 
 <style>
+
 body{
 background:#2b160d;
 font-family:Arial,sans-serif;
@@ -19,7 +20,7 @@ margin:auto;
 
 h1{
 text-align:center;
-margin-bottom:30px;
+margin-bottom:20px;
 }
 
 .card{
@@ -38,82 +39,47 @@ background:gold;
 font-weight:bold;
 margin-top:10px;
 cursor:pointer;
+font-size:16px;
+}
+
+.profile-btn{
+width:150px;
+margin-bottom:20px;
 }
 
 .history{
 font-size:14px;
-line-height:25px;
+line-height:28px;
 }
+
 </style>
 
 <script>
 
-let balance = localStorage.getItem("balance") || 0;
+let balance =
+localStorage.getItem("balance") || 0;
 
-let historyData=
-JSON.parse(localStorage.getItem("history")) || [];
+let historyData =
+JSON.parse(
+localStorage.getItem("history")
+) || [];
 
 function updateScreen(){
 
 document.getElementById("balance")
-.innerHTML="₦"+balance+".00";
+.innerHTML = "₦" + balance + ".00";
+
+if(historyData.length > 0){
 
 document.getElementById("history")
-.innerHTML=historyData.join("<br>");
+.innerHTML =
+historyData.join("<br>");
 
-}
+}else{
 
-function fundWallet(){
-
-balance=parseInt(balance)+1000;
-
-historyData.push("Wallet funded ₦1000");
-
-saveData();
-
-alert("Wallet funded successfully");
-
-}
-
-function buyData(){
-
-if(balance>=500){
-
-balance-=500;
-
-historyData.push("1GB purchased - ₦500");
-
-saveData();
-
-alert("1GB purchased");
-
-}
-
-else{
-
-alert("Insufficient balance");
-
-}
-
-}
-
-function buyAirtime(){
-
-if(balance>=100){
-
-balance-=100;
-
-historyData.push("Airtime purchased - ₦100");
-
-saveData();
-
-alert("Airtime purchased");
-
-}
-
-else{
-
-alert("Insufficient balance");
+document.getElementById("history")
+.innerHTML =
+"No transactions yet";
 
 }
 
@@ -121,7 +87,10 @@ alert("Insufficient balance");
 
 function saveData(){
 
-localStorage.setItem("balance",balance);
+localStorage.setItem(
+"balance",
+balance
+);
 
 localStorage.setItem(
 "history",
@@ -132,61 +101,72 @@ updateScreen();
 
 }
 
-window.onload=updateScreen;
+function fundWallet(){
 
-</script>
+balance = parseInt(balance) + 1000;
 
-</head>
+historyData.push(
+"Wallet funded ₦1000"
+);
 
-<body>
+saveData();
 
-<div class="container">
+alert(
+"Wallet funded successfully"
+);
 
-<h1>FadaqData Dashboard</h1>
+}
 
-<div class="card">
+function buyData(){
 
-<h3>Wallet Balance</h3>
+if(balance >= 500){
 
-<p id="balance">₦0.00</p>
+balance -= 500;
 
-<button onclick="fundWallet()">
-Fund Wallet
-</button>
+historyData.push(
+"1GB purchased - ₦500"
+);
 
-</div>
+saveData();
 
-<div class="card">
+alert(
+"1GB purchased successfully"
+);
 
-<h3>Buy Data</h3>
+}else{
 
-<button onclick="buyData()">
-Purchase Data
-</button>
+alert(
+"Insufficient balance"
+);
 
-</div>
+}
 
-<div class="card">
+}
 
-<h3>Airtime</h3>
+function buyAirtime(){
 
-<button onclick="buyAirtime()">
-Buy Airtime
-</button>
+if(balance >= 100){
 
-</div>
+balance -= 100;
 
-<div class="card">
+historyData.push(
+"Airtime purchased - ₦100"
+);
 
-<h3>Transaction History</h3>
+saveData();
 
-<div id="history" class="history">
-No transactions yet
-</div>
+alert(
+"Airtime purchased successfully"
+);
 
-</div>
+}else{
 
-</div>
+alert(
+"Insufficient balance"
+);
 
-</body>
-</html>
+}
+
+}
+
+window.onload = updateScreen
