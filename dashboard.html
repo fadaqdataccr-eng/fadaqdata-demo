@@ -1,199 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FadaqData Dashboard</title>
 
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
 body{
-background:#2b0000;
-color:white;
-padding-bottom:100px;
+    margin:0;
+    font-family:Arial;
+    background:#3b0000;
+    color:white;
 }
 
-.header{
-text-align:center;
-padding:30px 20px;
+.container{
+    padding:20px;
+    padding-bottom:100px;
 }
 
-.header h1{
-font-size:55px;
-font-weight:bold;
-}
-
-.card-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-padding:15px;
+.logo{
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-top:20px;
 }
 
 .card{
-background:#7a1600;
-padding:25px;
-border-radius:25px;
-text-align:center;
-}
-
-.card h3{
-margin-bottom:15px;
-font-size:22px;
-}
-
-.card p{
-font-size:40px;
-font-weight:bold;
-}
-
-.wallet{
-padding:20px;
-}
-
-.wallet h2{
-margin-bottom:20px;
+    background:#8b1300;
+    padding:20px;
+    border-radius:25px;
+    margin-top:20px;
 }
 
 .balance{
-font-size:70px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
+    text-align:center;
+    font-size:65px;
+    font-weight:bold;
 }
 
 .btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:20px;
-background:gold;
-font-size:30px;
-font-weight:bold;
-margin-bottom:25px;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    margin-top:20px;
+    cursor:pointer;
 }
 
-.section{
-background:#7a1600;
-margin:20px;
-padding:30px;
-border-radius:30px;
+.yellow{
+    background:gold;
+    color:black;
 }
 
-.section h2{
-margin-bottom:15px;
+.red{
+    background:red;
+    color:white;
 }
 
-.section p{
-margin-bottom:25px;
-font-size:22px;
+.flex{
+    display:flex;
+    gap:15px;
+}
+
+.small-card{
+    flex:1;
+    text-align:center;
 }
 
 .bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-display:flex;
-background:#2b0000;
-padding:10px;
-gap:10px;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    display:flex;
+    background:#3b0000;
 }
 
 .nav-btn{
-flex:1;
-padding:18px;
-background:gold;
-border:none;
-border-radius:20px;
-font-size:28px;
-font-weight:bold;
-}
-
-.user-box{
-background:#7a1600;
-margin:20px;
-padding:20px;
-border-radius:20px;
-font-size:22px;
-}
-
-.logout-btn{
-background:red;
-color:white;
+    flex:1;
+    margin:10px;
+    padding:20px;
+    border:none;
+    border-radius:18px;
+    background:gold;
+    font-size:18px;
+    font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<h1>FadaqData</h1>
-</div>
+<div class="container">
 
-<div class="user-box">
-<p id="welcome">Loading user...</p>
-</div>
-
-<div class="card-grid">
+<div class="logo">FadaqData</div>
 
 <div class="card">
-<h3>Total Funding</h3>
-<p>₦0</p>
+<h2 id="welcome">Welcome</h2>
 </div>
 
-<div class="card">
-<h3>Transactions</h3>
-<p>0</p>
+<div class="flex">
+
+<div class="card small-card">
+<h2>Total Funding</h2>
+<h1>₦0</h1>
+</div>
+
+<div class="card small-card">
+<h2>Transactions</h2>
+<h1>0</h1>
 </div>
 
 </div>
 
-<div class="wallet">
+<h1>Wallet Balance</h1>
 
-<h2>Wallet Balance</h2>
+<div class="balance" id="balance">₦0.00</div>
 
-<div class="balance">
-₦0.00
-</div>
-
-<button class="btn">
+<button class="btn yellow" onclick="fundWallet()">
 Fund Wallet
 </button>
 
-</div>
-
-<div class="section">
+<div class="card">
 <h2>Buy Data</h2>
 <p>Purchase affordable data</p>
-<button class="btn">Buy Now</button>
+
+<button class="btn yellow">
+Buy Now
+</button>
 </div>
 
-<div class="section">
+<div class="card">
 <h2>Airtime</h2>
 <p>Recharge instantly</p>
-<button class="btn">Buy Now</button>
+
+<button class="btn yellow">
+Buy Now
+</button>
 </div>
 
-<div class="section">
+<div class="card">
 <h2>Transactions</h2>
 <p>Recent activities</p>
-<button class="btn">View</button>
+
+<button class="btn yellow">
+View
+</button>
 </div>
 
-<div class="section">
+<div class="card">
 <h2>Logout</h2>
 <p>Sign out from account</p>
-<button class="btn logout-btn" onclick="logout()">
+
+<button class="btn red" onclick="logout()">
 Logout
 </button>
+</div>
+
 </div>
 
 <div class="bottom-nav">
@@ -203,15 +169,21 @@ Logout
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
 getAuth,
 onAuthStateChanged,
 signOut
-}
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+getFirestore,
+doc,
+getDoc,
+updateDoc,
+increment
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
@@ -223,14 +195,34 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 };
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
-onAuthStateChanged(auth, (user)=>{
+const db = getFirestore(app);
+
+let currentUser = null;
+
+onAuthStateChanged(auth, async(user)=>{
 
 if(user){
 
+currentUser = user;
+
 document.getElementById("welcome").innerHTML =
 "Welcome, " + user.email;
+
+const userRef = doc(db,"users",user.uid);
+
+const snap = await getDoc(userRef);
+
+if(snap.exists()){
+
+const data = snap.data();
+
+document.getElementById("balance").innerHTML =
+"₦" + (data.wallet || 0).toFixed(2);
+
+}
 
 }else{
 
@@ -240,16 +232,51 @@ window.location.href = "login.html";
 
 });
 
-window.logout = function(){
+window.logout = async function(){
 
-signOut(auth)
-.then(()=>{
-
-alert("Logged out successfully");
+await signOut(auth);
 
 window.location.href = "login.html";
 
+}
+
+window.fundWallet = function(){
+
+let amount = prompt("Enter Amount");
+
+if(!amount) return;
+
+let handler = PaystackPop.setup({
+
+key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
+
+email: currentUser.email,
+
+amount: amount * 100,
+
+currency: "NGN",
+
+callback: async function(response){
+
+alert("Payment Successful");
+
+const userRef = doc(db,"users",currentUser.uid);
+
+await updateDoc(userRef,{
+wallet: increment(Number(amount))
 });
+
+location.reload();
+
+},
+
+onClose: function(){
+alert("Transaction Cancelled");
+}
+
+});
+
+handler.openIframe();
 
 }
 
