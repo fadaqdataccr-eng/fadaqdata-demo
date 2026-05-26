@@ -26,6 +26,11 @@ padding:12px;
 margin:10px 0;
 border:none;
 border-radius:8px;
+box-sizing:border-box;
+}
+
+a{
+text-decoration:none;
 }
 
 button{
@@ -39,23 +44,21 @@ cursor:pointer;
 }
 </style>
 
-<script>
-function goDashboard(){
-window.location.href="dashboard.html";
-}
-</script>
-
 </head>
 
 <body>
 
 <div class="box">
+
 <h1>Login</h1>
 
 <input type="text" placeholder="Username">
+
 <input type="password" placeholder="Password">
 
-<button onclick="goDashboard()">Login</button>
+<a href="dashboard.html">
+<button type="button">Login</button>
+</a>
 
 </div>
 
