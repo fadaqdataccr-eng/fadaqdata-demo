@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>FadaqData</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,11 @@
 
 body{
 margin:0;
+padding:20px;
+padding-bottom:100px;
 font-family:Arial,sans-serif;
 background:#2b0d00;
 color:white;
-padding:20px;
-padding-bottom:100px;
 }
 
 h1{
@@ -22,34 +23,54 @@ font-size:45px;
 margin-bottom:25px;
 }
 
-.card{
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:20px;
+}
+
+.stat-box{
 background:#6b1f08;
 padding:20px;
+border-radius:25px;
+text-align:center;
+}
+
+.stat-box h3{
+margin:0;
+font-size:20px;
+}
+
+.stat-box p{
+font-size:35px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.card{
+background:#6b1f08;
+padding:25px;
 border-radius:25px;
 margin-bottom:20px;
 }
 
-.balance{
-font-size:55px;
-font-weight:bold;
-margin:15px 0;
+.balance-title{
+font-size:20px;
+margin-bottom:10px;
 }
 
-button{
-width:100%;
-padding:16px;
-border:none;
-border-radius:15px;
-background:gold;
-font-size:20px;
+.balance{
+font-size:60px;
 font-weight:bold;
-cursor:pointer;
+margin-bottom:20px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:15px;
+margin-bottom:20px;
 }
 
 .small-card{
@@ -65,11 +86,24 @@ margin-top:0;
 
 .small-card p{
 color:#ddd;
+margin-bottom:20px;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+background:gold;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .history-item{
-padding:12px 0;
+padding:15px 0;
 border-bottom:1px solid rgba(255,255,255,0.1);
+font-size:18px;
 }
 
 .bottom-nav{
@@ -80,7 +114,7 @@ width:100%;
 background:#1a0800;
 display:flex;
 justify-content:space-around;
-padding:15px 0;
+padding:18px 0;
 font-size:22px;
 }
 
@@ -98,8 +132,8 @@ align-items:center;
 
 .popup-box{
 background:#6b1f08;
-padding:20px;
-border-radius:20px;
+padding:25px;
+border-radius:25px;
 width:80%;
 max-width:400px;
 }
@@ -109,7 +143,7 @@ width:100%;
 padding:15px;
 margin-top:15px;
 border:none;
-border-radius:12px;
+border-radius:15px;
 font-size:18px;
 }
 
@@ -117,25 +151,6 @@ font-size:18px;
 background:red;
 color:white;
 margin-top:10px;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:20px;
-}
-
-.stat-box{
-background:#6b1f08;
-padding:15px;
-border-radius:20px;
-text-align:center;
-}
-
-.stat-box p{
-font-size:25px;
-font-weight:bold;
 }
 
 </style>
@@ -162,7 +177,9 @@ font-weight:bold;
 
 <div class="card">
 
-<h2>Wallet Balance</h2>
+<div class="balance-title">
+Wallet Balance
+</div>
 
 <div class="balance" id="balance">
 ₦0.00
@@ -214,7 +231,7 @@ View
 
 </div>
 
-<div class="card">
+<div class="card" id="historySection">
 
 <h2>Transaction History</h2>
 
@@ -253,4 +270,202 @@ Add Money
 Close
 </button>
 
-</
+</div>
+
+</div>
+
+<script>
+
+let balance =
+Number(localStorage.getItem("balance")) || 0;
+
+let totalFunding =
+Number(localStorage.getItem("totalFunding")) || 0;
+
+let history =
+JSON.parse(localStorage.getItem("history")) || [];
+
+updateBalance();
+renderHistory();
+updateStats();
+
+function updateBalance(){
+
+document.getElementById("balance").innerHTML =
+"₦" + balance.toFixed(2);
+
+localStorage.setItem("balance", balance);
+
+}
+
+function updateStats(){
+
+document.getElementById("fundingStat").innerHTML =
+"₦" + totalFunding;
+
+document.getElementById("transactionStat").innerHTML =
+history.length;
+
+}
+
+function addHistory(text){
+
+let date = new Date();
+
+let item =
+text + " • " + date.toLocaleString();
+
+history.unshift(item);
+
+localStorage.setItem(
+"history",
+JSON.stringify(history)
+);
+
+renderHistory();
+updateStats();
+
+}
+
+function renderHistory(){
+
+let historyBox =
+document.getElementById("history");
+
+if(history.length === 0){
+
+historyBox.innerHTML =
+'<div class="history-item">No transaction yet</div>';
+
+return;
+
+}
+
+historyBox.innerHTML = "";
+
+history.forEach(function(item){
+
+historyBox.innerHTML +=
+'<div class="history-item">' +
+item +
+'</div>';
+
+});
+
+}
+
+function openPopup(){
+
+document.getElementById("popup").style.display =
+"flex";
+
+}
+
+function closePopup(){
+
+document.getElementById("popup").style.display =
+"none";
+
+}
+
+function fundWallet(){
+
+let amount =
+Number(document.getElementById("fundAmount").value);
+
+if(amount <= 0){
+
+alert("Enter valid amount");
+
+return;
+
+}
+
+balance += amount;
+
+totalFunding += amount;
+
+localStorage.setItem(
+"totalFunding",
+totalFunding
+);
+
+updateBalance();
+
+addHistory(
+"Wallet funded ₦" + amount
+);
+
+document.getElementById("fundAmount").value = "";
+
+closePopup();
+
+alert("Wallet funded successfully");
+
+}
+
+function buyData(){
+
+if(balance < 500){
+
+alert("Insufficient balance");
+
+return;
+
+}
+
+balance -= 500;
+
+updateBalance();
+
+addHistory(
+"1GB purchased - ₦500"
+);
+
+alert("1GB data purchased");
+
+}
+
+function buyAirtime(){
+
+if(balance < 100){
+
+alert("Insufficient balance");
+
+return;
+
+}
+
+balance -= 100;
+
+updateBalance();
+
+addHistory(
+"Airtime purchased - ₦100"
+);
+
+alert("₦100 airtime purchased");
+
+}
+
+function showProfile(){
+
+alert(
+"Username: Fadaq User\nEmail: user@fadaqdata.com"
+);
+
+}
+
+function scrollToHistory(){
+
+document.getElementById("historySection")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+</script>
+
+</body>
+  </html>
