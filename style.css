@@ -9,7 +9,7 @@ color:white;
 
 h1{
 text-align:center;
-font-size:45px;
+font-size:55px;
 margin-bottom:25px;
 }
 
@@ -41,26 +41,29 @@ margin-top:15px;
 .card{
 background:#6b1f08;
 padding:25px;
-border-radius:25px;
+border-radius:30px;
 margin-bottom:20px;
 }
 
-.balance{
-font-size:65px;
-font-weight:bold;
-margin:20px 0;
+.card h2{
+font-size:25px;
+}
+
+.card h1{
+font-size:70px;
+text-align:left;
+margin-top:20px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:15px;
-margin-bottom:20px;
 }
 
 .small-card{
-background:#7d2000;
-padding:20px;
+background:#8b1f00;
+padding:25px;
 border-radius:25px;
 text-align:center;
 }
@@ -71,38 +74,19 @@ margin-bottom:10px;
 }
 
 .small-card p{
-font-size:15px;
 color:#ddd;
 margin-bottom:20px;
 }
 
 button{
-background:#ffd800;
-color:black;
+background:gold;
 border:none;
 padding:18px;
 width:100%;
-border-radius:15px;
+border-radius:18px;
 font-size:18px;
 font-weight:bold;
-cursor:pointer;
-}
-
-.history{
-background:#7d2000;
-padding:20px;
-border-radius:25px;
-}
-
-.history h2{
-font-size:28px;
-margin-bottom:20px;
-}
-
-.history-item{
-padding:15px 0;
-border-bottom:1px solid rgba(255,255,255,0.15);
-font-size:16px;
+margin-top:10px;
 }
 
 .bottom-nav{
@@ -110,11 +94,11 @@ position:fixed;
 bottom:0;
 left:0;
 width:100%;
-background:#3d1200;
+background:#3b0b00;
 display:flex;
 justify-content:space-around;
 padding:18px 0;
-font-size:20px;
+font-size:18px;
 }
 
 .popup{
@@ -150,4 +134,9 @@ font-size:18px;
 background:red;
 color:white;
 margin-top:10px;
+}
+
+#historyList p{
+border-bottom:1px solid rgba(255,255,255,0.1);
+padding:15px 0;
 }
