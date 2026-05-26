@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<title>FadaqData Dashboard</title>
 
 <style>
 body{
@@ -12,15 +12,15 @@ margin:0;
 padding:20px;
 }
 
+h1{
+text-align:center;
+}
+
 .card{
 background:#3b2013;
 padding:15px;
 border-radius:10px;
 margin:15px 0;
-}
-
-h1{
-text-align:center;
 }
 
 button{
@@ -30,8 +30,18 @@ background:gold;
 border:none;
 border-radius:8px;
 font-weight:bold;
+cursor:pointer;
+margin-top:10px;
 }
 </style>
+
+<script>
+function fundWallet(){
+alert("Wallet funded successfully: ₦1000");
+document.getElementById("balance").innerHTML="₦1000";
+}
+</script>
+
 </head>
 
 <body>
@@ -40,7 +50,8 @@ font-weight:bold;
 
 <div class="card">
 <h3>Wallet Balance</h3>
-<p>₦0.00</p>
+<p id="balance">₦0.00</p>
+<button onclick="fundWallet()">Fund Wallet</button>
 </div>
 
 <div class="card">
