@@ -1,133 +1,272 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>FadaqData</title>
 
-<title>FadaqData</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<h1>FadaqData</h1>
+  <h1>FadaqData</h1>
 
-<div class="stats">
+  <div class="stats">
 
-<div class="stat-box">
-<h3>Total Funding</h3>
-<p id="fundingStat">₦0</p>
-</div>
+    <div class="stat-box">
+      <h3>Total Funding</h3>
+      <p id="fundingStat">₦0</p>
+    </div>
 
-<div class="stat-box">
-<h3>Transactions</h3>
-<p id="transactionStat">0</p>
-</div>
+    <div class="stat-box">
+      <h3>Transactions</h3>
+      <p id="transactionStat">0</p>
+    </div>
 
-</div>
+  </div>
 
-<div class="card">
+  <div class="wallet-card">
+    <h2>Wallet Balance</h2>
 
-<h2>Wallet Balance</h2>
+    <h1 id="balance">₦0.00</h1>
 
-<h1 id="balance">₦0.00</h1>
+    <button onclick="fundWallet()">
+      Fund Wallet
+    </button>
+  </div>
 
-<button onclick="openFunding()">
-Fund Wallet
-</button>
+  <div class="cards">
 
-</div>
+    <div class="card">
+      <h3>Buy Data</h3>
+      <p>Purchase affordable data</p>
 
-<div class="grid">
+      <button onclick="buyData()">
+        Buy Now
+      </button>
+    </div>
 
-<div class="small-card">
-<h3>Buy Data</h3>
-<p>Purchase affordable data</p>
+    <div class="card">
+      <h3>Airtime</h3>
+      <p>Recharge instantly</p>
 
-<button onclick="buyData()">
-Buy Now
-</button>
-</div>
+      <button onclick="buyAirtime()">
+        Buy Now
+      </button>
+    </div>
 
-<div class="small-card">
-<h3>Airtime</h3>
-<p>Recharge instantly</p>
+    <div class="card">
+      <h3>Profile</h3>
+      <p>Manage account</p>
 
-<button onclick="buyAirtime()">
-Buy Now
-</button>
-</div>
+      <button onclick="showProfile()">
+        Open
+      </button>
+    </div>
 
-<div class="small-card">
-<h3>Profile</h3>
-<p>Manage account</p>
+    <div class="card">
+      <h3>Transactions</h3>
+      <p>Recent activities</p>
 
-<button onclick="showProfile()">
-Open
-</button>
-</div>
+      <button onclick="scrollToHistory()">
+        View
+      </button>
+    </div>
 
-<div class="small-card">
-<h3>Transactions</h3>
-<p>Recent activities</p>
+  </div>
 
-<button onclick="scrollToHistory()">
-View
-</button>
-</div>
+  <div class="history" id="historySection">
 
-</div>
+    <h2>Transaction History</h2>
 
-<div class="card" id="historySection">
+    <ul id="historyList">
+      <li>No transaction yet</li>
+    </ul>
 
-<h2>Transaction History</h2>
+  </div>
 
-<div id="historyList">
-<p>No transaction yet</p>
-</div>
+  <div class="bottom-nav">
 
-</div>
+    <button>
+      🏠 Home
+    </button>
 
-<div class="bottom-nav">
+    <button onclick="showProfile()">
+      👤 Profile
+    </button>
 
-<div onclick="window.scrollTo(0,0)">
-🏠 Home
-</div>
+  </div>
 
-<div onclick="showProfile()">
-👤 Profile
-</div>
+  <script>
 
-</div>
+    let balance = 0;
 
-<div class="popup" id="fundPopup">
+    let totalFunding = 0;
 
-<div class="popup-box">
+    let totalTransactions = 0;
 
-<h2>Fund Wallet</h2>
+    const historyList =
+      document.getElementById("historyList");
 
-<input
-type="number"
-id="fundAmount"
-placeholder="Enter amount">
+    function updateBalance(){
 
-<button onclick="fundWallet()">
-Add Money
-</button>
+      document.getElementById("balance")
+      .innerText =
+      "₦" + balance.toFixed(2);
 
-<button
-class="close-btn"
-onclick="closeFunding()">
-Close
-</button>
+    }
 
-</div>
+    function updateStats(){
 
-</div>
+      document.getElementById("fundingStat")
+      .innerText =
+      "₦" + totalFunding;
 
-<script src="script.js"></script>
+      document.getElementById("transactionStat")
+      .innerText =
+      totalTransactions;
+
+    }
+
+    function addHistory(text){
+
+      if(historyList.innerHTML.includes(
+        "No transaction yet"
+      )){
+
+        historyList.innerHTML = "";
+
+      }
+
+      const li =
+      document.createElement("li");
+
+      li.innerText = text;
+
+      historyList.prepend(li);
+
+    }
+
+    function fundWallet(){
+
+      let amount =
+      prompt("Enter amount to fund");
+
+      amount = Number(amount);
+
+      if(amount > 0){
+
+        balance += amount;
+
+        totalFunding += amount;
+
+        totalTransactions++;
+
+        updateBalance();
+
+        updateStats();
+
+        addHistory(
+          "Wallet funded ₦" + amount
+        );
+
+        alert(
+          "Wallet funded successfully"
+        );
+
+      }
+
+    }
+
+    function buyData(){
+
+      if(balance < 500){
+
+        alert("Insufficient balance");
+
+        return;
+
+      }
+
+      balance -= 500;
+
+      totalTransactions++;
+
+      updateBalance();
+
+      updateStats();
+
+      addHistory(
+        "1GB purchased - ₦500"
+      );
+
+      alert("1GB purchased");
+
+    }
+
+    function buyAirtime(){
+
+      if(balance < 100){
+
+        alert("Insufficient balance");
+
+        return;
+
+      }
+
+      balance -= 100;
+
+      totalTransactions++;
+
+      updateBalance();
+
+      updateStats();
+
+      addHistory(
+        "Airtime purchased - ₦100"
+      );
+
+      alert("₦100 airtime purchased");
+
+    }
+
+    function showProfile(){
+
+      alert(
+        "Username: Fadaq User\nEmail: user@fadaqdata.com"
+      );
+
+    }
+
+    function scrollToHistory(){
+
+      document.getElementById("historySection")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+    }
+
+  </script>
+
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+      authDomain: "fadaqdata-3bd14.firebaseapp.com",
+      projectId: "fadaqdata-3bd14",
+      storageBucket: "fadaqdata-3bd14.firebasestorage.app",
+      messagingSenderId: "609845657857",
+      appId: "1:609845657857:web:48817ce972c054e203db00"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+  </script>
 
 </body>
 </html>
