@@ -173,7 +173,8 @@ Wallet Balance 👁️
 ₦0.00
 </div>
 
-<button class="btn white">
+<button class="btn white"
+onclick="fundWallet()">
 💳 Fund Wallet
 </button>
 
@@ -301,13 +302,13 @@ document.getElementById("welcomeName")
 .innerHTML = userName;
 
 let wallet =
-localStorage.getItem("walletBalance") || 0;
+Number(localStorage.getItem("walletBalance")) || 0;
 
 document.getElementById("walletBalance")
-.innerHTML = "₦" + wallet + ".00";
+.innerHTML = "₦" + wallet.toFixed(2);
 
 document.getElementById("fundingAmount")
-.innerHTML = "₦" + wallet + ".00";
+.innerHTML = "₦" + wallet.toFixed(2);
 
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
@@ -397,6 +398,42 @@ function closeReceipt(){
 
 document.getElementById("receiptPopup")
 .style.display = "none";
+
+}
+
+function fundWallet(){
+
+let amount = prompt("Enter amount to fund");
+
+if(amount === null || amount === ""){
+return;
+}
+
+amount = Number(amount);
+
+let wallet =
+Number(localStorage.getItem("walletBalance")) || 0;
+
+wallet += amount;
+
+localStorage.setItem("walletBalance", wallet);
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+transactions.push({
+text:"💳 Wallet funded with ₦" + amount,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+alert("Wallet funded successfully");
+
+location.reload();
 
 }
 
