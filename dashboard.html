@@ -13,16 +13,17 @@
 body{
 margin:0;
 padding:20px;
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#6b0000;
 color:white;
-padding-bottom:120px;
+padding-bottom:130px;
 }
 
 .logo{
 text-align:center;
-font-size:60px;
+font-size:45px;
 font-weight:bold;
+margin-top:10px;
 margin-bottom:30px;
 }
 
@@ -31,10 +32,11 @@ background:#a31300;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .welcome{
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 line-height:1.5;
 }
@@ -51,6 +53,7 @@ background:#a31300;
 padding:20px;
 border-radius:25px;
 text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .small-card h2{
@@ -59,33 +62,38 @@ margin-bottom:15px;
 }
 
 .small-card p{
-font-size:55px;
+font-size:50px;
 font-weight:bold;
 margin:0;
 }
 
 .balance-title{
 text-align:center;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
+margin-bottom:15px;
 }
 
 .balance{
 text-align:center;
-font-size:80px;
+font-size:60px;
 font-weight:bold;
-margin-top:20px;
-margin-bottom:25px;
+margin-bottom:30px;
 }
 
 button{
 width:100%;
-padding:22px;
+padding:20px;
 border:none;
 border-radius:18px;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
+transition:0.3s;
+}
+
+button:active{
+transform:scale(0.98);
 }
 
 .yellow{
@@ -99,7 +107,7 @@ color:white;
 }
 
 .service-title{
-font-size:24px;
+font-size:28px;
 font-weight:bold;
 margin-bottom:10px;
 }
@@ -107,6 +115,12 @@ margin-bottom:10px;
 .service-text{
 font-size:18px;
 margin-bottom:25px;
+opacity:0.9;
+}
+
+.transaction-box{
+font-size:18px;
+line-height:1.8;
 }
 
 .bottom-nav{
@@ -117,12 +131,15 @@ width:100%;
 background:#6b0000;
 display:flex;
 gap:10px;
-padding:10px;
+padding:12px;
 box-sizing:border-box;
+box-shadow:0 -2px 10px rgba(0,0,0,0.3);
 }
 
 .nav-btn{
 flex:1;
+font-size:20px;
+padding:18px;
 }
 
 </style>
@@ -168,7 +185,7 @@ Wallet Balance
 </div>
 
 <button class="yellow" onclick="fundWallet()">
-Fund Wallet
+💳 Fund Wallet
 </button>
 
 </div>
@@ -176,7 +193,7 @@ Fund Wallet
 <div class="card">
 
 <div class="service-title">
-Buy Data
+📶 Buy Data
 </div>
 
 <div class="service-text">
@@ -192,7 +209,7 @@ Buy Now
 <div class="card">
 
 <div class="service-title">
-Airtime
+📞 Airtime
 </div>
 
 <div class="service-text">
@@ -208,10 +225,10 @@ Buy Now
 <div class="card">
 
 <div class="service-title">
-Transactions
+🧾 Transactions
 </div>
 
-<div id="transactionList">
+<div class="transaction-box" id="transactionList">
 • No transaction yet
 </div>
 
