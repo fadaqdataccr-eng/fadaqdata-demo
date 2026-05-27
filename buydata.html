@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Buy Data - FadaqData</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+padding:20px;
+background:#7b0000;
+font-family:Arial;
+color:white;
+}
+
+.logo{
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.card{
+background:#b31200;
+padding:25px;
+border-radius:25px;
+margin-bottom:25px;
+}
+
+h2{
+margin-top:0;
+}
+
+input, select{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:18px;
+margin-top:15px;
+margin-bottom:20px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.yellow{
+background:gold;
+color:black;
+}
+
+.red{
+background:red;
+color:white;
+margin-top:20px;
+}
+
+.balance{
+font-size:45px;
+font-weight:bold;
+text-align:center;
+margin:20px 0;
+}
+
+.success{
+background:green;
+padding:15px;
+border-radius:15px;
+margin-top:20px;
+display:none;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:flex;
+background:#7b0000;
+padding:10px;
+box-sizing:border-box;
+gap:10px;
+}
+
+.nav-btn{
+flex:1;
+}
+
+.container{
+padding-bottom:120px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="card">
+
+<h2>📶 Buy Data</h2>
+
+<div class="balance">
+₦<span id="walletBalance">0</span>
+</div>
+
+<select id="network">
+<option value="">Select Network</option>
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+</select>
+
+<select id="plan">
+<option value="">Select Data Plan</option>
+<option value="300">500MB - ₦300</option>
+<option value="500">1GB - ₦500</option>
+<option value="1000">2GB - ₦1000</option>
+<option value="2000">5GB - ₦2000</option>
+</select>
+
+<input type="number" id="phone" placeholder="Enter Phone Number">
+
+<button class="yellow" onclick="buyData()">
+Buy Data
+</button>
+
+<div class="success" id="successBox">
+Data purchase successful 🎉
+</div>
+
+<button class="red"
+onclick="window.location.href='dashboard.html'">
+Back To Dashboard
+</button>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<button class="yellow nav-btn"
+onclick="window.location.href='dashboard.html'">
+🏠 Home
+</button>
+
+<button class="yellow nav-btn"
+onclick="window.location.href='profile.html'">
+👤 Profile
+</button>
+
+</div>
+
+<script>
+
+let balance =
+parseFloat(localStorage.getItem("walletBalance")) || 0;
+
+document.getElementById("walletBalance").innerHTML =
+balance.toFixed(2);
+
+function buyData(){
+
+let network =
+document.getElementById("network").value;
+
+let plan =
+document.getElementById("plan").value;
+
+let phone =
+document.getElementById("phone").value;
+
+if(network === "" || plan === "" || phone === ""){
+alert("Fill all fields");
+return;
+}
+
+plan = parseFloat(plan);
+
+if(balance < plan){
+alert("Insufficient wallet balance");
+return;
+}
+
+balance -= plan;
+
+localStorage.setItem("walletBalance", balance);
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+transactions.unshift(
+"Bought " + network +
+" data for " + phone +
+" - ₦" + plan
+);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+document.getElementById("walletBalance").innerHTML =
+balance.toFixed(2);
+
+document.getElementById("successBox").style.display =
+"block";
+
+setTimeout(() => {
+
+window.location.href = "dashboard.html";
+
+}, 2000);
+
+}
+
+</script>
+
+</body>
+  </html>
