@@ -73,21 +73,6 @@ box-sizing:border-box;
 outline:none;
 }
 
-.plan-box{
-background:#a00000;
-padding:18px;
-border-radius:15px;
-margin-bottom:15px;
-cursor:pointer;
-font-size:20px;
-font-weight:bold;
-border:3px solid transparent;
-}
-
-.active-plan{
-border:3px solid white;
-}
-
 .buy-btn{
 width:100%;
 padding:22px;
@@ -238,19 +223,9 @@ margin-top:20px;
 
 <body>
 
-<script>
-
-if(localStorage.getItem("isLoggedIn") != "true"){
-
-window.location.href = "login.html";
-
-}
-
-</script>
-
 <div class="toast"
 id="toast">
-Purchase Successful ✅
+Data Purchase Successful ✅
 </div>
 
 <div class="loader"
@@ -292,33 +267,28 @@ Wallet: ₦0.00
 
 </select>
 
+<label>Select Plan</label>
+
+<select id="plan">
+
+<option value="500MB">500MB - ₦100</option>
+<option value="1GB">1GB - ₦300</option>
+<option value="2GB">2GB - ₦500</option>
+<option value="5GB">5GB - ₦1200</option>
+
+</select>
+
 <label>Phone Number</label>
 
 <input type="number"
 id="phone"
 placeholder="Enter phone number">
 
-<label>Select Data Plan</label>
+<label>Amount</label>
 
-<div class="plan-box"
-onclick="selectPlan(this,300,'1GB')">
-1GB — ₦300
-</div>
-
-<div class="plan-box"
-onclick="selectPlan(this,500,'2GB')">
-2GB — ₦500
-</div>
-
-<div class="plan-box"
-onclick="selectPlan(this,1000,'5GB')">
-5GB — ₦1000
-</div>
-
-<div class="plan-box"
-onclick="selectPlan(this,2000,'10GB')">
-10GB — ₦2000
-</div>
+<input type="number"
+id="amount"
+placeholder="Enter amount">
 
 <button class="buy-btn"
 onclick="buyData()">
@@ -386,39 +356,17 @@ Done
 <script>
 
 let wallet =
-parseFloat(localStorage.getItem(
+parseFloat(
+localStorage.getItem(
 "walletBalance"
-)) || 0;
+)
+) || 0;
 
 document.getElementById(
 "walletBalance"
 ).innerHTML =
 "Wallet: ₦" +
 wallet.toFixed(2);
-
-let selectedAmount = 0;
-let selectedPlan = "";
-
-function selectPlan(element,amount,plan){
-
-document.querySelectorAll(
-".plan-box"
-).forEach(function(box){
-
-box.classList.remove(
-"active-plan"
-);
-
-});
-
-element.classList.add(
-"active-plan"
-);
-
-selectedAmount = amount;
-selectedPlan = plan;
-
-}
 
 function showLoader(){
 
@@ -462,30 +410,48 @@ document.getElementById(
 "network"
 ).value;
 
+let plan =
+document.getElementById(
+"plan"
+).value;
+
 let phone =
 document.getElementById(
 "phone"
 ).value;
 
+let amount =
+parseFloat(
+document.getElementById(
+"amount"
+).value
+);
+
 if(phone === ""){
 
-showToast("Enter phone number");
+showToast(
+"Enter phone number"
+);
 
 return;
 
 }
 
-if(selectedAmount === 0){
+if(amount <= 0 || isNaN(amount)){
 
-showToast("Select data plan");
+showToast(
+"Enter valid amount"
+);
 
 return;
 
 }
 
-if(wallet < selectedAmount){
+if(wallet < amount){
 
-showToast("Insufficient balance");
+showToast(
+"Insufficient balance"
+);
 
 return;
 
@@ -495,7 +461,7 @@ showLoader();
 
 setTimeout(function(){
 
-wallet -= selectedAmount;
+wallet -= amount;
 
 localStorage.setItem(
 "walletBalance",
@@ -503,28 +469,43 @@ wallet
 );
 
 let transactions =
-JSON.parse(localStorage.getItem(
+JSON.parse(
+localStorage.getItem(
 "transactions"
-)) || [];
+)
+) || [];
 
-let date =
+let transactionID =
+"FD" +
+Math.floor(
+Math.random()*100000000
+);
+
+let transactionDate =
 new Date().toLocaleString();
 
-transactions.unshift(
+transactions.push({
 
+text:
 "📶 " +
 network +
-" " +
-selectedPlan +
-" for " +
+" Data for " +
 phone +
 " - ₦" +
-selectedAmount +
-"<br><small>" +
-date +
-"</small>"
+amount,
 
-);
+date:
+transactionDate,
+
+amount:amount,
+
+type:"Data Purchase",
+
+status:"Successful",
+
+id:transactionID
+
+});
 
 localStorage.setItem(
 "transactions",
@@ -534,13 +515,8 @@ JSON.stringify(transactions)
 hideLoader();
 
 showToast(
-network +
-" Data Purchase Successful"
+"Data Purchase Successful ✅"
 );
-
-let transactionID =
-"FD" +
-Math.floor(Math.random()*100000000);
 
 document.getElementById(
 "receiptNetwork"
@@ -550,7 +526,7 @@ document.getElementById(
 document.getElementById(
 "receiptPlan"
 ).innerHTML =
-"Plan: " + selectedPlan;
+"Plan: " + plan;
 
 document.getElementById(
 "receiptPhone"
@@ -560,7 +536,7 @@ document.getElementById(
 document.getElementById(
 "receiptAmount"
 ).innerHTML =
-"Amount: ₦" + selectedAmount;
+"Amount: ₦" + amount;
 
 document.getElementById(
 "receiptID"
@@ -571,7 +547,8 @@ transactionID;
 document.getElementById(
 "receiptDate"
 ).innerHTML =
-"Date: " + date;
+"Date: " +
+transactionDate;
 
 setTimeout(function(){
 
