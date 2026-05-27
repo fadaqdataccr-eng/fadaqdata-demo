@@ -30,7 +30,7 @@ margin-top:40px;
 .card{
 background:#8b1300;
 padding:30px;
-border-radius:20px;
+border-radius:25px;
 margin-top:40px;
 }
 
@@ -91,7 +91,7 @@ type="password"
 id="password"
 placeholder="Enter Password">
 
-<button onclick="login()">
+<button id="loginBtn">
 Login
 </button>
 
@@ -122,13 +122,14 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
-if (!firebase.apps.length) {
+if(firebase.apps.length === 0){
 firebase.initializeApp(firebaseConfig);
 }
 
 const auth = firebase.auth();
 
-function login(){
+document.getElementById("loginBtn")
+.addEventListener("click", function(){
 
 let email =
 document.getElementById("email").value;
@@ -158,7 +159,7 @@ alert(error.message);
 
 });
 
-}
+});
 
 </script>
 
