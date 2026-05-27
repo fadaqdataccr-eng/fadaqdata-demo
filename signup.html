@@ -1,60 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>FadaqData Signup</title>
+<title>Signup - FadaqData</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 body{
-background:#8B0000;
-font-family:Arial;
+margin:0;
 padding:20px;
+font-family:Arial;
+background:#8B0000;
 color:white;
 }
 
-.container{
-background:#c00000;
-padding:25px;
-border-radius:20px;
-margin-top:50px;
+.logo{
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-top:60px;
+margin-bottom:40px;
 }
 
-h1{
+.box{
+background:#cc0000;
+padding:25px;
+border-radius:20px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+h2{
 text-align:center;
-font-size:50px;
+margin-bottom:30px;
+font-size:32px;
 }
 
 input{
 width:100%;
-padding:15px;
-margin-top:15px;
+padding:18px;
+margin-bottom:18px;
 border:none;
 border-radius:12px;
 font-size:18px;
+box-sizing:border-box;
 outline:none;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:20px;
+padding:18px;
 border:none;
 border-radius:12px;
-font-size:22px;
-font-weight:bold;
 background:white;
 color:#8B0000;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
 }
 
-a{
-color:white;
-text-decoration:none;
+button:hover{
+opacity:0.9;
 }
 
-.bottom{
+.link{
 text-align:center;
 margin-top:20px;
-font-size:18px;
+font-size:16px;
+}
+
+.link a{
+color:white;
+font-weight:bold;
+text-decoration:none;
 }
 
 </style>
@@ -62,21 +82,31 @@ font-size:18px;
 
 <body>
 
-<h1>FadaqData</h1>
+<div class="logo">
+FadaqData
+</div>
 
-<div class="container">
+<div class="box">
 
 <h2>Create Account</h2>
 
-<input type="text" id="fullname" placeholder="Full Name">
+<input type="text"
+id="fullname"
+placeholder="Full Name">
 
-<input type="email" id="email" placeholder="Email Address">
+<input type="email"
+id="email"
+placeholder="Email Address">
 
-<input type="password" id="password" placeholder="Password">
+<input type="password"
+id="password"
+placeholder="Password">
 
-<button onclick="signup()">Create Account</button>
+<button onclick="signup()">
+Create Account
+</button>
 
-<div class="bottom">
+<div class="link">
 Already have account?
 <a href="login.html">Login</a>
 </div>
@@ -96,23 +126,18 @@ document.getElementById("email").value;
 let password =
 document.getElementById("password").value;
 
-if(fullname == "" || email == "" || password == ""){
+if(fullname === "" ||
+email === "" ||
+password === ""){
 
 alert("Fill all fields");
-
 return;
 
 }
 
-localStorage.setItem("userFullname", fullname);
-
+localStorage.setItem("userName", fullname);
 localStorage.setItem("userEmail", email);
-
 localStorage.setItem("userPassword", password);
-
-localStorage.setItem("walletBalance", "0");
-
-localStorage.setItem("transactions", "[]");
 
 alert("Account created successfully");
 
