@@ -104,6 +104,11 @@ cursor:pointer;
 margin-top:15px;
 }
 
+.logout-btn{
+background:#ff1a1a;
+color:white;
+}
+
 .service-title{
 font-size:22px;
 font-weight:bold;
@@ -163,6 +168,17 @@ cursor:pointer;
 
 <body>
 
+<script>
+
+if(localStorage.getItem("loggedIn") !== "true"){
+
+window.location.href =
+"login.html";
+
+}
+
+</script>
+
 <div class="container">
 
 <div class="logo">
@@ -186,11 +202,11 @@ User
 <div class="stat-box">
 
 <div class="stat-title">
-Total Funding
+Wallet Balance
 </div>
 
 <div class="stat-value"
-id="totalFunding">
+id="walletTop">
 ₦0.00
 </div>
 
@@ -259,7 +275,7 @@ Buy Now
 <div class="card">
 
 <div class="service-title">
-📞 Airtime
+📞 Buy Airtime
 </div>
 
 <div class="service-text">
@@ -284,12 +300,16 @@ Buy Now
 
 </div>
 
+<button class="btn logout-btn"
+onclick="logout()">
+Logout
+</button>
+
 </div>
 
 <div class="bottom-nav">
 
-<button class="nav-btn"
-onclick="window.location.href='dashboard.html'">
+<button class="nav-btn">
 🏠 Home
 </button>
 
@@ -315,7 +335,7 @@ document.getElementById(
 "₦" + wallet.toFixed(2);
 
 document.getElementById(
-"totalFunding"
+"walletTop"
 ).innerHTML =
 "₦" + wallet.toFixed(2);
 
@@ -438,6 +458,17 @@ eyeIcon.innerHTML =
 walletVisible = true;
 
 }
+
+}
+
+function logout(){
+
+localStorage.removeItem(
+"loggedIn"
+);
+
+window.location.href =
+"login.html";
 
 }
 
