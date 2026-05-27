@@ -1,107 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
+<title>Buy Airtime - FadaqData</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FadaqData Airtime</title>
 
 <style>
 
 body{
 margin:0;
-padding:0;
-background:#7a0000;
-font-family:Arial,sans-serif;
-color:white;
-}
-
-.container{
 padding:20px;
-padding-bottom:120px;
+background:#8B0000;
+font-family:Arial;
+color:white;
 }
 
 .logo{
 text-align:center;
-font-size:55px;
+font-size:50px;
 font-weight:bold;
 margin-top:30px;
 margin-bottom:30px;
 }
 
 .card{
-background:#a80000;
+background:#cc0000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 15px rgba(0,0,0,0.2);
+box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
-.title{
-font-size:35px;
+.wallet{
+background:#b30000;
+padding:18px;
+border-radius:15px;
+font-size:22px;
 font-weight:bold;
-margin-bottom:20px;
-text-align:center;
-}
-
-.balance{
-font-size:50px;
-font-weight:bold;
-text-align:center;
 margin-bottom:25px;
+text-align:center;
 }
 
-select,
-input{
+label{
+display:block;
+margin-bottom:10px;
+font-size:20px;
+font-weight:bold;
+}
+
+select,input{
 width:100%;
 padding:18px;
 border:none;
-border-radius:18px;
-font-size:20px;
-margin-bottom:20px;
+border-radius:12px;
+margin-bottom:25px;
+font-size:18px;
 box-sizing:border-box;
+outline:none;
 }
 
 button{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
-border-radius:18px;
+border-radius:15px;
+background:white;
+color:#8B0000;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
-margin-top:10px;
-}
-
-.white{
-background:white;
-color:#7a0000;
-}
-
-.red{
-background:#ff1a1a;
-color:white;
-}
-
-.success{
-background:#008000;
-padding:18px;
-border-radius:18px;
-margin-top:20px;
-font-size:20px;
-display:none;
-text-align:center;
 }
 
 .bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
 display:flex;
-gap:10px;
-padding:10px;
-background:#7a0000;
-box-sizing:border-box;
+gap:15px;
+margin-top:25px;
 }
 
 .nav-btn{
@@ -109,10 +82,10 @@ flex:1;
 padding:18px;
 border:none;
 border-radius:18px;
-background:white;
-color:#7a0000;
 font-size:20px;
 font-weight:bold;
+background:white;
+color:#8B0000;
 }
 
 </style>
@@ -120,71 +93,42 @@ font-weight:bold;
 
 <body>
 
-<div class="container">
-
 <div class="logo">
-FadaqData
+📞 Buy Airtime
 </div>
 
 <div class="card">
 
-<div class="title">
-📞 Airtime Purchase
+<div class="wallet">
+Wallet: ₦<span id="walletBalance">0</span>
 </div>
 
-<div class="balance">
-₦<span id="walletBalance">0.00</span>
-</div>
+<label>Select Network</label>
 
 <select id="network">
 
-<option value="">
-Select Network
-</option>
-
-<option value="MTN">
-MTN
-</option>
-
-<option value="Airtel">
-Airtel
-</option>
-
-<option value="Glo">
-Glo
-</option>
-
-<option value="9mobile">
-9mobile
-</option>
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
 
 </select>
 
-<input
-type="number"
+<label>Phone Number</label>
+
+<input type="number"
 id="phone"
-placeholder="Enter Phone Number">
+placeholder="Enter phone number">
 
-<input
-type="number"
+<label>Amount</label>
+
+<input type="number"
 id="amount"
-placeholder="Enter Airtime Amount">
+placeholder="Enter airtime amount">
 
-<button class="white"
-onclick="buyAirtime()">
-Buy Airtime
+<button onclick="buyAirtime()">
+Purchase Airtime
 </button>
-
-<div class="success" id="successBox">
-Airtime purchase successful 🎉
-</div>
-
-<button class="red"
-onclick="window.location.href='dashboard.html'">
-Back To Dashboard
-</button>
-
-</div>
 
 </div>
 
@@ -202,13 +146,62 @@ onclick="window.location.href='profile.html'">
 
 </div>
 
+<!-- RECEIPT POPUP -->
+
+<div id="receiptPopup"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+z-index:999;
+">
+
+<div style="
+background:white;
+width:85%;
+padding:25px;
+border-radius:20px;
+color:#8B0000;
+">
+
+<h2 style="text-align:center;">
+✅ Airtime Receipt
+</h2>
+
+<p id="receiptDetails"></p>
+
+<button onclick="closeReceipt()"
+style="
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#8B0000;
+color:white;
+font-size:18px;
+font-weight:bold;
+margin-top:20px;
+">
+Done
+</button>
+
+</div>
+
+</div>
+
 <script>
 
-let balance =
-parseFloat(localStorage.getItem("walletBalance")) || 0;
+let wallet =
+Number(localStorage.getItem("walletBalance")) || 0;
 
-document.getElementById("walletBalance").innerHTML =
-balance.toFixed(2);
+document.getElementById("walletBalance")
+.innerHTML = wallet.toFixed(2);
 
 function buyAirtime(){
 
@@ -219,61 +212,90 @@ let phone =
 document.getElementById("phone").value;
 
 let amount =
-document.getElementById("amount").value;
+Number(document.getElementById("amount").value);
 
-if(network === "" || phone === "" || amount === ""){
+if(phone === "" || amount <= 0){
 
 alert("Fill all fields");
-
 return;
 
 }
 
-amount = parseFloat(amount);
+let wallet =
+Number(localStorage.getItem("walletBalance")) || 0;
 
-if(balance < amount){
+if(amount > wallet){
 
 alert("Insufficient wallet balance");
-
 return;
 
 }
 
-balance -= amount;
+wallet -= amount;
 
-localStorage.setItem(
-"walletBalance",
-balance
-);
+localStorage.setItem("walletBalance", wallet);
 
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
 
-transactions.push(
-"Airtime purchase: " +
-network +
-" ₦" +
-amount +
-" for " +
-phone
-);
+let transactionText =
+"📞 Airtime purchased for " +
+phone +
+" - ₦" + amount;
+
+let date =
+new Date().toLocaleString();
+
+transactions.push({
+
+text:transactionText,
+date:date
+
+});
 
 localStorage.setItem(
 "transactions",
 JSON.stringify(transactions)
 );
 
-document.getElementById("walletBalance").innerHTML =
-balance.toFixed(2);
+document.getElementById("walletBalance")
+.innerHTML = wallet.toFixed(2);
 
-document.getElementById("successBox").style.display =
-"block";
+document.getElementById("receiptPopup")
+.style.display = "flex";
 
-setTimeout(function(){
+document.getElementById("receiptDetails")
+.innerHTML = `
+
+<p><b>Network:</b> ${network}</p>
+
+<p><b>Phone:</b> ${phone}</p>
+
+<p><b>Amount:</b> ₦${amount}</p>
+
+<p><b>Transaction ID:</b>
+FD${Math.floor(Math.random()*999999999)}
+</p>
+
+<p><b>Date:</b> ${date}</p>
+
+<p>
+<b>Status:</b>
+<span style="color:green;">
+Successful
+</span>
+</p>
+
+`;
+
+}
+
+function closeReceipt(){
+
+document.getElementById("receiptPopup")
+.style.display = "none";
 
 window.location.href = "dashboard.html";
-
-},2000);
 
 }
 
