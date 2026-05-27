@@ -7,38 +7,40 @@
 
 <title>FadaqData Dashboard</title>
 
-<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://checkout.paystack.com/v1/inline.js"></script>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#3b0000;
+padding:0;
+font-family:Arial,sans-serif;
+background:#4b0000;
 color:white;
 }
 
 .container{
 padding:20px;
-padding-bottom:120px;
+padding-bottom:100px;
 }
 
 .logo{
-font-size:50px;
+font-size:60px;
 font-weight:bold;
 text-align:center;
-margin:20px 0;
+margin-top:20px;
+margin-bottom:30px;
 }
 
 .card{
-background:#8b1300;
-padding:20px;
-border-radius:20px;
-margin-top:20px;
+background:#9b1c00;
+padding:25px;
+border-radius:25px;
+margin-bottom:25px;
 }
 
 .balance{
-font-size:60px;
+font-size:70px;
 font-weight:bold;
 text-align:center;
 margin:20px 0;
@@ -47,22 +49,25 @@ margin:20px 0;
 input{
 width:100%;
 padding:18px;
+font-size:22px;
 border:none;
 border-radius:15px;
-font-size:20px;
-margin-top:15px;
+outline:none;
 box-sizing:border-box;
+background:#444;
+color:white;
+margin-top:15px;
 }
 
-.btn{
+button{
 width:100%;
 padding:18px;
-border:none;
-border-radius:15px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
-margin-top:20px;
+border:none;
+border-radius:18px;
 cursor:pointer;
+margin-top:20px;
 }
 
 .yellow{
@@ -89,9 +94,9 @@ FadaqData
 
 <div class="card">
 
-<h2 id="welcome">
+<h1 id="welcome">
 Welcome
-</h2>
+</h1>
 
 </div>
 
@@ -110,7 +115,9 @@ type="number"
 id="amount"
 placeholder="Enter Amount">
 
-<button class="btn yellow" onclick="payNow()">
+<button
+class="yellow"
+onclick="payNow()">
 Proceed Payment
 </button>
 
@@ -118,7 +125,9 @@ Proceed Payment
 
 <div class="card">
 
-<button class="btn red" onclick="logout()">
+<button
+class="red"
+onclick="logout()">
 Logout
 </button>
 
@@ -212,9 +221,17 @@ window.location.href = "login.html";
 
 }
 
-window.payNow = async function(){
+window.payNow = function(){
 
-const amount =
+if(!currentUser){
+
+alert("Login First");
+
+return;
+
+}
+
+let amount =
 document.getElementById("amount").value;
 
 if(amount == ""){
@@ -225,36 +242,49 @@ return;
 
 }
 
-const handler = PaystackPop.setup({
+amount = Number(amount);
+
+if(amount < 100){
+
+alert("Minimum amount is ₦100");
+
+return;
+
+}
+
+var handler = PaystackPop.setup({
 
 key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
 email: currentUser.email,
 
-amount: Number(amount) * 100,
+amount: amount * 100,
 
 currency: "NGN",
 
-ref: "FDQ" + Date.now(),
+ref: "FDQ_" + Date.now(),
 
 callback: async function(response){
 
 alert("Payment Successful");
 
-const userRef = doc(db,"users",currentUser.uid);
+const userRef =
+doc(db,"users",currentUser.uid);
 
-const snap = await getDoc(userRef);
+const snap =
+await getDoc(userRef);
 
 let oldBalance = 0;
 
 if(snap.exists()){
 
-oldBalance = snap.data().wallet || 0;
+oldBalance =
+snap.data().wallet || 0;
 
 }
 
 let newBalance =
-oldBalance + Number(amount);
+oldBalance + amount;
 
 await updateDoc(userRef,{
 wallet:newBalance
@@ -265,11 +295,15 @@ document.getElementById("balance").innerHTML =
 
 document.getElementById("amount").value = "";
 
+setTimeout(() => {
+window.location.reload();
+}, 2000);
+
 },
 
 onClose: function(){
 
-alert("Payment Cancelled");
+alert("Transaction Cancelled");
 
 }
 
