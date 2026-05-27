@@ -122,7 +122,9 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
+if (!firebase.apps.length) {
 firebase.initializeApp(firebaseConfig);
+}
 
 const auth = firebase.auth();
 
@@ -133,6 +135,14 @@ document.getElementById("email").value;
 
 let password =
 document.getElementById("password").value;
+
+if(email === "" || password === ""){
+
+alert("Fill all fields");
+
+return;
+
+}
 
 auth.signInWithEmailAndPassword(email, password)
 
