@@ -139,7 +139,7 @@ Welcome
 ₦0.00
 </div>
 
-<button class="btn yellow" id="fundBtn">
+<button class="btn yellow" onclick="payWithPaystack()">
 Fund Wallet
 </button>
 
@@ -185,7 +185,7 @@ View
 
 <p>Sign out from account</p>
 
-<button class="btn red" id="logoutBtn">
+<button class="btn red" onclick="logout()">
 Logout
 </button>
 
@@ -289,19 +289,19 @@ window.location.href = "login.html";
 
 });
 
-document.getElementById("logoutBtn").addEventListener("click", async()=>{
+window.logout = async function(){
 
 await signOut(auth);
 
 window.location.href = "login.html";
 
-});
+}
 
-document.getElementById("fundBtn").addEventListener("click", ()=>{
+window.payWithPaystack = async function(){
 
 if(!currentUser){
 
-alert("User not logged in");
+alert("Login required");
 
 return;
 
@@ -315,13 +315,13 @@ amount = Number(amount);
 
 if(amount < 100){
 
-alert("Minimum amount is ₦100");
+alert("Minimum funding is ₦100");
 
 return;
 
 }
 
-const handler = PaystackPop.setup({
+let handler = PaystackPop.setup({
 
 key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
@@ -331,25 +331,25 @@ amount: amount * 100,
 
 currency: "NGN",
 
-ref: "FADAQ" + Date.now(),
+ref: "FADAQ_" + Math.floor(Math.random()*1000000000),
 
 callback: async function(response){
 
-alert("Payment Successful");
+alert("Payment successful");
 
 const userRef = doc(db,"users",currentUser.uid);
 
 const snap = await getDoc(userRef);
 
-let oldBalance = 0;
+let currentBalance = 0;
 
 if(snap.exists()){
 
-oldBalance = snap.data().wallet || 0;
+currentBalance = snap.data().wallet || 0;
 
 }
 
-const newBalance = oldBalance + amount;
+let newBalance = currentBalance + amount;
 
 await updateDoc(userRef,{
 wallet:newBalance
@@ -365,19 +365,15 @@ document.getElementById("funding").innerHTML =
 
 onClose: function(){
 
-alert("Transaction Cancelled");
+alert("Transaction cancelled");
 
 }
 
 });
 
-setTimeout(() => {
-
 handler.openIframe();
 
-}, 500);
-
-});
+}
 
 </script>
 
