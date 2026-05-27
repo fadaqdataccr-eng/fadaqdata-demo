@@ -1,107 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Buy Data - FadaqData</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Data</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
-background:#7b0000;
-font-family:Arial;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
 color:white;
 }
 
+.container{
+padding:20px;
+padding-bottom:120px;
+}
+
 .logo{
-text-align:center;
 font-size:55px;
 font-weight:bold;
-margin-bottom:30px;
+text-align:center;
+margin-top:40px;
+margin-bottom:40px;
 }
 
 .card{
-background:#b31200;
+background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
-h2{
-margin-top:0;
+.title{
+font-size:35px;
+font-weight:bold;
+margin-bottom:25px;
+text-align:center;
 }
 
-input, select{
+label{
+display:block;
+font-size:20px;
+margin-bottom:10px;
+font-weight:bold;
+}
+
+input,select{
 width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
+margin-bottom:25px;
 font-size:18px;
-margin-top:15px;
-margin-bottom:20px;
 box-sizing:border-box;
+outline:none;
 }
 
-button{
-width:100%;
+.plan-box{
+background:#a00000;
 padding:18px;
-border:none;
 border-radius:15px;
-font-size:22px;
+margin-bottom:15px;
+cursor:pointer;
+font-size:20px;
+font-weight:bold;
+border:3px solid transparent;
+}
+
+.active-plan{
+border:3px solid white;
+}
+
+.buy-btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.yellow{
-background:gold;
-color:black;
-}
-
-.red{
-background:red;
-color:white;
-margin-top:20px;
-}
-
-.balance{
-font-size:45px;
+.balance-box{
+background:#a00000;
+padding:20px;
+border-radius:18px;
+font-size:28px;
 font-weight:bold;
 text-align:center;
-margin:20px 0;
-}
-
-.success{
-background:green;
-padding:15px;
-border-radius:15px;
-margin-top:20px;
-display:none;
+margin-bottom:25px;
 }
 
 .bottom-nav{
 position:fixed;
 bottom:0;
 left:0;
-width:100%;
+right:0;
+background:#8B0000;
+padding:15px;
 display:flex;
-background:#7b0000;
-padding:10px;
-box-sizing:border-box;
-gap:10px;
+gap:15px;
 }
 
 .nav-btn{
 flex:1;
-}
-
-.container{
-padding-bottom:120px;
+padding:18px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -112,41 +136,75 @@ FadaqData
 
 <div class="card">
 
-<h2>📶 Buy Data</h2>
-
-<div class="balance">
-₦<span id="walletBalance">0</span>
+<div class="title">
+📶 Buy Data
 </div>
+
+<div class="balance-box" id="walletBalance">
+Wallet: ₦0.00
+</div>
+
+<label>Select Network</label>
 
 <select id="network">
-<option value="">Select Network</option>
-<option>MTN</option>
-<option>Airtel</option>
-<option>Glo</option>
-<option>9mobile</option>
+
+<option value="MTN">MTN</option>
+
+<option value="Airtel">
+Airtel
+</option>
+
+<option value="Glo">
+Glo
+</option>
+
+<option value="9mobile">
+9mobile
+</option>
+
 </select>
 
-<select id="plan">
-<option value="">Select Data Plan</option>
-<option value="300">500MB - ₦300</option>
-<option value="500">1GB - ₦500</option>
-<option value="1000">2GB - ₦1000</option>
-<option value="2000">5GB - ₦2000</option>
-</select>
+<label>Phone Number</label>
 
-<input type="number" id="phone" placeholder="Enter Phone Number">
+<input type="number"
+id="phone"
+placeholder="Enter phone number">
 
-<button class="yellow" onclick="buyData()">
-Buy Data
-</button>
+<label>Select Data Plan</label>
 
-<div class="success" id="successBox">
-Data purchase successful 🎉
+<div class="plan-box"
+onclick="selectPlan(this,300,'1GB')">
+
+1GB — ₦300
+
 </div>
 
-<button class="red"
-onclick="window.location.href='dashboard.html'">
-Back To Dashboard
+<div class="plan-box"
+onclick="selectPlan(this,500,'2GB')">
+
+2GB — ₦500
+
+</div>
+
+<div class="plan-box"
+onclick="selectPlan(this,1000,'5GB')">
+
+5GB — ₦1000
+
+</div>
+
+<div class="plan-box"
+onclick="selectPlan(this,2000,'10GB')">
+
+10GB — ₦2000
+
+</div>
+
+<button class="buy-btn"
+onclick="buyData()">
+
+Purchase Data
+
 </button>
 
 </div>
@@ -155,60 +213,123 @@ Back To Dashboard
 
 <div class="bottom-nav">
 
-<button class="yellow nav-btn"
+<button class="nav-btn"
 onclick="window.location.href='dashboard.html'">
+
 🏠 Home
+
 </button>
 
-<button class="yellow nav-btn"
+<button class="nav-btn"
 onclick="window.location.href='profile.html'">
+
 👤 Profile
+
 </button>
 
 </div>
 
 <script>
 
-let balance =
+let wallet =
 parseFloat(localStorage.getItem("walletBalance")) || 0;
 
-document.getElementById("walletBalance").innerHTML =
-balance.toFixed(2);
+document.getElementById(
+"walletBalance"
+).innerHTML =
+"Wallet: ₦" + wallet.toFixed(2);
+
+let selectedAmount = 0;
+let selectedPlan = "";
+
+function selectPlan(element,amount,plan){
+
+document.querySelectorAll(
+".plan-box"
+).forEach(function(box){
+
+box.classList.remove(
+"active-plan"
+);
+
+});
+
+element.classList.add(
+"active-plan"
+);
+
+selectedAmount = amount;
+selectedPlan = plan;
+
+}
 
 function buyData(){
 
 let network =
-document.getElementById("network").value;
-
-let plan =
-document.getElementById("plan").value;
+document.getElementById(
+"network"
+).value;
 
 let phone =
-document.getElementById("phone").value;
+document.getElementById(
+"phone"
+).value;
 
-if(network === "" || plan === "" || phone === ""){
-alert("Fill all fields");
+if(phone === ""){
+
+alert("Enter phone number");
+
 return;
+
 }
 
-plan = parseFloat(plan);
+if(selectedAmount === 0){
 
-if(balance < plan){
-alert("Insufficient wallet balance");
+alert("Select data plan");
+
 return;
+
 }
 
-balance -= plan;
+if(wallet < selectedAmount){
 
-localStorage.setItem("walletBalance", balance);
+alert("Insufficient balance");
+
+return;
+
+}
+
+wallet -= selectedAmount;
+
+localStorage.setItem(
+"walletBalance",
+wallet
+);
 
 let transactions =
-JSON.parse(localStorage.getItem("transactions")) || [];
+JSON.parse(
+localStorage.getItem(
+"transactions"
+)
+) || [];
+
+let date =
+new Date().toLocaleString();
 
 transactions.unshift(
-"Bought " + network +
-" data for " + phone +
-" - ₦" + plan
+
+"📶 " +
+network +
+" " +
+selectedPlan +
+" for " +
+phone +
+" - ₦" +
+selectedAmount +
+"<br><small>" +
+date +
+"</small>"
+
 );
 
 localStorage.setItem(
@@ -216,21 +337,17 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-document.getElementById("walletBalance").innerHTML =
-balance.toFixed(2);
+alert(
+network +
+" data purchase successful"
+);
 
-document.getElementById("successBox").style.display =
-"block";
-
-setTimeout(() => {
-
-window.location.href = "dashboard.html";
-
-}, 2000);
+window.location.href =
+"dashboard.html";
 
 }
 
 </script>
 
 </body>
-  </html>
+</html>
