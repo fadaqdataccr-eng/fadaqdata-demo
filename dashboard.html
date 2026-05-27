@@ -20,6 +20,7 @@ padding:20px;
 font-family:Arial;
 background:#4b0000;
 color:white;
+padding-bottom:120px;
 }
 
 .logo{
@@ -27,20 +28,51 @@ text-align:center;
 font-size:55px;
 font-weight:bold;
 margin-top:20px;
+margin-bottom:30px;
 }
 
 .card{
 background:#8b1300;
 padding:25px;
-border-radius:20px;
+border-radius:25px;
 margin-top:25px;
 }
 
+.top-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px;
+}
+
+.small-card{
+background:#8b1300;
+padding:20px;
+border-radius:20px;
+text-align:center;
+}
+
+.small-card h2{
+margin:0;
+font-size:22px;
+}
+
+.small-card h1{
+font-size:60px;
+margin-top:20px;
+}
+
+.balance-title{
+font-size:28px;
+font-weight:bold;
+margin-top:30px;
+}
+
 .balance{
-font-size:70px;
+font-size:75px;
 font-weight:bold;
 text-align:center;
-margin-top:20px;
+margin-top:25px;
 }
 
 input{
@@ -49,7 +81,7 @@ padding:18px;
 border:none;
 border-radius:15px;
 font-size:22px;
-margin-top:15px;
+margin-top:20px;
 box-sizing:border-box;
 }
 
@@ -64,14 +96,41 @@ margin-top:20px;
 cursor:pointer;
 }
 
-.paybtn{
+.yellow-btn{
 background:gold;
 color:black;
 }
 
-.logoutbtn{
+.red-btn{
 background:red;
 color:white;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#4b0000;
+display:flex;
+padding:10px;
+gap:10px;
+}
+
+.nav-btn{
+flex:1;
+background:gold;
+color:black;
+padding:18px;
+text-align:center;
+border-radius:18px;
+font-size:24px;
+font-weight:bold;
+}
+
+.history{
+margin-top:30px;
+font-size:22px;
 }
 
 </style>
@@ -90,9 +149,25 @@ Welcome
 </h1>
 </div>
 
-<h1>Wallet Balance</h1>
+<div class="top-grid">
 
-<div class="balance">
+<div class="small-card">
+<h2>Total Funding</h2>
+<h1 id="funding">₦0</h1>
+</div>
+
+<div class="small-card">
+<h2>Transactions</h2>
+<h1 id="transactions">0</h1>
+</div>
+
+</div>
+
+<div class="balance-title">
+Wallet Balance
+</div>
+
+<div class="balance" id="balance">
 ₦0.00
 </div>
 
@@ -106,7 +181,7 @@ id="amount"
 placeholder="Enter Amount">
 
 <button
-class="paybtn"
+class="yellow-btn"
 onclick="payNow()">
 
 Proceed Payment
@@ -117,13 +192,65 @@ Proceed Payment
 
 <div class="card">
 
+<h1>Buy Data</h1>
+
+<p>Purchase affordable data instantly</p>
+
+<button class="yellow-btn">
+Buy Now
+</button>
+
+</div>
+
+<div class="card">
+
+<h1>Airtime</h1>
+
+<p>Recharge instantly</p>
+
+<button class="yellow-btn">
+Buy Now
+</button>
+
+</div>
+
+<div class="card">
+
+<h1>Transactions</h1>
+
+<p>Recent activities</p>
+
+<button class="yellow-btn">
+View
+</button>
+
+</div>
+
+<div class="card">
+
 <button
-class="logoutbtn"
+class="red-btn"
 onclick="logout()">
 
 Logout
 
 </button>
+
+</div>
+
+<div class="history">
+• No transaction yet
+</div>
+
+<div class="bottom-nav">
+
+<div class="nav-btn">
+🏠 Home
+</div>
+
+<div class="nav-btn">
+👤 Profile
+</div>
 
 </div>
 
@@ -145,9 +272,15 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
+if (!firebase.apps.length) {
 firebase.initializeApp(firebaseConfig);
+}
 
 const auth = firebase.auth();
+
+let walletBalance = 0;
+let totalFunding = 0;
+let totalTransactions = 0;
 
 auth.onAuthStateChanged(function(user){
 
@@ -169,7 +302,7 @@ function payNow(){
 let amount =
 document.getElementById("amount").value;
 
-if(amount == ""){
+if(amount === ""){
 
 alert("Enter amount");
 
@@ -198,6 +331,23 @@ amount: amount * 100,
 currency: 'NGN',
 
 callback: function(response){
+
+walletBalance += Number(amount);
+
+totalFunding += Number(amount);
+
+totalTransactions += 1;
+
+document.getElementById("balance").innerHTML =
+"₦" + walletBalance.toFixed(2);
+
+document.getElementById("funding").innerHTML =
+"₦" + totalFunding;
+
+document.getElementById("transactions").innerHTML =
+totalTransactions;
+
+document.getElementById("amount").value = "";
 
 alert("Payment Successful");
 
