@@ -45,6 +45,16 @@ margin-bottom:25px;
 text-align:center;
 }
 
+.balance-box{
+background:#a00000;
+padding:20px;
+border-radius:18px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+margin-bottom:25px;
+}
+
 label{
 display:block;
 font-size:20px;
@@ -90,16 +100,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.balance-box{
-background:#a00000;
-padding:20px;
-border-radius:18px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
-margin-bottom:25px;
-}
-
 .bottom-nav{
 position:fixed;
 bottom:0;
@@ -129,7 +129,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,0.7);
 display:none;
 justify-content:center;
 align-items:center;
@@ -140,17 +140,17 @@ box-sizing:border-box;
 .receipt-card{
 background:white;
 color:#7a0000;
+padding:25px;
+border-radius:25px;
 width:100%;
 max-width:400px;
-border-radius:25px;
-padding:25px;
 }
 
 .receipt-title{
 font-size:30px;
 font-weight:bold;
 text-align:center;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .receipt-item{
@@ -160,31 +160,37 @@ line-height:1.5;
 }
 
 .success{
-background:green;
-color:white;
-padding:10px 15px;
-border-radius:15px;
-display:inline-block;
+color:green;
 font-weight:bold;
 }
 
 .close-btn{
-margin-top:20px;
 width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
 background:#7a0000;
 color:white;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 cursor:pointer;
+margin-top:20px;
 }
 
 </style>
 </head>
 
 <body>
+
+<script>
+
+if(localStorage.getItem("isLoggedIn") != "true"){
+
+window.location.href = "login.html";
+
+}
+
+</script>
 
 <div class="container">
 
@@ -209,17 +215,11 @@ Wallet: ₦0.00
 
 <option value="MTN">MTN</option>
 
-<option value="Airtel">
-Airtel
-</option>
+<option value="Airtel">Airtel</option>
 
-<option value="Glo">
-Glo
-</option>
+<option value="Glo">Glo</option>
 
-<option value="9mobile">
-9mobile
-</option>
+<option value="9mobile">9mobile</option>
 
 </select>
 
@@ -284,15 +284,7 @@ id="receiptModal">
 </div>
 
 <div class="receipt-item"
-id="receiptId">
-</div>
-
-<div class="receipt-item"
 id="receiptNetwork">
-</div>
-
-<div class="receipt-item"
-id="receiptPhone">
 </div>
 
 <div class="receipt-item"
@@ -300,26 +292,28 @@ id="receiptPlan">
 </div>
 
 <div class="receipt-item"
+id="receiptPhone">
+</div>
+
+<div class="receipt-item"
 id="receiptAmount">
+</div>
+
+<div class="receipt-item"
+id="receiptID">
 </div>
 
 <div class="receipt-item"
 id="receiptDate">
 </div>
 
-<div class="receipt-item">
-
-<span class="success">
-Successful
-</span>
-
+<div class="receipt-item success">
+Status: Successful
 </div>
 
 <button class="close-btn"
 onclick="closeReceipt()">
-
 Done
-
 </button>
 
 </div>
@@ -336,16 +330,13 @@ parseFloat(localStorage.getItem(
 document.getElementById(
 "walletBalance"
 ).innerHTML =
-"Wallet: ₦" + wallet.toFixed(2);
+"Wallet: ₦" +
+wallet.toFixed(2);
 
 let selectedAmount = 0;
 let selectedPlan = "";
 
-function selectPlan(
-element,
-amount,
-plan
-){
+function selectPlan(element,amount,plan){
 
 document.querySelectorAll(
 ".plan-box"
@@ -409,21 +400,13 @@ localStorage.setItem(
 wallet
 );
 
+let transactions =
+JSON.parse(localStorage.getItem(
+"transactions"
+)) || [];
+
 let date =
 new Date().toLocaleString();
-
-let transactionId =
-"FD" +
-Math.floor(
-Math.random() * 1000000000
-);
-
-let transactions =
-JSON.parse(
-localStorage.getItem(
-"transactions"
-)
-) || [];
 
 transactions.unshift(
 
@@ -446,41 +429,40 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-document.getElementById(
-"receiptId"
-).innerHTML =
-"<b>Transaction ID:</b> " +
-transactionId;
+let transactionID =
+"FD" +
+Math.floor(Math.random()*100000000);
 
 document.getElementById(
 "receiptNetwork"
 ).innerHTML =
-"<b>Network:</b> " +
-network;
-
-document.getElementById(
-"receiptPhone"
-).innerHTML =
-"<b>Phone:</b> " +
-phone;
+"Network: " + network;
 
 document.getElementById(
 "receiptPlan"
 ).innerHTML =
-"<b>Data Plan:</b> " +
-selectedPlan;
+"Plan: " + selectedPlan;
+
+document.getElementById(
+"receiptPhone"
+).innerHTML =
+"Phone: " + phone;
 
 document.getElementById(
 "receiptAmount"
 ).innerHTML =
-"<b>Amount:</b> ₦" +
-selectedAmount;
+"Amount: ₦" + selectedAmount;
+
+document.getElementById(
+"receiptID"
+).innerHTML =
+"Transaction ID: " +
+transactionID;
 
 document.getElementById(
 "receiptDate"
 ).innerHTML =
-"<b>Date:</b> " +
-date;
+"Date: " + date;
 
 document.getElementById(
 "receiptModal"
@@ -499,4 +481,4 @@ window.location.href =
 </script>
 
 </body>
-</html>
+  </html>
