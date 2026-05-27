@@ -3,7 +3,8 @@
 <head>
 <title>FadaqData Dashboard</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <style>
 
@@ -28,7 +29,6 @@ background:#cc0000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
 .welcome{
@@ -66,15 +66,10 @@ margin-top:12px;
 text-align:center;
 }
 
-.wallet h2{
-font-size:22px;
-margin-bottom:20px;
-}
-
 .balance{
-font-size:60px;
+font-size:55px;
 font-weight:bold;
-margin-bottom:25px;
+margin:25px 0;
 }
 
 .btn{
@@ -106,7 +101,6 @@ margin-bottom:10px;
 
 .service-text{
 font-size:18px;
-opacity:0.9;
 margin-bottom:20px;
 }
 
@@ -127,8 +121,23 @@ background:white;
 color:#8B0000;
 }
 
-.transactions-list{
-margin-top:20px;
+.transaction-card{
+background:#b30000;
+padding:18px;
+border-radius:15px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.transaction-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.transaction-date{
+font-size:14px;
+opacity:0.8;
 }
 
 </style>
@@ -169,7 +178,8 @@ Welcome,<br>
 Wallet Balance 👁️
 </h2>
 
-<div class="balance" id="walletBalance">
+<div class="balance"
+id="walletBalance">
 ₦0.00
 </div>
 
@@ -208,7 +218,7 @@ Recharge airtime instantly
 </div>
 
 <button class="btn white"
-onclick="window.location.href='airtime.html'">
+onclick="window.location.href='buyairtime.html'">
 Buy Now
 </button>
 
@@ -220,9 +230,7 @@ Buy Now
 🧾 Transactions
 </div>
 
-<div class="transactions-list"
-id="transactionList">
-</div>
+<div id="transactionList"></div>
 
 </div>
 
@@ -244,166 +252,98 @@ onclick="window.location.href='profile.html'">
 
 </div>
 
-<!-- RECEIPT POPUP -->
-
-<div id="receiptPopup"
-style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-justify-content:center;
-align-items:center;
-z-index:999;
-">
-
-<div style="
-background:white;
-width:85%;
-padding:25px;
-border-radius:20px;
-color:#8B0000;
-">
-
-<h2 style="text-align:center;">
-🧾 Transaction Receipt
-</h2>
-
-<p id="receiptDetails"></p>
-
-<button onclick="closeReceipt()"
-style="
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
-background:#8B0000;
-color:white;
-font-size:18px;
-font-weight:bold;
-margin-top:20px;
-">
-Close
-</button>
-
-</div>
-
-</div>
-
 <script>
 
 let userName =
-localStorage.getItem("userName") || "User";
+localStorage.getItem("userName")
+|| "User";
 
-document.getElementById("welcomeName")
-.innerHTML = userName;
+document.getElementById(
+"welcomeName"
+).innerHTML = userName;
 
 let wallet =
-Number(localStorage.getItem("walletBalance")) || 0;
+Number(localStorage.getItem(
+"walletBalance"
+)) || 0;
 
-document.getElementById("walletBalance")
-.innerHTML = "₦" + wallet.toFixed(2);
+document.getElementById(
+"walletBalance"
+).innerHTML =
+"₦" + wallet.toFixed(2);
 
-document.getElementById("fundingAmount")
-.innerHTML = "₦" + wallet.toFixed(2);
+document.getElementById(
+"fundingAmount"
+).innerHTML =
+"₦" + wallet.toFixed(2);
 
 let transactions =
-JSON.parse(localStorage.getItem("transactions")) || [];
+JSON.parse(localStorage.getItem(
+"transactions"
+)) || [];
 
-document.getElementById("transactionCount")
-.innerHTML = transactions.length;
+document.getElementById(
+"transactionCount"
+).innerHTML =
+transactions.length;
 
 let transactionList =
-document.getElementById("transactionList");
+document.getElementById(
+"transactionList"
+);
 
 transactionList.innerHTML = "";
 
-transactions.reverse().forEach((item)=>{
+transactions.reverse().forEach(
+function(item,index){
 
 let text =
-typeof item === "string"
-? item
-: item.text || "Transaction";
+item.text || "Transaction";
 
 let date =
-item.date || "No date";
+item.date || "No Date";
 
-let div = document.createElement("div");
+let transactionCard =
+document.createElement("div");
 
-div.style.background = "#b30000";
-div.style.padding = "15px";
-div.style.borderRadius = "12px";
-div.style.marginBottom = "15px";
-div.style.cursor = "pointer";
+transactionCard.className =
+"transaction-card";
 
-div.innerHTML = `
+transactionCard.innerHTML = `
 
-<div style="
-font-size:18px;
-font-weight:bold;
-">
+<div class="transaction-title">
 ${text}
 </div>
 
-<div style="
-margin-top:8px;
-font-size:14px;
-opacity:0.8;
-">
+<div class="transaction-date">
 ${date}
 </div>
 
 `;
 
-div.onclick = function(){
+transactionCard.onclick =
+function(){
 
-document.getElementById("receiptPopup")
-.style.display = "flex";
+localStorage.setItem(
+"selectedTransaction",
+JSON.stringify(item)
+);
 
-document.getElementById("receiptDetails")
-.innerHTML = `
-
-<p><b>Transaction:</b><br>
-${text}
-</p>
-
-<p><b>Date:</b><br>
-${date}
-</p>
-
-<p>
-<b>Status:</b>
-<span style="color:green;">
-Successful
-</span>
-</p>
-
-<p>
-<b>Transaction ID:</b><br>
-FD${Math.floor(Math.random()*999999999)}
-</p>
-
-`;
+window.location.href =
+"receipt.html";
 
 };
 
-transactionList.appendChild(div);
+transactionList.appendChild(
+transactionCard
+);
 
 });
 
-function closeReceipt(){
-
-document.getElementById("receiptPopup")
-.style.display = "none";
-
-}
-
 function fundWallet(){
 
-let amount = prompt("Enter amount to fund");
+let amount =
+prompt("Enter amount");
 
 if(amount === null || amount === ""){
 return;
@@ -411,19 +351,37 @@ return;
 
 amount = Number(amount);
 
-let wallet =
-Number(localStorage.getItem("walletBalance")) || 0;
-
 wallet += amount;
 
-localStorage.setItem("walletBalance", wallet);
+localStorage.setItem(
+"walletBalance",
+wallet
+);
 
 let transactions =
-JSON.parse(localStorage.getItem("transactions")) || [];
+JSON.parse(localStorage.getItem(
+"transactions"
+)) || [];
 
 transactions.push({
-text:"💳 Wallet funded with ₦" + amount,
-date:new Date().toLocaleString()
+
+text:
+"💳 Wallet funded with ₦" +
+amount,
+
+date:
+new Date().toLocaleString(),
+
+amount:amount,
+
+type:"Wallet Funding",
+
+status:"Successful",
+
+id:
+"FD" +
+Math.floor(Math.random()*100000000)
+
 });
 
 localStorage.setItem(
@@ -439,9 +397,12 @@ location.reload();
 
 function logout(){
 
-localStorage.removeItem("isLoggedIn");
+localStorage.removeItem(
+"isLoggedIn"
+);
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
