@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FadaqData Signup</title>
+
+<style>
+
+body{
+background:#8B0000;
+font-family:Arial;
+padding:20px;
+color:white;
+}
+
+.container{
+background:#c00000;
+padding:25px;
+border-radius:20px;
+margin-top:50px;
+}
+
+h1{
+text-align:center;
+font-size:50px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:12px;
+font-size:18px;
+outline:none;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:12px;
+font-size:22px;
+font-weight:bold;
+background:white;
+color:#8B0000;
+cursor:pointer;
+}
+
+a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.bottom{
+text-align:center;
+margin-top:20px;
+font-size:18px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>FadaqData</h1>
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<input type="text" id="fullname" placeholder="Full Name">
+
+<input type="email" id="email" placeholder="Email Address">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="signup()">Create Account</button>
+
+<div class="bottom">
+Already have account?
+<a href="login.html">Login</a>
+</div>
+
+</div>
+
+<script>
+
+function signup(){
+
+let fullname =
+document.getElementById("fullname").value;
+
+let email =
+document.getElementById("email").value;
+
+let password =
+document.getElementById("password").value;
+
+if(fullname == "" || email == "" || password == ""){
+
+alert("Fill all fields");
+
+return;
+
+}
+
+localStorage.setItem("userFullname", fullname);
+
+localStorage.setItem("userEmail", email);
+
+localStorage.setItem("userPassword", password);
+
+localStorage.setItem("walletBalance", "0");
+
+localStorage.setItem("transactions", "[]");
+
+alert("Account created successfully");
+
+window.location.href = "login.html";
+
+}
+
+</script>
+
+</body>
+</html>
