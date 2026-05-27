@@ -2,62 +2,68 @@
 <html>
 <head>
 
-<title>Login - FadaqData</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FadaqData Login</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
 
 body{
 margin:0;
 padding:20px;
-font-family:Arial,sans-serif;
-background:#2b0d00;
+font-family:Arial;
+background:#4b0000;
 color:white;
 }
 
-h1{
+.logo{
 text-align:center;
-font-size:45px;
-margin-top:40px;
+font-size:55px;
+font-weight:bold;
+margin-top:30px;
 }
 
-.box{
-background:#6b1f08;
+.card{
+background:#8b1300;
 padding:25px;
-border-radius:25px;
+border-radius:20px;
 margin-top:40px;
 }
 
 input{
 width:100%;
-padding:15px;
-margin-top:15px;
+padding:18px;
 border:none;
 border-radius:15px;
-font-size:18px;
+font-size:20px;
+margin-top:15px;
 box-sizing:border-box;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:20px;
+padding:18px;
 border:none;
 border-radius:15px;
-background:gold;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
-}
-
-p{
-text-align:center;
 margin-top:20px;
+background:gold;
+cursor:pointer;
 }
 
 a{
 color:gold;
 text-decoration:none;
+}
+
+p{
+text-align:center;
+margin-top:20px;
 }
 
 </style>
@@ -66,21 +72,23 @@ text-decoration:none;
 
 <body>
 
-<h1>FadaqData</h1>
+<div class="logo">
+FadaqData
+</div>
 
-<div class="box">
+<div class="card">
 
 <h2>Login</h2>
 
 <input
 type="email"
 id="email"
-placeholder="Email Address">
+placeholder="Enter Email">
 
 <input
 type="password"
 id="password"
-placeholder="Password">
+placeholder="Enter Password">
 
 <button onclick="login()">
 Login
@@ -95,61 +103,59 @@ Register
 
 </div>
 
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-import {
-getAuth,
-signInWithEmailAndPassword
-}
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+<script>
 
 const firebaseConfig = {
+
 apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
 projectId: "fadaqdata-3bd14",
+
 storageBucket: "fadaqdata-3bd14.firebasestorage.app",
+
 messagingSenderId: "609845657857",
+
 appId: "1:609845657857:web:48817ce972c054e203db00"
+
 };
 
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth = firebase.auth();
 
-window.login = async function(){
+function login(){
 
-const email =
+let email =
 document.getElementById("email").value;
 
-const password =
+let password =
 document.getElementById("password").value;
 
 if(email == "" || password == ""){
+
 alert("Fill all fields");
+
 return;
+
 }
 
-try{
+auth.signInWithEmailAndPassword(email,password)
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
+.then(function(){
 
 alert("Login Successful");
 
-window.location.href =
-"dashboard.html";
+window.location.href = "dashboard.html";
 
-}catch(error){
+})
+
+.catch(function(error){
 
 alert(error.message);
 
-}
+});
 
 }
 
