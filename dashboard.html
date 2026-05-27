@@ -45,59 +45,55 @@ line-height:1.5;
 .stats{
 display:flex;
 gap:15px;
+margin-top:20px;
 }
 
 .stat-box{
 flex:1;
-background:#a80000;
+background:#920000;
 padding:20px;
-border-radius:25px;
+border-radius:20px;
 text-align:center;
 }
 
 .stat-title{
-font-size:20px;
+font-size:18px;
+margin-bottom:10px;
 font-weight:bold;
-margin-bottom:15px;
 }
 
 .stat-value{
-font-size:50px;
+font-size:40px;
 font-weight:bold;
 }
 
-.balance-title{
-text-align:center;
-font-size:25px;
+.wallet-title{
+font-size:24px;
 font-weight:bold;
+text-align:center;
 margin-bottom:20px;
 }
 
-.balance{
+.wallet-balance{
+font-size:60px;
+font-weight:bold;
 text-align:center;
-font-size:70px;
-font-weight:bold;
-margin-bottom:30px;
-}
-
-.service-title{
-font-size:24px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.service-text{
-font-size:18px;
-opacity:0.9;
 margin-bottom:25px;
+word-break:break-word;
+}
+
+.eye{
+cursor:pointer;
+margin-left:10px;
+font-size:20px;
 }
 
 button{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -112,9 +108,22 @@ background:#ff1a1a;
 color:white;
 }
 
+.service-title{
+font-size:24px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.service-text{
+font-size:18px;
+opacity:0.9;
+margin-bottom:20px;
+}
+
 .transaction-item{
-font-size:16px;
-margin-top:10px;
+font-size:17px;
+margin-top:12px;
+word-break:break-word;
 }
 
 .bottom-nav{
@@ -152,9 +161,9 @@ FadaqData
 </div>
 
 <div class="card">
+
 <div class="welcome" id="welcomeText">
 Welcome,<br>User
-</div>
 </div>
 
 <div class="stats">
@@ -181,17 +190,27 @@ Transactions
 
 </div>
 
-<div class="card">
-
-<div class="balance-title">
-Wallet Balance
 </div>
 
-<div class="balance" id="walletBalance">
+<div class="card">
+
+<div class="wallet-title">
+
+Wallet Balance
+
+<span class="eye" id="eyeBtn"
+onclick="toggleBalance()">
+👁️
+</span>
+
+</div>
+
+<div class="wallet-balance" id="walletBalance">
 ₦0.00
 </div>
 
-<button class="white" onclick="fundWallet()">
+<button class="white"
+onclick="fundWallet()">
 💳 Fund Wallet
 </button>
 
@@ -242,7 +261,8 @@ Buy Now
 
 </div>
 
-<button class="red" onclick="logout()">
+<button class="red"
+onclick="logout()">
 Logout
 </button>
 
@@ -274,20 +294,16 @@ document.getElementById("welcomeText").innerHTML =
 "Welcome,<br>" + email.split("@")[0];
 
 let wallet =
-localStorage.getItem("walletBalance");
-
-if(wallet === null){
-wallet = 0;
-}
-
-document.getElementById("walletBalance").innerHTML =
-"₦" + parseFloat(wallet).toFixed(2);
-
-document.getElementById("totalFunding").innerHTML =
-"₦" + wallet;
+parseFloat(localStorage.getItem("walletBalance")) || 0;
 
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
+
+document.getElementById("walletBalance").innerHTML =
+"₦" + wallet.toFixed(2);
+
+document.getElementById("totalFunding").innerHTML =
+"₦" + wallet.toFixed(2);
 
 document.getElementById("transactionCount").innerHTML =
 transactions.length;
@@ -313,6 +329,36 @@ transactionHTML +=
 document.getElementById("transactionList").innerHTML =
 transactionHTML;
 
+let balanceVisible = true;
+
+function toggleBalance(){
+
+let eye =
+document.getElementById("eyeBtn");
+
+let balanceText =
+document.getElementById("walletBalance");
+
+if(balanceVisible){
+
+balanceText.innerHTML = "******";
+eye.innerHTML = "🙈";
+
+balanceVisible = false;
+
+}else{
+
+balanceText.innerHTML =
+"₦" + wallet.toFixed(2);
+
+eye.innerHTML = "👁️";
+
+balanceVisible = true;
+
+}
+
+}
+
 function fundWallet(){
 
 let amount =
@@ -332,10 +378,12 @@ return;
 
 }
 
-wallet =
-parseFloat(wallet) + amount;
+wallet += amount;
 
-localStorage.setItem("walletBalance", wallet);
+localStorage.setItem(
+"walletBalance",
+wallet
+);
 
 transactions.push(
 "Wallet funded successfully with ₦" + amount
