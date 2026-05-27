@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Buy Airtime</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
+}
+
+.container{
+padding:20px;
+padding-bottom:120px;
+}
+
+.logo{
+font-size:55px;
+font-weight:bold;
+text-align:center;
+margin-top:40px;
+margin-bottom:40px;
+}
+
+.card{
+background:#c00000;
+padding:25px;
+border-radius:25px;
+margin-bottom:25px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.title{
+font-size:35px;
+font-weight:bold;
+margin-bottom:25px;
+text-align:center;
+}
+
+label{
+display:block;
+font-size:20px;
+margin-bottom:10px;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+margin-bottom:25px;
+font-size:18px;
+box-sizing:border-box;
+outline:none;
+}
+
+.amount-box{
+background:#a00000;
+padding:18px;
+border-radius:15px;
+margin-bottom:15px;
+cursor:pointer;
+font-size:20px;
+font-weight:bold;
+border:3px solid transparent;
+text-align:center;
+}
+
+.active-amount{
+border:3px solid white;
+}
+
+.buy-btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.balance-box{
+background:#a00000;
+padding:20px;
+border-radius:18px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+margin-bottom:25px;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
+display:flex;
+gap:15px;
+}
+
+.nav-btn{
+flex:1;
+padding:18px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="card">
+
+<div class="title">
+📞 Buy Airtime
+</div>
+
+<div class="balance-box"
+id="walletBalance">
+
+Wallet: ₦0.00
+
+</div>
+
+<label>Select Network</label>
+
+<select id="network">
+
+<option value="MTN">
+MTN
+</option>
+
+<option value="Airtel">
+Airtel
+</option>
+
+<option value="Glo">
+Glo
+</option>
+
+<option value="9mobile">
+9mobile
+</option>
+
+</select>
+
+<label>Phone Number</label>
+
+<input type="number"
+id="phone"
+placeholder="Enter phone number">
+
+<label>Select Airtime Amount</label>
+
+<div class="amount-box"
+onclick="selectAmount(this,100)">
+
+₦100
+
+</div>
+
+<div class="amount-box"
+onclick="selectAmount(this,200)">
+
+₦200
+
+</div>
+
+<div class="amount-box"
+onclick="selectAmount(this,500)">
+
+₦500
+
+</div>
+
+<div class="amount-box"
+onclick="selectAmount(this,1000)">
+
+₦1000
+
+</div>
+
+<div class="amount-box"
+onclick="selectAmount(this,2000)">
+
+₦2000
+
+</div>
+
+<input type="number"
+id="customAmount"
+placeholder="Or enter custom amount">
+
+<button class="buy-btn"
+onclick="buyAirtime()">
+
+Purchase Airtime
+
+</button>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<button class="nav-btn"
+onclick="window.location.href='dashboard.html'">
+
+🏠 Home
+
+</button>
+
+<button class="nav-btn"
+onclick="window.location.href='profile.html'">
+
+👤 Profile
+
+</button>
+
+</div>
+
+<script>
+
+let wallet =
+parseFloat(
+localStorage.getItem(
+"walletBalance"
+)
+) || 0;
+
+document.getElementById(
+"walletBalance"
+).innerHTML =
+"Wallet: ₦" +
+wallet.toFixed(2);
+
+let selectedAmount = 0;
+
+function selectAmount(element,amount){
+
+document.querySelectorAll(
+".amount-box"
+).forEach(function(box){
+
+box.classList.remove(
+"active-amount"
+);
+
+});
+
+element.classList.add(
+"active-amount"
+);
+
+selectedAmount = amount;
+
+document.getElementById(
+"customAmount"
+).value = "";
+
+}
+
+function buyAirtime(){
+
+let network =
+document.getElementById(
+"network"
+).value;
+
+let phone =
+document.getElementById(
+"phone"
+).value;
+
+let customAmount =
+document.getElementById(
+"customAmount"
+).value;
+
+let amount =
+selectedAmount;
+
+if(customAmount !== ""){
+
+amount =
+parseFloat(customAmount);
+
+}
+
+if(phone === ""){
+
+alert("Enter phone number");
+
+return;
+
+}
+
+if(amount <= 0 || isNaN(amount)){
+
+alert("Enter valid amount");
+
+return;
+
+}
+
+if(wallet < amount){
+
+alert("Insufficient balance");
+
+return;
+
+}
+
+wallet -= amount;
+
+localStorage.setItem(
+"walletBalance",
+wallet
+);
+
+let transactions =
+JSON.parse(
+localStorage.getItem(
+"transactions"
+)
+) || [];
+
+let date =
+new Date().toLocaleString();
+
+transactions.unshift(
+
+"📞 " +
+network +
+" Airtime for " +
+phone +
+" - ₦" +
+amount +
+"<br><small>" +
+date +
+"</small>"
+
+);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+alert(
+network +
+" airtime purchase successful"
+);
+
+window.location.href =
+"dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
