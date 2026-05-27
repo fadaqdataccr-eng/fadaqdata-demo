@@ -45,6 +45,16 @@ margin-bottom:25px;
 text-align:center;
 }
 
+.balance-box{
+background:#a00000;
+padding:20px;
+border-radius:18px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+margin-bottom:25px;
+}
+
 label{
 display:block;
 font-size:20px;
@@ -91,16 +101,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.balance-box{
-background:#a00000;
-padding:20px;
-border-radius:18px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
-margin-bottom:25px;
-}
-
 .bottom-nav{
 position:fixed;
 bottom:0;
@@ -124,10 +124,74 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.receipt-modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+box-sizing:border-box;
+}
+
+.receipt-card{
+background:white;
+color:#7a0000;
+padding:25px;
+border-radius:25px;
+width:100%;
+max-width:400px;
+}
+
+.receipt-title{
+font-size:30px;
+font-weight:bold;
+text-align:center;
+margin-bottom:20px;
+}
+
+.receipt-item{
+font-size:18px;
+margin-bottom:15px;
+line-height:1.5;
+}
+
+.success{
+color:green;
+font-weight:bold;
+}
+
+.close-btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:#7a0000;
+color:white;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
 </style>
 </head>
 
 <body>
+
+<script>
+
+if(localStorage.getItem("isLoggedIn") != "true"){
+
+window.location.href = "login.html";
+
+}
+
+</script>
 
 <div class="container">
 
@@ -180,37 +244,27 @@ placeholder="Enter phone number">
 
 <div class="amount-box"
 onclick="selectAmount(this,100)">
-
 ₦100
-
 </div>
 
 <div class="amount-box"
 onclick="selectAmount(this,200)">
-
 ₦200
-
 </div>
 
 <div class="amount-box"
 onclick="selectAmount(this,500)">
-
 ₦500
-
 </div>
 
 <div class="amount-box"
 onclick="selectAmount(this,1000)">
-
 ₦1000
-
 </div>
 
 <div class="amount-box"
 onclick="selectAmount(this,2000)">
-
 ₦2000
-
 </div>
 
 <input type="number"
@@ -243,6 +297,48 @@ onclick="window.location.href='profile.html'">
 👤 Profile
 
 </button>
+
+</div>
+
+<div class="receipt-modal"
+id="receiptModal">
+
+<div class="receipt-card">
+
+<div class="receipt-title">
+✅ Transaction Receipt
+</div>
+
+<div class="receipt-item"
+id="receiptNetwork">
+</div>
+
+<div class="receipt-item"
+id="receiptPhone">
+</div>
+
+<div class="receipt-item"
+id="receiptAmount">
+</div>
+
+<div class="receipt-item"
+id="receiptID">
+</div>
+
+<div class="receipt-item"
+id="receiptDate">
+</div>
+
+<div class="receipt-item success">
+Status: Successful
+</div>
+
+<button class="close-btn"
+onclick="closeReceipt()">
+Done
+</button>
+
+</div>
 
 </div>
 
@@ -374,10 +470,44 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-alert(
-network +
-" airtime purchase successful"
-);
+let transactionID =
+"AT" +
+Math.floor(Math.random()*100000000);
+
+document.getElementById(
+"receiptNetwork"
+).innerHTML =
+"Network: " + network;
+
+document.getElementById(
+"receiptPhone"
+).innerHTML =
+"Phone: " + phone;
+
+document.getElementById(
+"receiptAmount"
+).innerHTML =
+"Amount: ₦" + amount;
+
+document.getElementById(
+"receiptID"
+).innerHTML =
+"Transaction ID: " +
+transactionID;
+
+document.getElementById(
+"receiptDate"
+).innerHTML =
+"Date: " + date;
+
+document.getElementById(
+"receiptModal"
+).style.display =
+"flex";
+
+}
+
+function closeReceipt(){
 
 window.location.href =
 "dashboard.html";
