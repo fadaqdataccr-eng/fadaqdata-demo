@@ -24,43 +24,42 @@ padding-bottom:120px;
 }
 
 .logo{
-font-size:55px;
+font-size:50px;
 font-weight:bold;
 text-align:center;
-margin-top:20px;
-margin-bottom:30px;
+margin:20px 0;
 }
 
 .card{
 background:#8b1300;
 padding:20px;
-border-radius:25px;
+border-radius:20px;
 margin-top:20px;
-}
-
-.flex{
-display:flex;
-gap:15px;
-}
-
-.small-card{
-flex:1;
-text-align:center;
 }
 
 .balance{
-font-size:65px;
+font-size:60px;
 font-weight:bold;
 text-align:center;
-margin-top:20px;
+margin:20px 0;
+}
+
+input{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:20px;
+margin-top:15px;
+box-sizing:border-box;
 }
 
 .btn{
 width:100%;
 padding:18px;
 border:none;
-border-radius:18px;
-font-size:22px;
+border-radius:15px;
+font-size:20px;
 font-weight:bold;
 margin-top:20px;
 cursor:pointer;
@@ -76,27 +75,6 @@ background:red;
 color:white;
 }
 
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-display:flex;
-background:#3b0000;
-padding:10px 0;
-}
-
-.nav-btn{
-flex:1;
-margin:0 10px;
-padding:18px;
-border:none;
-border-radius:18px;
-background:gold;
-font-size:20px;
-font-weight:bold;
-}
-
 </style>
 
 </head>
@@ -110,26 +88,10 @@ FadaqData
 </div>
 
 <div class="card">
+
 <h2 id="welcome">
 Welcome
 </h2>
-</div>
-
-<div class="flex">
-
-<div class="card small-card">
-<h2>Total Funding</h2>
-<h1 id="funding">
-₦0
-</h1>
-</div>
-
-<div class="card small-card">
-<h2>Transactions</h2>
-<h1>
-0
-</h1>
-</div>
 
 </div>
 
@@ -139,69 +101,28 @@ Welcome
 ₦0.00
 </div>
 
-<button class="btn yellow" onclick="payWithPaystack()">
-Fund Wallet
-</button>
-
 <div class="card">
 
-<h2>Buy Data</h2>
+<h2>Fund Wallet</h2>
 
-<p>Purchase affordable data</p>
+<input
+type="number"
+id="amount"
+placeholder="Enter Amount">
 
-<button class="btn yellow">
-Buy Now
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>Airtime</h2>
-
-<p>Recharge instantly</p>
-
-<button class="btn yellow">
-Buy Now
+<button class="btn yellow" onclick="payNow()">
+Proceed Payment
 </button>
 
 </div>
 
 <div class="card">
-
-<h2>Transactions</h2>
-
-<p>Recent activities</p>
-
-<button class="btn yellow">
-View
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>Logout</h2>
-
-<p>Sign out from account</p>
 
 <button class="btn red" onclick="logout()">
 Logout
 </button>
 
 </div>
-
-</div>
-
-<div class="bottom-nav">
-
-<button class="nav-btn">
-🏠 Home
-</button>
-
-<button class="nav-btn">
-👤 Profile
-</button>
 
 </div>
 
@@ -266,18 +187,12 @@ await setDoc(userRef,{
 wallet:0
 });
 
-document.getElementById("balance").innerHTML =
-"₦0.00";
-
 }else{
 
 const data = snap.data();
 
 document.getElementById("balance").innerHTML =
 "₦" + Number(data.wallet || 0).toFixed(2);
-
-document.getElementById("funding").innerHTML =
-"₦" + Number(data.wallet || 0);
 
 }
 
@@ -297,59 +212,49 @@ window.location.href = "login.html";
 
 }
 
-window.payWithPaystack = async function(){
+window.payNow = async function(){
 
-if(!currentUser){
+const amount =
+document.getElementById("amount").value;
 
-alert("Login required");
+if(amount == ""){
 
-return;
-
-}
-
-let amount = prompt("Enter Amount");
-
-if(!amount) return;
-
-amount = Number(amount);
-
-if(amount < 100){
-
-alert("Minimum funding is ₦100");
+alert("Enter Amount");
 
 return;
 
 }
 
-let handler = PaystackPop.setup({
+const handler = PaystackPop.setup({
 
 key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
 email: currentUser.email,
 
-amount: amount * 100,
+amount: Number(amount) * 100,
 
 currency: "NGN",
 
-ref: "FADAQ_" + Math.floor(Math.random()*1000000000),
+ref: "FDQ" + Date.now(),
 
 callback: async function(response){
 
-alert("Payment successful");
+alert("Payment Successful");
 
 const userRef = doc(db,"users",currentUser.uid);
 
 const snap = await getDoc(userRef);
 
-let currentBalance = 0;
+let oldBalance = 0;
 
 if(snap.exists()){
 
-currentBalance = snap.data().wallet || 0;
+oldBalance = snap.data().wallet || 0;
 
 }
 
-let newBalance = currentBalance + amount;
+let newBalance =
+oldBalance + Number(amount);
 
 await updateDoc(userRef,{
 wallet:newBalance
@@ -358,14 +263,13 @@ wallet:newBalance
 document.getElementById("balance").innerHTML =
 "₦" + newBalance.toFixed(2);
 
-document.getElementById("funding").innerHTML =
-"₦" + newBalance;
+document.getElementById("amount").value = "";
 
 },
 
 onClose: function(){
 
-alert("Transaction cancelled");
+alert("Payment Cancelled");
 
 }
 
