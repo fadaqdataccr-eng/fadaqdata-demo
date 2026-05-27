@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>FadaqData Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
 
 body{
 margin:0;
 padding:20px;
-font-family:Arial,sans-serif;
-background:#6b0000;
+background:#7b0000;
+font-family:Arial;
 color:white;
-padding-bottom:130px;
 }
 
 .logo{
 text-align:center;
-font-size:45px;
+font-size:55px;
 font-weight:bold;
-margin-top:10px;
 margin-bottom:30px;
 }
 
 .card{
-background:#a31300;
+background:#b31200;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .welcome{
-font-size:24px;
+font-size:25px;
 font-weight:bold;
-line-height:1.5;
+line-height:45px;
 }
 
 .stats{
@@ -47,53 +41,47 @@ gap:15px;
 margin-bottom:25px;
 }
 
-.small-card{
+.stat-box{
 flex:1;
-background:#a31300;
+background:#b31200;
 padding:20px;
 border-radius:25px;
 text-align:center;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-.small-card h2{
+.stat-title{
 font-size:18px;
+font-weight:bold;
 margin-bottom:15px;
 }
 
-.small-card p{
-font-size:50px;
+.stat-value{
+font-size:55px;
 font-weight:bold;
-margin:0;
 }
 
 .balance-title{
-text-align:center;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
-margin-bottom:15px;
+text-align:center;
+margin-bottom:20px;
 }
 
 .balance{
-text-align:center;
-font-size:60px;
+font-size:80px;
 font-weight:bold;
+text-align:center;
 margin-bottom:30px;
 }
 
 button{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
-}
-
-button:active{
-transform:scale(0.98);
 }
 
 .yellow{
@@ -115,12 +103,6 @@ margin-bottom:10px;
 .service-text{
 font-size:18px;
 margin-bottom:25px;
-opacity:0.9;
-}
-
-.transaction-box{
-font-size:18px;
-line-height:1.8;
 }
 
 .bottom-nav{
@@ -128,48 +110,63 @@ position:fixed;
 bottom:0;
 left:0;
 width:100%;
-background:#6b0000;
 display:flex;
 gap:10px;
-padding:12px;
+padding:10px;
+background:#7b0000;
 box-sizing:border-box;
-box-shadow:0 -2px 10px rgba(0,0,0,0.3);
 }
 
 .nav-btn{
 flex:1;
-font-size:20px;
-padding:18px;
+}
+
+.container{
+padding-bottom:120px;
+}
+
+.transaction{
+font-size:18px;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
+
+<div class="container">
 
 <div class="logo">
 FadaqData
 </div>
 
 <div class="card">
-
 <div class="welcome" id="welcomeText">
-Welcome, User
+Welcome,<br>User
 </div>
-
 </div>
 
 <div class="stats">
 
-<div class="small-card">
-<h2>Total Funding</h2>
-<p id="totalFunding">₦0</p>
+<div class="stat-box">
+<div class="stat-title">
+Total Funding
 </div>
 
-<div class="small-card">
-<h2>Transactions</h2>
-<p id="transactionCount">0</p>
+<div class="stat-value">
+₦<span id="totalFunding">0</span>
+</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-title">
+Transactions
+</div>
+
+<div class="stat-value" id="transactionCount">
+0
+</div>
 </div>
 
 </div>
@@ -180,8 +177,8 @@ Welcome, User
 Wallet Balance
 </div>
 
-<div class="balance" id="walletBalance">
-₦0.00
+<div class="balance">
+₦<span id="walletBalance">0.00</span>
 </div>
 
 <button class="yellow" onclick="fundWallet()">
@@ -200,7 +197,8 @@ Wallet Balance
 Purchase affordable data bundles instantly
 </div>
 
-<button class="yellow">
+<button class="yellow"
+onclick="window.location.href='buydata.html'">
 Buy Now
 </button>
 
@@ -228,7 +226,7 @@ Buy Now
 🧾 Transactions
 </div>
 
-<div class="transaction-box" id="transactionList">
+<div id="transactionList">
 • No transaction yet
 </div>
 
@@ -238,15 +236,19 @@ Buy Now
 Logout
 </button>
 
+</div>
+
 <div class="bottom-nav">
 
 <button class="yellow nav-btn">
 🏠 Home
 </button>
 
-<button class="yellow nav-btn" onclick="window.location.href='profile.html'">
+<button class="yellow nav-btn"
+onclick="window.location.href='profile.html'">
 👤 Profile
 </button>
+
 </div>
 
 <script>
@@ -255,102 +257,60 @@ let email =
 localStorage.getItem("userEmail");
 
 if(email === null || email === ""){
-
 email = "User";
-
 }
 
 document.getElementById("welcomeText").innerHTML =
 "Welcome,<br>" + email;
 
 let balance =
-localStorage.getItem("walletBalance");
-
-if(balance === null){
-
-balance = 0;
-
-}
+parseFloat(localStorage.getItem("walletBalance")) || 0;
 
 document.getElementById("walletBalance").innerHTML =
-"₦" + Number(balance).toFixed(2);
+balance.toFixed(2);
 
 document.getElementById("totalFunding").innerHTML =
-"₦" + Number(balance);
+balance;
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+document.getElementById("transactionCount").innerHTML =
+transactions.length;
+
+if(transactions.length > 0){
+
+let html = "";
+
+transactions.forEach(item => {
+
+html += "<div class='transaction'>• " + item + "</div>";
+
+});
+
+document.getElementById("transactionList").innerHTML =
+html;
+
+}
 
 function fundWallet(){
 
 let amount =
-prompt("Enter Amount");
+prompt("Enter amount to fund");
 
-if(amount == null || amount == ""){
-
+if(amount === null || amount === ""){
 return;
-
 }
 
-amount = Number(amount);
+amount = parseFloat(amount);
 
-if(amount < 100){
-
-alert("Minimum funding is ₦100");
-
+if(isNaN(amount) || amount <= 0){
+alert("Enter valid amount");
 return;
-
 }
 
-var handler = PaystackPop.setup({
-
-key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
-
-email: localStorage.getItem("userEmail") || "test@gmail.com",
-
-amount: amount * 100,
-
-currency: "NGN",
-
-ref: "FADAQ" + Math.floor(Math.random() * 1000000000),
-
-callback: function(response){
-
-let oldBalance =
-Number(localStorage.getItem("walletBalance")) || 0;
-
-let newBalance =
-oldBalance + amount;
-
-localStorage.setItem(
-"walletBalance",
-newBalance
-);
-
-document.getElementById("walletBalance").innerHTML =
-"₦" + newBalance.toFixed(2);
-
-document.getElementById("totalFunding").innerHTML =
-"₦" + newBalance;
-
-document.getElementById("transactionCount").innerHTML =
-Number(
-document.getElementById("transactionCount").innerHTML
-) + 1;
-
-document.getElementById("transactionList").innerHTML =
-"• Wallet funded successfully with ₦" + amount;
-
-alert("Payment Successful");
-
-},
-
-onClose: function(){
-
-alert("Payment Cancelled");
-
-}
-
-});
-
-handler.openIframe();
+window.location.href =
+"fundwallet.html?amount=" + amount;
 
 }
 
