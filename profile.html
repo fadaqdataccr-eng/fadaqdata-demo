@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Profile - FadaqData</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+padding:20px;
+font-family:Arial,sans-serif;
+background:#6b0000;
+color:white;
+padding-bottom:120px;
+}
+
+.logo{
+text-align:center;
+font-size:45px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.card{
+background:#a31300;
+padding:25px;
+border-radius:25px;
+margin-bottom:25px;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.profile-icon{
+width:120px;
+height:120px;
+border-radius:50%;
+background:gold;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:60px;
+color:black;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.name{
+text-align:center;
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.email{
+text-align:center;
+font-size:18px;
+opacity:0.9;
+margin-bottom:20px;
+word-break:break-word;
+}
+
+.info-box{
+background:#8e0f00;
+padding:20px;
+border-radius:18px;
+margin-bottom:15px;
+font-size:20px;
+}
+
+button{
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.yellow{
+background:gold;
+color:black;
+}
+
+.red{
+background:red;
+color:white;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#6b0000;
+display:flex;
+gap:10px;
+padding:12px;
+box-sizing:border-box;
+}
+
+.nav-btn{
+flex:1;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="card">
+
+<div class="profile-icon">
+👤
+</div>
+
+<div class="name">
+User Profile
+</div>
+
+<div class="email" id="userEmail">
+test@gmail.com
+</div>
+
+<div class="info-box">
+💰 Wallet Balance:
+<span id="walletBalance">
+₦0.00
+</span>
+</div>
+
+<div class="info-box">
+🧾 Total Transactions:
+<span id="transactionCount">
+0
+</span>
+</div>
+
+<button class="yellow" onclick="goHome()">
+🏠 Back To Dashboard
+</button>
+
+<br><br>
+
+<button class="red" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<div class="bottom-nav">
+
+<button class="yellow nav-btn" onclick="goHome()">
+🏠 Home
+</button>
+
+<button class="yellow nav-btn">
+👤 Profile
+</button>
+
+</div>
+
+<script>
+
+let email =
+localStorage.getItem("userEmail");
+
+if(email === null || email === ""){
+
+email = "User";
+
+}
+
+document.getElementById("userEmail").innerHTML =
+email;
+
+let balance =
+localStorage.getItem("walletBalance");
+
+if(balance === null){
+
+balance = 0;
+
+}
+
+document.getElementById("walletBalance").innerHTML =
+"₦" + Number(balance).toFixed(2);
+
+document.getElementById("transactionCount").innerHTML =
+localStorage.getItem("transactionCount") || 0;
+
+function goHome(){
+
+window.location.href = "dashboard.html";
+
+}
+
+function logout(){
+
+localStorage.removeItem("userEmail");
+
+window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
