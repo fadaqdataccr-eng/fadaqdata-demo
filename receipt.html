@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Transaction Receipt</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+padding:20px;
+background:#8B0000;
+font-family:Arial;
+color:white;
+}
+
+.logo{
+text-align:center;
+font-size:50px;
+font-weight:bold;
+margin-top:30px;
+margin-bottom:30px;
+}
+
+.receipt-card{
+background:white;
+color:#8B0000;
+padding:25px;
+border-radius:25px;
+max-width:500px;
+margin:auto;
+}
+
+.receipt-title{
+font-size:35px;
+font-weight:bold;
+text-align:center;
+margin-bottom:30px;
+}
+
+.receipt-item{
+font-size:20px;
+margin-bottom:20px;
+line-height:1.5;
+word-break:break-word;
+}
+
+.success{
+color:green;
+font-weight:bold;
+}
+
+.btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.red{
+background:#8B0000;
+color:white;
+}
+
+.white{
+background:white;
+color:#8B0000;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="receipt-card">
+
+<div class="receipt-title">
+🧾 Transaction Receipt
+</div>
+
+<div class="receipt-item"
+id="receiptText">
+</div>
+
+<div class="receipt-item"
+id="receiptDate">
+</div>
+
+<div class="receipt-item"
+id="receiptAmount">
+</div>
+
+<div class="receipt-item"
+id="receiptID">
+</div>
+
+<div class="receipt-item success">
+Status: Successful
+</div>
+
+<button class="btn red"
+onclick="goBack()">
+⬅ Back To Dashboard
+</button>
+
+</div>
+
+<script>
+
+let transaction =
+JSON.parse(
+localStorage.getItem(
+"selectedTransaction"
+)
+);
+
+if(!transaction){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+document.getElementById(
+"receiptText"
+).innerHTML =
+"<b>Transaction:</b><br>" +
+(transaction.text || "Transaction");
+
+document.getElementById(
+"receiptDate"
+).innerHTML =
+"<b>Date:</b><br>" +
+(transaction.date || "No Date");
+
+document.getElementById(
+"receiptAmount"
+).innerHTML =
+"<b>Amount:</b><br>" +
+(
+transaction.amount
+? "₦" + transaction.amount
+: "Not Available"
+);
+
+document.getElementById(
+"receiptID"
+).innerHTML =
+"<b>Transaction ID:</b><br>" +
+(
+transaction.id
+||
+"FD" +
+Math.floor(
+Math.random()*100000000
+)
+);
+
+function goBack(){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
