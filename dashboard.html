@@ -1,96 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>FadaqData Dashboard</title>
+
+<meta charset="UTF-8">
 
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
+padding:0;
 background:#8B0000;
-font-family:Arial;
+font-family:Arial,sans-serif;
 color:white;
 }
 
+.container{
+padding:25px;
+padding-bottom:120px;
+}
+
 .logo{
-text-align:center;
 font-size:55px;
 font-weight:bold;
+text-align:center;
 margin-top:30px;
-margin-bottom:30px;
+margin-bottom:40px;
 }
 
 .card{
-background:#cc0000;
+background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 .welcome{
 font-size:28px;
 font-weight:bold;
 line-height:1.5;
+margin-bottom:25px;
 }
 
-.flex{
+.stats{
 display:flex;
 gap:15px;
-margin-top:20px;
 }
 
-.small-card{
+.stat-box{
 flex:1;
-background:#b30000;
+background:#b00000;
 padding:20px;
-border-radius:18px;
+border-radius:20px;
 text-align:center;
 }
 
-.small-card h3{
-margin:0;
+.stat-title{
 font-size:18px;
-}
-
-.small-card p{
-font-size:28px;
 font-weight:bold;
-margin-top:12px;
+margin-bottom:15px;
 }
 
-.wallet{
+.stat-value{
+font-size:30px;
+font-weight:bold;
+}
+
+.wallet-title{
+font-size:26px;
+font-weight:bold;
 text-align:center;
+margin-bottom:20px;
 }
 
-.balance{
-font-size:55px;
+.wallet-balance{
+font-size:65px;
 font-weight:bold;
-margin:25px 0;
+text-align:center;
+margin-bottom:30px;
+word-break:break-word;
+}
+
+.eye{
+cursor:pointer;
+font-size:35px;
 }
 
 .btn{
 width:100%;
-padding:18px;
+padding:20px;
 border:none;
-border-radius:15px;
-font-size:22px;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
 margin-top:15px;
-}
-
-.white{
-background:white;
-color:#8B0000;
-}
-
-.red{
-background:#ff1a1a;
-color:white;
 }
 
 .service-title{
@@ -101,13 +112,37 @@ margin-bottom:10px;
 
 .service-text{
 font-size:18px;
-margin-bottom:20px;
+margin-bottom:25px;
+}
+
+.transaction-item{
+background:#b00000;
+padding:18px;
+border-radius:18px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.transaction-text{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.transaction-date{
+font-size:15px;
+opacity:0.9;
 }
 
 .bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
 display:flex;
 gap:15px;
-margin-top:25px;
 }
 
 .nav-btn{
@@ -115,35 +150,20 @@ flex:1;
 padding:18px;
 border:none;
 border-radius:18px;
-font-size:20px;
-font-weight:bold;
 background:white;
-color:#8B0000;
-}
-
-.transaction-card{
-background:#b30000;
-padding:18px;
-border-radius:15px;
-margin-bottom:15px;
+color:#7a0000;
+font-size:22px;
+font-weight:bold;
 cursor:pointer;
 }
 
-.transaction-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.transaction-date{
-font-size:14px;
-opacity:0.8;
-}
-
 </style>
+
 </head>
 
 <body>
+
+<div class="container">
 
 <div class="logo">
 FadaqData
@@ -152,39 +172,68 @@ FadaqData
 <div class="card">
 
 <div class="welcome">
+
 Welcome,<br>
-<span id="welcomeName">User</span>
-</div>
 
-<div class="flex">
-
-<div class="small-card">
-<h3>Total Funding</h3>
-<p id="fundingAmount">₦0.00</p>
-</div>
-
-<div class="small-card">
-<h3>Transactions</h3>
-<p id="transactionCount">0</p>
-</div>
+<span id="username">
+User
+</span>
 
 </div>
 
+<div class="stats">
+
+<div class="stat-box">
+
+<div class="stat-title">
+Total Funding
 </div>
 
-<div class="card wallet">
-
-<h2>
-Wallet Balance 👁️
-</h2>
-
-<div class="balance"
-id="walletBalance">
+<div class="stat-value"
+id="totalFunding">
 ₦0.00
 </div>
 
-<button class="btn white"
-onclick="fundWallet()">
+</div>
+
+<div class="stat-box">
+
+<div class="stat-title">
+Transactions
+</div>
+
+<div class="stat-value"
+id="transactionCount">
+0
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="wallet-title">
+
+Wallet Balance
+
+<span class="eye"
+id="eyeIcon"
+onclick="toggleBalance()">
+👁
+</span>
+
+</div>
+
+<div class="wallet-balance"
+id="walletAmount">
+₦0.00
+</div>
+
+<button class="btn"
+onclick="window.location.href='fundwallet.html'">
 💳 Fund Wallet
 </button>
 
@@ -200,7 +249,7 @@ onclick="fundWallet()">
 Purchase affordable data bundles instantly
 </div>
 
-<button class="btn white"
+<button class="btn"
 onclick="window.location.href='buydata.html'">
 Buy Now
 </button>
@@ -217,7 +266,7 @@ Buy Now
 Recharge airtime instantly
 </div>
 
-<button class="btn white"
+<button class="btn"
 onclick="window.location.href='buyairtime.html'">
 Buy Now
 </button>
@@ -230,18 +279,17 @@ Buy Now
 🧾 Transactions
 </div>
 
-<div id="transactionList"></div>
+<div id="transactionList">
+</div>
 
 </div>
 
-<button class="btn red"
-onclick="logout()">
-Logout
-</button>
+</div>
 
 <div class="bottom-nav">
 
-<button class="nav-btn">
+<button class="nav-btn"
+onclick="window.location.href='dashboard.html'">
 🏠 Home
 </button>
 
@@ -254,33 +302,45 @@ onclick="window.location.href='profile.html'">
 
 <script>
 
-let userName =
-localStorage.getItem("userName")
-|| "User";
-
-document.getElementById(
-"welcomeName"
-).innerHTML = userName;
-
 let wallet =
-Number(localStorage.getItem(
+parseFloat(
+localStorage.getItem(
 "walletBalance"
-)) || 0;
+)
+) || 0;
 
 document.getElementById(
-"walletBalance"
+"walletAmount"
 ).innerHTML =
 "₦" + wallet.toFixed(2);
 
 document.getElementById(
-"fundingAmount"
+"totalFunding"
 ).innerHTML =
 "₦" + wallet.toFixed(2);
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
+document.getElementById(
+"username"
+).innerHTML =
+user.name;
+
+}
 
 let transactions =
-JSON.parse(localStorage.getItem(
+JSON.parse(
+localStorage.getItem(
 "transactions"
-)) || [];
+)
+) || [];
 
 document.getElementById(
 "transactionCount"
@@ -292,41 +352,41 @@ document.getElementById(
 "transactionList"
 );
 
-transactionList.innerHTML = "";
+if(transactions.length === 0){
 
-transactions.reverse().forEach(
-function(item,index){
+transactionList.innerHTML =
+"No transactions yet";
 
-let text =
-item.text || "Transaction";
+}
 
-let date =
-item.date || "No Date";
+else{
 
-let transactionCard =
+transactions
+.slice()
+.reverse()
+.forEach(function(transaction){
+
+let div =
 document.createElement("div");
 
-transactionCard.className =
-"transaction-card";
+div.className =
+"transaction-item";
 
-transactionCard.innerHTML = `
+div.innerHTML =
 
-<div class="transaction-title">
-${text}
-</div>
+'<div class="transaction-text">' +
+(transaction.text || "Transaction") +
+'</div>' +
 
-<div class="transaction-date">
-${date}
-</div>
+'<div class="transaction-date">' +
+(transaction.date || "") +
+'</div>';
 
-`;
-
-transactionCard.onclick =
-function(){
+div.onclick = function(){
 
 localStorage.setItem(
 "selectedTransaction",
-JSON.stringify(item)
+JSON.stringify(transaction)
 );
 
 window.location.href =
@@ -334,75 +394,50 @@ window.location.href =
 
 };
 
-transactionList.appendChild(
-transactionCard
-);
+transactionList.appendChild(div);
 
 });
 
-function fundWallet(){
-
-let amount =
-prompt("Enter amount");
-
-if(amount === null || amount === ""){
-return;
 }
 
-amount = Number(amount);
+let walletVisible = true;
 
-wallet += amount;
+function toggleBalance(){
 
-localStorage.setItem(
-"walletBalance",
-wallet
+let balanceText =
+document.getElementById(
+"walletAmount"
 );
 
-let transactions =
-JSON.parse(localStorage.getItem(
-"transactions"
-)) || [];
-
-transactions.push({
-
-text:
-"💳 Wallet funded with ₦" +
-amount,
-
-date:
-new Date().toLocaleString(),
-
-amount:amount,
-
-type:"Wallet Funding",
-
-status:"Successful",
-
-id:
-"FD" +
-Math.floor(Math.random()*100000000)
-
-});
-
-localStorage.setItem(
-"transactions",
-JSON.stringify(transactions)
+let eyeIcon =
+document.getElementById(
+"eyeIcon"
 );
 
-alert("Wallet funded successfully");
+if(walletVisible){
 
-location.reload();
+balanceText.innerHTML =
+"******";
+
+eyeIcon.innerHTML =
+"🙈";
+
+walletVisible = false;
 
 }
 
-function logout(){
+else{
 
-localStorage.removeItem(
-"isLoggedIn"
-);
+balanceText.innerHTML =
+"₦" +
+wallet.toFixed(2);
 
-window.location.href =
-"login.html";
+eyeIcon.innerHTML =
+"👁";
+
+walletVisible = true;
+
+}
 
 }
 
