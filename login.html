@@ -1,49 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login - FadaqData</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
-font-family:Arial;
+padding:0;
 background:#8B0000;
+font-family:Arial,sans-serif;
 color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+width:90%;
+max-width:400px;
 }
 
 .logo{
-text-align:center;
 font-size:55px;
 font-weight:bold;
-margin-top:60px;
+text-align:center;
 margin-bottom:40px;
 }
 
-.box{
-background:#cc0000;
+.card{
+background:#c00000;
 padding:25px;
-border-radius:20px;
-max-width:400px;
-margin:auto;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+border-radius:25px;
 }
 
-h2{
+.title{
+font-size:30px;
+font-weight:bold;
 text-align:center;
 margin-bottom:30px;
-font-size:32px;
 }
 
 input{
 width:100%;
 padding:18px;
-margin-bottom:18px;
 border:none;
-border-radius:12px;
+border-radius:15px;
+margin-bottom:20px;
 font-size:18px;
 box-sizing:border-box;
 outline:none;
@@ -53,16 +63,12 @@ button{
 width:100%;
 padding:18px;
 border:none;
-border-radius:12px;
+border-radius:18px;
 background:white;
-color:#8B0000;
-font-size:20px;
+color:#7a0000;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
 }
 
 .link{
@@ -77,62 +83,168 @@ font-weight:bold;
 text-decoration:none;
 }
 
+.toast{
+position:fixed;
+top:30px;
+left:50%;
+transform:translateX(-50%);
+background:white;
+color:#7a0000;
+padding:18px 25px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+display:none;
+z-index:99999;
+}
+
 </style>
+
 </head>
 
 <body>
+
+<div class="toast"
+id="toast">
+Login Successful ✅
+</div>
+
+<div class="container">
 
 <div class="logo">
 FadaqData
 </div>
 
-<div class="box">
+<div class="card">
 
-<h2>Login</h2>
+<div class="title">
+Login
+</div>
 
-<input type="email" id="email" placeholder="Email Address">
+<input type="email"
+id="email"
+placeholder="Email Address">
 
-<input type="password" id="password" placeholder="Password">
+<input type="password"
+id="password"
+placeholder="Password">
 
 <button onclick="login()">
 Login
 </button>
 
 <div class="link">
+
 Don't have account?
-<a href="signup.html">Signup</a>
+
+<a href="signup.html">
+Signup
+</a>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
+if(localStorage.getItem("loggedIn") === "true"){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+function showToast(message){
+
+let toast =
+document.getElementById(
+"toast"
+);
+
+toast.innerHTML = message;
+
+toast.style.display =
+"block";
+
+setTimeout(function(){
+
+toast.style.display =
+"none";
+
+},3000);
+
+}
+
 function login(){
 
 let email =
-document.getElementById("email").value;
+document.getElementById(
+"email"
+).value;
 
 let password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
-let savedEmail =
-localStorage.getItem("userEmail");
+if(email === "" || password === ""){
 
-let savedPassword =
-localStorage.getItem("userPassword");
+showToast(
+"Fill all fields"
+);
 
-if(email === savedEmail &&
-password === savedPassword){
-
-localStorage.setItem("isLoggedIn","true");
-
-window.location.href = "dashboard.html";
-
-}else{
-
-alert("Invalid login details");
+return;
 
 }
+
+let savedUser =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!savedUser){
+
+showToast(
+"No account found"
+);
+
+return;
+
+}
+
+if(
+savedUser.email !== email
+||
+savedUser.password !== password
+){
+
+showToast(
+"Invalid login details"
+);
+
+return;
+
+}
+
+localStorage.setItem(
+"loggedIn",
+"true"
+);
+
+showToast(
+"Login Successful ✅"
+);
+
+setTimeout(function(){
+
+window.location.href =
+"dashboard.html";
+
+},1500);
 
 }
 
