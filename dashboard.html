@@ -200,6 +200,53 @@ font-size:22px;
 font-weight:bold;
 }
 
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.modal-content{
+background:#a80000;
+padding:25px;
+border-radius:25px;
+width:85%;
+max-width:400px;
+}
+
+.modal-title{
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+text-align:center;
+}
+
+.modal input{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:20px;
+box-sizing:border-box;
+margin-bottom:20px;
+}
+
+.modal-buttons{
+display:flex;
+gap:10px;
+}
+
+.modal-buttons button{
+flex:1;
+}
+
 @keyframes spin{
 
 0%{
@@ -241,6 +288,37 @@ Success
 
 <div class="loading-text">
 Processing...
+</div>
+
+</div>
+
+<div class="modal" id="fundModal">
+
+<div class="modal-content">
+
+<div class="modal-title">
+💳 Fund Wallet
+</div>
+
+<input
+type="number"
+id="fundAmount"
+placeholder="Enter Amount">
+
+<div class="modal-buttons">
+
+<button class="red"
+onclick="closeModal()">
+Cancel
+</button>
+
+<button class="white"
+onclick="processFunding()">
+Continue
+</button>
+
+</div>
+
 </div>
 
 </div>
@@ -303,7 +381,7 @@ id="walletBalance">
 </div>
 
 <button class="white"
-onclick="fundWallet()">
+onclick="openModal()">
 💳 Fund Wallet
 </button>
 
@@ -483,14 +561,24 @@ document.getElementById("loaderBox").style.display =
 
 }
 
-function fundWallet(){
+function openModal(){
+
+document.getElementById("fundModal").style.display =
+"flex";
+
+}
+
+function closeModal(){
+
+document.getElementById("fundModal").style.display =
+"none";
+
+}
+
+function processFunding(){
 
 let amount =
-prompt("Enter amount to fund");
-
-if(amount === null || amount === ""){
-return;
-}
+document.getElementById("fundAmount").value;
 
 amount = parseFloat(amount);
 
@@ -501,6 +589,8 @@ showToast("Enter valid amount");
 return;
 
 }
+
+closeModal();
 
 showLoader();
 
