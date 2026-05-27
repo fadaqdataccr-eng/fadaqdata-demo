@@ -10,14 +10,14 @@
 body{
 margin:0;
 padding:0;
-background:#8b0000;
-font-family:Arial, sans-serif;
+background:#7a0000;
+font-family:Arial,sans-serif;
 color:white;
 }
 
 .container{
 padding:20px;
-padding-bottom:100px;
+padding-bottom:120px;
 }
 
 .logo{
@@ -29,24 +29,25 @@ margin-bottom:30px;
 }
 
 .card{
-background:#b30000;
+background:#a80000;
 padding:30px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
 
 .profile-icon{
 width:150px;
 height:150px;
-background:gold;
+background:white;
+color:#7a0000;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:80px;
 margin:auto;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 .center{
@@ -54,7 +55,7 @@ text-align:center;
 }
 
 .name{
-font-size:50px;
+font-size:55px;
 font-weight:bold;
 margin-bottom:10px;
 }
@@ -67,7 +68,7 @@ word-break:break-word;
 }
 
 .info-box{
-background:#a00000;
+background:#920000;
 padding:20px;
 border-radius:18px;
 margin-top:15px;
@@ -79,19 +80,19 @@ width:100%;
 padding:22px;
 border:none;
 border-radius:18px;
-font-size:32px;
+font-size:28px;
 font-weight:bold;
 margin-top:20px;
 cursor:pointer;
 }
 
-.yellow{
-background:gold;
-color:black;
+.white{
+background:white;
+color:#7a0000;
 }
 
 .red{
-background:red;
+background:#ff1a1a;
 color:white;
 }
 
@@ -101,9 +102,9 @@ bottom:0;
 left:0;
 width:100%;
 display:flex;
-background:#8b0000;
-padding:10px;
 gap:10px;
+padding:10px;
+background:#7a0000;
 box-sizing:border-box;
 }
 
@@ -112,7 +113,8 @@ flex:1;
 padding:18px;
 border:none;
 border-radius:18px;
-background:gold;
+background:white;
+color:#7a0000;
 font-size:20px;
 font-weight:bold;
 }
@@ -141,7 +143,7 @@ User
 </div>
 
 <div class="email" id="customerEmail">
-example@gmail.com
+customer@gmail.com
 </div>
 
 </div>
@@ -156,12 +158,13 @@ example@gmail.com
 <span id="totalTransactions">0</span>
 </div>
 
-<button class="yellow"
+<button class="white"
 onclick="window.location.href='dashboard.html'">
 🏠 Back To Dashboard
 </button>
 
-<button class="red" onclick="logout()">
+<button class="red"
+onclick="logout()">
 Logout
 </button>
 
@@ -184,17 +187,21 @@ onclick="window.location.href='dashboard.html'">
 
 <script>
 
-let email = localStorage.getItem("userEmail");
+let email =
+localStorage.getItem("userEmail");
 
 if(email === null || email === ""){
 email = "customer@gmail.com";
 }
 
-document.getElementById("customerEmail").innerHTML = email;
+document.getElementById("customerEmail").innerHTML =
+email;
 
-let username = email.split("@")[0];
+let username =
+email.split("@")[0];
 
-document.getElementById("customerName").innerHTML = username;
+document.getElementById("customerName").innerHTML =
+username;
 
 let wallet =
 localStorage.getItem("walletBalance");
@@ -203,7 +210,8 @@ if(wallet === null){
 wallet = 0;
 }
 
-document.getElementById("walletBalance").innerHTML = wallet;
+document.getElementById("walletBalance").innerHTML =
+wallet;
 
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
