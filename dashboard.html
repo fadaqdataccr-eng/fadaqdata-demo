@@ -17,10 +17,10 @@ color:white;
 
 .logo{
 text-align:center;
-font-size:60px;
+font-size:55px;
 font-weight:bold;
-margin-top:40px;
-margin-bottom:40px;
+margin-top:30px;
+margin-bottom:30px;
 }
 
 .card{
@@ -47,7 +47,7 @@ margin-top:20px;
 flex:1;
 background:#b30000;
 padding:20px;
-border-radius:20px;
+border-radius:18px;
 text-align:center;
 }
 
@@ -59,7 +59,7 @@ font-size:18px;
 .small-card p{
 font-size:28px;
 font-weight:bold;
-margin-top:15px;
+margin-top:12px;
 }
 
 .wallet{
@@ -67,12 +67,12 @@ text-align:center;
 }
 
 .wallet h2{
-font-size:24px;
+font-size:22px;
 margin-bottom:20px;
 }
 
 .balance{
-font-size:65px;
+font-size:60px;
 font-weight:bold;
 margin-bottom:25px;
 }
@@ -318,7 +318,17 @@ document.getElementById("transactionCount")
 let transactionList =
 document.getElementById("transactionList");
 
+transactionList.innerHTML = "";
+
 transactions.reverse().forEach((item)=>{
+
+let text =
+typeof item === "string"
+? item
+: item.text || "Transaction";
+
+let date =
+item.date || "No date";
 
 let div = document.createElement("div");
 
@@ -334,7 +344,7 @@ div.innerHTML = `
 font-size:18px;
 font-weight:bold;
 ">
-${item.text}
+${text}
 </div>
 
 <div style="
@@ -342,7 +352,7 @@ margin-top:8px;
 font-size:14px;
 opacity:0.8;
 ">
-${item.date}
+${date}
 </div>
 
 `;
@@ -356,11 +366,11 @@ document.getElementById("receiptDetails")
 .innerHTML = `
 
 <p><b>Transaction:</b><br>
-${item.text}
+${text}
 </p>
 
 <p><b>Date:</b><br>
-${item.date}
+${date}
 </p>
 
 <p>
