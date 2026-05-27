@@ -1,110 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>FadaqData Dashboard</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FadaqData Dashboard</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
-background:#7b0000;
-font-family:Arial;
+padding:0;
+background:#7a0000;
+font-family:Arial,sans-serif;
 color:white;
+}
+
+.container{
+padding:20px;
+padding-bottom:120px;
 }
 
 .logo{
 text-align:center;
 font-size:55px;
 font-weight:bold;
+margin-top:30px;
 margin-bottom:30px;
 }
 
 .card{
-background:#b31200;
+background:#a80000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
+box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
 
 .welcome{
-font-size:25px;
+font-size:28px;
 font-weight:bold;
-line-height:45px;
+line-height:1.5;
 }
 
 .stats{
 display:flex;
 gap:15px;
-margin-bottom:25px;
 }
 
 .stat-box{
 flex:1;
-background:#b31200;
+background:#a80000;
 padding:20px;
 border-radius:25px;
 text-align:center;
 }
 
 .stat-title{
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 margin-bottom:15px;
 }
 
 .stat-value{
-font-size:55px;
+font-size:50px;
 font-weight:bold;
-word-break:break-word;
 }
 
 .balance-title{
-font-size:22px;
-font-weight:bold;
 text-align:center;
+font-size:25px;
+font-weight:bold;
 margin-bottom:20px;
 }
 
 .balance{
-font-size:50px;
-font-weight:bold;
 text-align:center;
-margin-bottom:30px;
-word-break:break-word;
-}
-
-button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-font-size:20px;
+font-size:70px;
 font-weight:bold;
-cursor:pointer;
-}
-
-.yellow{
-background:gold;
-color:black;
-}
-
-.red{
-background:red;
-color:white;
+margin-bottom:30px;
 }
 
 .service-title{
-font-size:28px;
+font-size:24px;
 font-weight:bold;
 margin-bottom:10px;
 }
 
 .service-text{
 font-size:18px;
+opacity:0.9;
 margin-bottom:25px;
+}
+
+button{
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.white{
+background:white;
+color:#7a0000;
+}
+
+.red{
+background:#ff1a1a;
+color:white;
+}
+
+.transaction-item{
+font-size:16px;
+margin-top:10px;
 }
 
 .bottom-nav{
@@ -115,43 +125,19 @@ width:100%;
 display:flex;
 gap:10px;
 padding:10px;
-background:#7b0000;
+background:#7a0000;
 box-sizing:border-box;
 }
 
 .nav-btn{
 flex:1;
-}
-
-.container{
-padding-bottom:120px;
-}
-
-.transaction{
-font-size:18px;
-margin-top:10px;
-word-break:break-word;
-}
-
-@media(max-width:600px){
-
-.logo{
-font-size:42px;
-}
-
-.balance{
-font-size:42px;
-}
-
-.stat-value{
-font-size:42px;
-}
-
-button{
-font-size:18px;
-padding:16px;
-}
-
+padding:18px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:20px;
+font-weight:bold;
 }
 
 </style>
@@ -178,8 +164,8 @@ Welcome,<br>User
 Total Funding
 </div>
 
-<div class="stat-value">
-₦<span id="totalFunding">0</span>
+<div class="stat-value" id="totalFunding">
+₦0
 </div>
 </div>
 
@@ -201,11 +187,11 @@ Transactions
 Wallet Balance
 </div>
 
-<div class="balance">
-₦<span id="walletBalance">0.00</span>
+<div class="balance" id="walletBalance">
+₦0.00
 </div>
 
-<button class="yellow" onclick="fundWallet()">
+<button class="white" onclick="fundWallet()">
 💳 Fund Wallet
 </button>
 
@@ -221,7 +207,7 @@ Wallet Balance
 Purchase affordable data bundles instantly
 </div>
 
-<button class="yellow"
+<button class="white"
 onclick="window.location.href='buydata.html'">
 Buy Now
 </button>
@@ -238,7 +224,8 @@ Buy Now
 Recharge airtime instantly
 </div>
 
-<button class="yellow">
+<button class="white"
+onclick="window.location.href='airtime.html'">
 Buy Now
 </button>
 
@@ -251,7 +238,6 @@ Buy Now
 </div>
 
 <div id="transactionList">
-• No transaction yet
 </div>
 
 </div>
@@ -264,11 +250,11 @@ Logout
 
 <div class="bottom-nav">
 
-<button class="yellow nav-btn">
+<button class="nav-btn">
 🏠 Home
 </button>
 
-<button class="yellow nav-btn"
+<button class="nav-btn"
 onclick="window.location.href='profile.html'">
 👤 Profile
 </button>
@@ -285,16 +271,20 @@ email = "User";
 }
 
 document.getElementById("welcomeText").innerHTML =
-"Welcome,<br>" + email;
+"Welcome,<br>" + email.split("@")[0];
 
-let balance =
-parseFloat(localStorage.getItem("walletBalance")) || 0;
+let wallet =
+localStorage.getItem("walletBalance");
+
+if(wallet === null){
+wallet = 0;
+}
 
 document.getElementById("walletBalance").innerHTML =
-balance.toFixed(2);
+"₦" + parseFloat(wallet).toFixed(2);
 
 document.getElementById("totalFunding").innerHTML =
-balance;
+"₦" + wallet;
 
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
@@ -302,20 +292,26 @@ JSON.parse(localStorage.getItem("transactions")) || [];
 document.getElementById("transactionCount").innerHTML =
 transactions.length;
 
-if(transactions.length > 0){
+let transactionHTML = "";
 
-let html = "";
+if(transactions.length === 0){
 
-transactions.forEach(item => {
+transactionHTML =
+"<div class='transaction-item'>• No transaction yet</div>";
 
-html += "<div class='transaction'>• " + item + "</div>";
+}else{
+
+transactions.reverse().forEach(function(item){
+
+transactionHTML +=
+"<div class='transaction-item'>• " + item + "</div>";
 
 });
 
-document.getElementById("transactionList").innerHTML =
-html;
-
 }
+
+document.getElementById("transactionList").innerHTML =
+transactionHTML;
 
 function fundWallet(){
 
@@ -329,12 +325,30 @@ return;
 amount = parseFloat(amount);
 
 if(isNaN(amount) || amount <= 0){
+
 alert("Enter valid amount");
+
 return;
+
 }
 
-window.location.href =
-"fundwallet.html?amount=" + amount;
+wallet =
+parseFloat(wallet) + amount;
+
+localStorage.setItem("walletBalance", wallet);
+
+transactions.push(
+"Wallet funded successfully with ₦" + amount
+);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+alert("Wallet funded successfully");
+
+location.reload();
 
 }
 
