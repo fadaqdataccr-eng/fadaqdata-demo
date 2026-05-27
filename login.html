@@ -1,63 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>FadaqData Login</title>
+<title>Login - FadaqData</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 body{
-background:#8B0000;
-font-family:Arial;
+margin:0;
 padding:20px;
+font-family:Arial;
+background:#8B0000;
 color:white;
 }
 
-.container{
-background:#c00000;
-padding:25px;
-border-radius:20px;
-margin-top:50px;
+.logo{
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-top:60px;
+margin-bottom:40px;
 }
 
-h1{
+.box{
+background:#cc0000;
+padding:25px;
+border-radius:20px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+h2{
 text-align:center;
-font-size:50px;
+margin-bottom:30px;
+font-size:32px;
 }
 
 input{
 width:100%;
-padding:15px;
-margin-top:15px;
+padding:18px;
+margin-bottom:18px;
 border:none;
 border-radius:12px;
 font-size:18px;
-outline:none;
 box-sizing:border-box;
+outline:none;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:20px;
+padding:18px;
 border:none;
 border-radius:12px;
-font-size:22px;
-font-weight:bold;
 background:white;
 color:#8B0000;
+font-size:20px;
+font-weight:bold;
 cursor:pointer;
 }
 
-a{
-color:white;
-text-decoration:none;
-font-weight:bold;
+button:hover{
+opacity:0.9;
 }
 
-.bottom{
+.link{
 text-align:center;
 margin-top:20px;
-font-size:18px;
+font-size:16px;
+}
+
+.link a{
+color:white;
+font-weight:bold;
+text-decoration:none;
 }
 
 </style>
@@ -65,9 +82,11 @@ font-size:18px;
 
 <body>
 
-<h1>FadaqData</h1>
+<div class="logo">
+FadaqData
+</div>
 
-<div class="container">
+<div class="box">
 
 <h2>Login</h2>
 
@@ -75,9 +94,11 @@ font-size:18px;
 
 <input type="password" id="password" placeholder="Password">
 
-<button onclick="login()">Login</button>
+<button onclick="login()">
+Login
+</button>
 
-<div class="bottom">
+<div class="link">
 Don't have account?
 <a href="signup.html">Signup</a>
 </div>
@@ -100,17 +121,16 @@ localStorage.getItem("userEmail");
 let savedPassword =
 localStorage.getItem("userPassword");
 
-if(email == savedEmail && password == savedPassword){
+if(email === savedEmail &&
+password === savedPassword){
 
-localStorage.setItem("isLoggedIn", "true");
-
-alert("Login successful");
+localStorage.setItem("isLoggedIn","true");
 
 window.location.href = "dashboard.html";
 
 }else{
 
-alert("Incorrect email or password");
+alert("Invalid login details");
 
 }
 
