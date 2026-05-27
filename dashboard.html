@@ -38,7 +38,7 @@ padding:15px;
 background:#8b1300;
 padding:25px;
 border-radius:20px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 margin-bottom:20px;
 word-break:break-word;
@@ -77,7 +77,7 @@ text-align:center;
 }
 
 .wallet h2{
-font-size:30px;
+font-size:32px;
 margin-bottom:20px;
 }
 
@@ -93,6 +93,7 @@ padding:18px;
 border:none;
 border-radius:15px;
 font-size:20px;
+margin-top:20px;
 margin-bottom:20px;
 }
 
@@ -140,11 +141,6 @@ border-radius:20px;
 margin-bottom:20px;
 }
 
-.transaction-box ul{
-padding-left:20px;
-font-size:18px;
-}
-
 .bottom-nav{
 position:fixed;
 bottom:0;
@@ -187,12 +183,12 @@ Welcome
 
 <div class="stat-card">
 <h3>Total Funding</h3>
-<p>₦0</p>
+<p id="totalFunding">₦0</p>
 </div>
 
 <div class="stat-card">
 <h3>Transactions</h3>
-<p>0</p>
+<p id="transactions">0</p>
 </div>
 
 </div>
@@ -207,13 +203,11 @@ Welcome
 
 <button
 class="btn yellow"
-onclick="openFunding()">
+onclick="toggleFunding()">
 Fund Wallet
 </button>
 
-<div
-id="fundBox"
-style="display:none; margin-top:20px;">
+<div id="fundSection" style="display:none;">
 
 <input
 type="number"
@@ -290,7 +284,7 @@ Logout
 let email =
 localStorage.getItem("userEmail");
 
-if(email == null){
+if(!email){
 
 email = "User";
 
@@ -301,24 +295,28 @@ document.getElementById("welcomeUser")
 "Welcome,<br>" + email;
 
 let balance =
-localStorage.getItem("walletBalance") || 0;
+Number(localStorage.getItem("walletBalance")) || 0;
 
 document.getElementById("balance")
 .innerHTML =
-"₦" + Number(balance).toFixed(2);
+"₦" + balance.toFixed(2);
 
-function openFunding(){
+document.getElementById("totalFunding")
+.innerHTML =
+"₦" + balance;
 
-let box =
-document.getElementById("fundBox");
+function toggleFunding(){
 
-if(box.style.display === "none"){
+let section =
+document.getElementById("fundSection");
 
-box.style.display = "block";
+if(section.style.display === "none"){
+
+section.style.display = "block";
 
 }else{
 
-box.style.display = "none";
+section.style.display = "none";
 
 }
 
@@ -329,7 +327,7 @@ function payWithPaystack(){
 let amount =
 document.getElementById("amount").value;
 
-if(amount == ""){
+if(amount === ""){
 
 alert("Enter Amount");
 
@@ -364,9 +362,16 @@ document.getElementById("balance")
 .innerHTML =
 "₦" + newBalance.toFixed(2);
 
+document.getElementById("totalFunding")
+.innerHTML =
+"₦" + newBalance;
+
+document.getElementById("transactions")
+.innerHTML = "1";
+
 document.getElementById("amount").value = "";
 
-document.getElementById("fundBox").style.display = "none";
+document.getElementById("fundSection").style.display = "none";
 
 alert("Payment Successful");
 
