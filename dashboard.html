@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>FadaqData Dashboard</title>
 
 <style>
@@ -10,7 +11,7 @@
 body{
 margin:0;
 padding:0;
-background:#7a0000;
+background:#8B0000;
 font-family:Arial,sans-serif;
 color:white;
 }
@@ -21,19 +22,19 @@ padding-bottom:120px;
 }
 
 .logo{
-text-align:center;
-font-size:55px;
+font-size:60px;
 font-weight:bold;
-margin-top:30px;
-margin-bottom:30px;
+text-align:center;
+margin-top:40px;
+margin-bottom:40px;
 }
 
 .card{
-background:#a80000;
+background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 15px rgba(0,0,0,0.2);
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 .welcome{
@@ -45,21 +46,20 @@ line-height:1.5;
 .stats{
 display:flex;
 gap:15px;
-margin-top:20px;
 }
 
 .stat-box{
 flex:1;
-background:#920000;
+background:#c00000;
 padding:20px;
-border-radius:20px;
+border-radius:25px;
 text-align:center;
 }
 
 .stat-title{
-font-size:18px;
-margin-bottom:10px;
+font-size:20px;
 font-weight:bold;
+margin-bottom:15px;
 }
 
 .stat-value{
@@ -68,276 +68,87 @@ font-weight:bold;
 }
 
 .wallet-title{
-font-size:24px;
+font-size:28px;
 font-weight:bold;
 text-align:center;
 margin-bottom:20px;
 }
 
-.wallet-balance{
-font-size:60px;
+.balance{
+font-size:80px;
 font-weight:bold;
 text-align:center;
-margin-bottom:25px;
+margin-bottom:30px;
 word-break:break-word;
 }
 
-.eye{
-cursor:pointer;
-margin-left:10px;
-font-size:22px;
-}
-
-button{
+.yellow{
 width:100%;
-padding:18px;
+padding:22px;
 border:none;
-border-radius:18px;
-font-size:20px;
+border-radius:20px;
+background:#f1f1f1;
+font-size:24px;
 font-weight:bold;
-cursor:pointer;
-transition:0.3s;
-}
-
-button:active{
-transform:scale(0.97);
-}
-
-.white{
-background:white;
 color:#7a0000;
-}
-
-.red{
-background:#ff1a1a;
-color:white;
+cursor:pointer;
 }
 
 .service-title{
-font-size:24px;
+font-size:28px;
 font-weight:bold;
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
 .service-text{
 font-size:18px;
-opacity:0.9;
-margin-bottom:20px;
+margin-bottom:25px;
+}
+
+.red{
+width:100%;
+padding:22px;
+border:none;
+border-radius:20px;
+background:red;
+color:white;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .bottom-nav{
 position:fixed;
 bottom:0;
 left:0;
-width:100%;
+right:0;
+background:#8B0000;
+padding:15px;
 display:flex;
-gap:10px;
-padding:10px;
-background:#7a0000;
-box-sizing:border-box;
+gap:15px;
 }
 
 .nav-btn{
 flex:1;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:20px;
-font-weight:bold;
 }
 
-.toast{
-position:fixed;
-top:20px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:#7a0000;
-padding:15px 25px;
-border-radius:15px;
-font-size:18px;
-font-weight:bold;
-display:none;
-z-index:999;
+.transaction-item{
+font-size:16px;
+margin-bottom:15px;
+line-height:1.5;
+border-bottom:1px solid rgba(255,255,255,0.1);
+padding-bottom:10px;
 }
 
-.loader-box{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
-
-.loader{
-width:70px;
-height:70px;
-border:8px solid white;
-border-top:8px solid transparent;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-.loading-text{
-margin-top:20px;
-font-size:22px;
-font-weight:bold;
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.modal-content{
-background:#a80000;
-padding:25px;
-border-radius:25px;
-width:85%;
-max-width:400px;
-}
-
-.modal-title{
-font-size:28px;
-font-weight:bold;
-margin-bottom:20px;
-text-align:center;
-}
-
-.modal input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:20px;
-box-sizing:border-box;
-margin-bottom:20px;
-}
-
-.modal-buttons{
-display:flex;
-gap:10px;
-}
-
-.modal-buttons button{
-flex:1;
-}
-
-.transaction-card{
-background:#920000;
-padding:18px;
-border-radius:18px;
-margin-top:15px;
-}
-
-.transaction-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-.transaction-type{
-font-size:18px;
-font-weight:bold;
-}
-
-.transaction-status{
-background:#00b300;
-padding:6px 12px;
-border-radius:20px;
-font-size:14px;
-font-weight:bold;
-}
-
-.transaction-amount{
-font-size:28px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.transaction-date{
-font-size:14px;
-opacity:0.8;
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
+.eye{
+cursor:pointer;
+font-size:30px;
 }
 
 </style>
 </head>
 
 <body>
-
-<div class="toast" id="toast">
-Success
-</div>
-
-<div class="loader-box" id="loaderBox">
-
-<div class="loader"></div>
-
-<div class="loading-text">
-Processing...
-</div>
-
-</div>
-
-<div class="modal" id="fundModal">
-
-<div class="modal-content">
-
-<div class="modal-title">
-💳 Fund Wallet
-</div>
-
-<input
-type="number"
-id="fundAmount"
-placeholder="Enter Amount">
-
-<div class="modal-buttons">
-
-<button class="red"
-onclick="closeModal()">
-Cancel
-</button>
-
-<button class="white"
-onclick="processFunding()">
-Continue
-</button>
-
-</div>
-
-</div>
-
-</div>
 
 <div class="container">
 
@@ -346,9 +157,9 @@ FadaqData
 </div>
 
 <div class="card">
-
 <div class="welcome" id="welcomeText">
 Welcome,<br>User
+</div>
 </div>
 
 <div class="stats">
@@ -368,11 +179,9 @@ Total Funding
 Transactions
 </div>
 
-<div class="stat-value" id="transactionCount">
+<div class="stat-value" id="totalTransactions">
 0
 </div>
-</div>
-
 </div>
 
 </div>
@@ -380,24 +189,15 @@ Transactions
 <div class="card">
 
 <div class="wallet-title">
-
 Wallet Balance
-
-<span class="eye"
-id="eyeBtn"
-onclick="toggleBalance()">
-👁️
-</span>
-
+<span class="eye" onclick="toggleBalance()" id="eyeBtn">👁️</span>
 </div>
 
-<div class="wallet-balance"
-id="walletBalance">
+<div class="balance" id="walletBalance">
 ₦0.00
 </div>
 
-<button class="white"
-onclick="openModal()">
+<button class="yellow" onclick="fundWallet()">
 💳 Fund Wallet
 </button>
 
@@ -413,8 +213,7 @@ onclick="openModal()">
 Purchase affordable data bundles instantly
 </div>
 
-<button class="white"
-onclick="window.location.href='buydata.html'">
+<button class="yellow" onclick="buyData()">
 Buy Now
 </button>
 
@@ -430,8 +229,7 @@ Buy Now
 Recharge airtime instantly
 </div>
 
-<button class="white"
-onclick="window.location.href='airtime.html'">
+<button class="yellow" onclick="buyAirtime()">
 Buy Now
 </button>
 
@@ -443,13 +241,13 @@ Buy Now
 🧾 Transactions
 </div>
 
-<div id="transactionList">
+<div id="transactionHistory">
+No transaction yet
 </div>
 
 </div>
 
-<button class="red"
-onclick="logout()">
+<button class="red" onclick="logout()">
 Logout
 </button>
 
@@ -457,11 +255,11 @@ Logout
 
 <div class="bottom-nav">
 
-<button class="nav-btn">
+<button class="yellow nav-btn">
 🏠 Home
 </button>
 
-<button class="nav-btn"
+<button class="yellow nav-btn"
 onclick="window.location.href='profile.html'">
 👤 Profile
 </button>
@@ -470,207 +268,217 @@ onclick="window.location.href='profile.html'">
 
 <script>
 
-let email =
-localStorage.getItem("userEmail");
+let email = localStorage.getItem("userEmail");
 
 if(email === null || email === ""){
 email = "User";
 }
 
 document.getElementById("welcomeText").innerHTML =
-"Welcome,<br>" + email.split("@")[0];
+"Welcome,<br>" + email;
 
 let wallet =
 parseFloat(localStorage.getItem("walletBalance")) || 0;
 
+let totalFunding =
+parseFloat(localStorage.getItem("totalFunding")) || 0;
+
 let transactions =
 JSON.parse(localStorage.getItem("transactions")) || [];
 
+let hidden = false;
+
+updateDashboard();
+
+function updateDashboard(){
+
 document.getElementById("walletBalance").innerHTML =
-"₦" + wallet.toFixed(2);
+hidden ? "******" : "₦" + wallet.toFixed(2);
 
 document.getElementById("totalFunding").innerHTML =
-"₦" + wallet.toFixed(2);
+"₦" + totalFunding.toFixed(2);
 
-document.getElementById("transactionCount").innerHTML =
+document.getElementById("totalTransactions").innerHTML =
 transactions.length;
 
-function renderTransactions(){
+localStorage.setItem("walletBalance",wallet);
+localStorage.setItem("totalFunding",totalFunding);
+localStorage.setItem("transactions",
+JSON.stringify(transactions));
 
-let html = "";
-
-if(transactions.length === 0){
-
-html =
-"<div class='transaction-card'>No transaction yet</div>";
-
-}else{
-
-transactions.reverse().forEach(function(item){
-
-html += `
-
-<div class="transaction-card">
-
-<div class="transaction-top">
-
-<div class="transaction-type">
-💳 Wallet Funding
-</div>
-
-<div class="transaction-status">
-Success
-</div>
-
-</div>
-
-<div class="transaction-amount">
-₦${item.amount}
-</div>
-
-<div class="transaction-date">
-${item.date}
-</div>
-
-</div>
-
-`;
-
-});
+showTransactions();
 
 }
-
-document.getElementById("transactionList").innerHTML =
-html;
-
-}
-
-renderTransactions();
-
-let balanceVisible = true;
 
 function toggleBalance(){
 
-let eye =
-document.getElementById("eyeBtn");
+hidden = !hidden;
 
-let balanceText =
-document.getElementById("walletBalance");
+document.getElementById("eyeBtn").innerHTML =
+hidden ? "🙈" : "👁️";
 
-if(balanceVisible){
-
-balanceText.innerHTML = "******";
-eye.innerHTML = "🙈";
-
-balanceVisible = false;
-
-}else{
-
-balanceText.innerHTML =
-"₦" + wallet.toFixed(2);
-
-eye.innerHTML = "👁️";
-
-balanceVisible = true;
+updateDashboard();
 
 }
 
-}
-
-function showToast(message){
-
-let toast =
-document.getElementById("toast");
-
-toast.innerHTML = message;
-
-toast.style.display = "block";
-
-setTimeout(function(){
-
-toast.style.display = "none";
-
-},3000);
-
-}
-
-function showLoader(){
-
-document.getElementById("loaderBox").style.display =
-"flex";
-
-}
-
-function hideLoader(){
-
-document.getElementById("loaderBox").style.display =
-"none";
-
-}
-
-function openModal(){
-
-document.getElementById("fundModal").style.display =
-"flex";
-
-}
-
-function closeModal(){
-
-document.getElementById("fundModal").style.display =
-"none";
-
-}
-
-function processFunding(){
+function fundWallet(){
 
 let amount =
-document.getElementById("fundAmount").value;
+prompt("Enter amount to fund");
+
+if(amount === null || amount === ""){
+return;
+}
 
 amount = parseFloat(amount);
 
 if(isNaN(amount) || amount <= 0){
+alert("Invalid amount");
+return;
+}
 
-showToast("Enter valid amount");
+wallet += amount;
+totalFunding += amount;
+
+let date =
+new Date().toLocaleString();
+
+transactions.unshift(
+"💳 Wallet funded with ₦" +
+amount +
+" <br><small>" +
+date +
+"</small>"
+);
+
+updateDashboard();
+
+alert("Wallet funded successfully");
+
+}
+
+function buyData(){
+
+let number =
+prompt("Enter phone number");
+
+if(number === null || number === ""){
+return;
+}
+
+let amount =
+prompt("Enter data amount");
+
+if(amount === null || amount === ""){
+return;
+}
+
+amount = parseFloat(amount);
+
+if(isNaN(amount) || amount <= 0){
+alert("Invalid amount");
+return;
+}
+
+if(wallet < amount){
+alert("Insufficient balance");
+return;
+}
+
+wallet -= amount;
+
+let date =
+new Date().toLocaleString();
+
+transactions.unshift(
+"📶 Bought data for " +
+number +
+" - ₦" +
+amount +
+"<br><small>" +
+date +
+"</small>"
+);
+
+updateDashboard();
+
+alert("Data purchase successful");
+
+}
+
+function buyAirtime(){
+
+let number =
+prompt("Enter phone number");
+
+if(number === null || number === ""){
+return;
+}
+
+let amount =
+prompt("Enter airtime amount");
+
+if(amount === null || amount === ""){
+return;
+}
+
+amount = parseFloat(amount);
+
+if(isNaN(amount) || amount <= 0){
+alert("Invalid amount");
+return;
+}
+
+if(wallet < amount){
+alert("Insufficient balance");
+return;
+}
+
+wallet -= amount;
+
+let date =
+new Date().toLocaleString();
+
+transactions.unshift(
+"📞 Airtime purchased for " +
+number +
+" - ₦" +
+amount +
+"<br><small>" +
+date +
+"</small>"
+);
+
+updateDashboard();
+
+alert("Airtime purchase successful");
+
+}
+
+function showTransactions(){
+
+let history =
+document.getElementById("transactionHistory");
+
+if(transactions.length === 0){
+
+history.innerHTML =
+"No transaction yet";
 
 return;
 
 }
 
-closeModal();
+history.innerHTML = "";
 
-showLoader();
+transactions.forEach(function(item){
 
-setTimeout(function(){
+history.innerHTML +=
+'<div class="transaction-item">• ' +
+item +
+'</div>';
 
-wallet += amount;
-
-localStorage.setItem(
-"walletBalance",
-wallet
-);
-
-transactions.push({
-amount: amount,
-date: new Date().toLocaleString()
 });
-
-localStorage.setItem(
-"transactions",
-JSON.stringify(transactions)
-);
-
-hideLoader();
-
-showToast("Wallet funded successfully");
-
-setTimeout(function(){
-
-location.reload();
-
-},1500);
-
-},2000);
 
 }
 
