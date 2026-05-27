@@ -7,7 +7,7 @@
 
 <title>FadaqData Dashboard</title>
 
-<script src="https://checkout.paystack.com/v1/inline.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
 
@@ -196,6 +196,9 @@ await setDoc(userRef,{
 wallet:0
 });
 
+document.getElementById("balance").innerHTML =
+"₦0.00";
+
 }else{
 
 const data = snap.data();
@@ -221,11 +224,11 @@ window.location.href = "login.html";
 
 }
 
-window.payNow = function(){
+window.payNow = async function(){
 
 if(!currentUser){
 
-alert("Login First");
+alert("Please login");
 
 return;
 
@@ -246,13 +249,13 @@ amount = Number(amount);
 
 if(amount < 100){
 
-alert("Minimum amount is ₦100");
+alert("Minimum funding is ₦100");
 
 return;
 
 }
 
-var handler = PaystackPop.setup({
+let handler = PaystackPop.setup({
 
 key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
@@ -286,18 +289,24 @@ snap.data().wallet || 0;
 let newBalance =
 oldBalance + amount;
 
+if(snap.exists()){
+
 await updateDoc(userRef,{
 wallet:newBalance
 });
+
+}else{
+
+await setDoc(userRef,{
+wallet:newBalance
+});
+
+}
 
 document.getElementById("balance").innerHTML =
 "₦" + newBalance.toFixed(2);
 
 document.getElementById("amount").value = "";
-
-setTimeout(() => {
-window.location.reload();
-}, 2000);
 
 },
 
