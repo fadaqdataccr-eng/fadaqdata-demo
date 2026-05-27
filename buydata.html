@@ -269,7 +269,8 @@ Wallet: ₦0.00
 
 <label>Select Plan</label>
 
-<select id="plan">
+<select id="plan"
+onchange="updateAmount()">
 
 <option value="500MB">500MB - ₦100</option>
 <option value="1GB">1GB - ₦300</option>
@@ -286,9 +287,14 @@ placeholder="Enter phone number">
 
 <label>Amount</label>
 
-<input type="number"
+<input type="text"
 id="amount"
-placeholder="Enter amount">
+readonly
+style="
+background:#eee;
+font-weight:bold;
+"
+placeholder="Amount auto selected">
 
 <button class="buy-btn"
 onclick="buyData()">
@@ -368,6 +374,44 @@ document.getElementById(
 "Wallet: ₦" +
 wallet.toFixed(2);
 
+function updateAmount(){
+
+let plan =
+document.getElementById(
+"plan"
+).value;
+
+let amountField =
+document.getElementById(
+"amount"
+);
+
+if(plan === "500MB"){
+
+amountField.value = 100;
+
+}
+
+else if(plan === "1GB"){
+
+amountField.value = 300;
+
+}
+
+else if(plan === "2GB"){
+
+amountField.value = 500;
+
+}
+
+else if(plan === "5GB"){
+
+amountField.value = 1200;
+
+}
+
+}
+
 function showLoader(){
 
 document.getElementById(
@@ -431,16 +475,6 @@ if(phone === ""){
 
 showToast(
 "Enter phone number"
-);
-
-return;
-
-}
-
-if(amount <= 0 || isNaN(amount)){
-
-showToast(
-"Enter valid amount"
 );
 
 return;
@@ -569,6 +603,8 @@ window.location.href =
 "dashboard.html";
 
 }
+
+updateAmount();
 
 </script>
 
