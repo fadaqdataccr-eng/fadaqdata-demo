@@ -4,7 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FadaqData</title>
+<title>FadaqData Dashboard</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
@@ -105,7 +105,7 @@ type="number"
 id="amount"
 placeholder="Enter Amount">
 
-<button onclick="payNow()">
+<button id="payBtn">
 Proceed Payment
 </button>
 
@@ -147,7 +147,7 @@ const db = firebase.firestore();
 
 let currentUser = null;
 
-auth.onAuthStateChanged(async(user)=>{
+auth.onAuthStateChanged(async function(user){
 
 if(user){
 
@@ -159,12 +159,12 @@ document.getElementById("welcome").innerHTML =
 const userRef =
 db.collection("users").doc(user.uid);
 
-const docSnap =
+const doc =
 await userRef.get();
 
-if(docSnap.exists){
+if(doc.exists){
 
-const data = docSnap.data();
+const data = doc.data();
 
 document.getElementById("balance").innerHTML =
 "₦" + Number(data.wallet || 0).toFixed(2);
@@ -193,11 +193,11 @@ window.location.href = "login.html";
 
 }
 
-function payNow(){
+document.getElementById("payBtn").addEventListener("click", function(){
 
 if(!currentUser){
 
-alert("Login required");
+alert("Please login");
 
 return;
 
@@ -233,7 +233,7 @@ alert("Payment Successful");
 const userRef =
 db.collection("users").doc(currentUser.uid);
 
-userRef.get().then((doc)=>{
+userRef.get().then(function(doc){
 
 let oldBalance = 0;
 
@@ -270,7 +270,7 @@ alert("Transaction Cancelled");
 
 handler.openIframe();
 
-}
+});
 
 </script>
 
