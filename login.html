@@ -7,7 +7,6 @@
 <title>FadaqData Login</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
@@ -52,9 +51,9 @@ border-radius:15px;
 font-size:22px;
 font-weight:bold;
 margin-top:20px;
-cursor:pointer;
 background:gold;
 color:black;
+cursor:pointer;
 }
 
 .link{
@@ -81,25 +80,29 @@ FadaqData
 
 <h1>Login</h1>
 
+<form id="loginForm">
+
 <input
 type="email"
 id="email"
-placeholder="Enter Email">
+placeholder="Enter Email"
+required>
 
 <input
 type="password"
 id="password"
-placeholder="Enter Password">
+placeholder="Enter Password"
+required>
 
-<button id="loginBtn">
+<button type="submit">
 Login
 </button>
 
+</form>
+
 <div class="link">
 Don't have account?
-<a href="register.html">
-Register
-</a>
+<a href="register.html">Register</a>
 </div>
 
 </div>
@@ -122,28 +125,33 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
+try {
+
 if(firebase.apps.length === 0){
+
 firebase.initializeApp(firebaseConfig);
+
+}
+
+} catch(err){
+
+console.log(err);
+
 }
 
 const auth = firebase.auth();
 
-document.getElementById("loginBtn")
-.addEventListener("click", function(){
+document
+.getElementById("loginForm")
+.addEventListener("submit", function(e){
 
-let email =
+e.preventDefault();
+
+const email =
 document.getElementById("email").value;
 
-let password =
+const password =
 document.getElementById("password").value;
-
-if(email === "" || password === ""){
-
-alert("Fill all fields");
-
-return;
-
-}
 
 auth.signInWithEmailAndPassword(email, password)
 
