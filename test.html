@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://checkout.paystack.com/v1/inline.js"></script>
+<title>Paystack Test</title>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<style>
+
+body{
+background:black;
+color:white;
+font-family:Arial;
+padding:40px;
+}
+
+button{
+padding:20px;
+font-size:25px;
+background:gold;
+border:none;
+border-radius:15px;
+font-weight:bold;
+width:100%;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<button onclick="pay()">PAY NOW</button>
+<h1>Paystack Test</h1>
+
+<button onclick="payWithPaystack()">
+PAY NOW
+</button>
 
 <script>
 
-function pay(){
+function payWithPaystack(){
 
-PaystackPop.setup({
+let handler = PaystackPop.setup({
 
-key:"pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
+key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
 
-email:"test@test.com",
+email: 'test@test.com',
 
-amount:500000,
+amount: 500000,
 
-currency:"NGN",
+currency: 'NGN',
 
-callback:function(response){
+callback: function(response){
 
-alert("SUCCESS");
+alert('SUCCESS');
+
+},
+
+onClose: function(){
+
+alert('WINDOW CLOSED');
 
 }
 
-}).openIframe();
+});
+
+handler.openIframe();
 
 }
 
