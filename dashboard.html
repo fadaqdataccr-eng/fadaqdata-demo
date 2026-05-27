@@ -50,20 +50,20 @@ gap:15px;
 
 .stat-box{
 flex:1;
-background:#c00000;
+background:#a00000;
 padding:20px;
-border-radius:25px;
+border-radius:20px;
 text-align:center;
 }
 
 .stat-title{
-font-size:20px;
+font-size:18px;
+margin-bottom:10px;
 font-weight:bold;
-margin-bottom:15px;
 }
 
 .stat-value{
-font-size:40px;
+font-size:35px;
 font-weight:bold;
 }
 
@@ -75,46 +75,47 @@ margin-bottom:20px;
 }
 
 .balance{
-font-size:80px;
+font-size:65px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
 word-break:break-word;
 }
 
-.yellow{
+.eye{
+cursor:pointer;
+font-size:30px;
+}
+
+button{
 width:100%;
-padding:22px;
+padding:20px;
 border:none;
-border-radius:20px;
-background:#f1f1f1;
-font-size:24px;
+border-radius:18px;
+font-size:22px;
 font-weight:bold;
-color:#7a0000;
 cursor:pointer;
 }
 
+.white{
+background:white;
+color:#8B0000;
+}
+
+.red{
+background:red;
+color:white;
+}
+
 .service-title{
-font-size:28px;
+font-size:26px;
 font-weight:bold;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .service-text{
 font-size:18px;
-margin-bottom:25px;
-}
-
-.red{
-width:100%;
-padding:22px;
-border:none;
-border-radius:20px;
-background:red;
-color:white;
-font-size:24px;
-font-weight:bold;
-cursor:pointer;
+margin-bottom:20px;
 }
 
 .bottom-nav{
@@ -133,16 +134,12 @@ flex:1;
 }
 
 .transaction-item{
+background:#a00000;
+padding:15px;
+border-radius:15px;
+margin-top:15px;
 font-size:16px;
-margin-bottom:15px;
 line-height:1.5;
-border-bottom:1px solid rgba(255,255,255,0.1);
-padding-bottom:10px;
-}
-
-.eye{
-cursor:pointer;
-font-size:30px;
 }
 
 </style>
@@ -157,31 +154,39 @@ FadaqData
 </div>
 
 <div class="card">
+
 <div class="welcome" id="welcomeText">
 Welcome,<br>User
 </div>
+
 </div>
 
 <div class="stats">
 
 <div class="stat-box">
+
 <div class="stat-title">
-Total Funding
+Wallet Balance
 </div>
 
-<div class="stat-value" id="totalFunding">
+<div class="stat-value"
+id="walletBalance">
 ₦0.00
 </div>
+
 </div>
 
 <div class="stat-box">
+
 <div class="stat-title">
 Transactions
 </div>
 
-<div class="stat-value" id="totalTransactions">
+<div class="stat-value"
+id="transactionCount">
 0
 </div>
+
 </div>
 
 </div>
@@ -189,15 +194,24 @@ Transactions
 <div class="card">
 
 <div class="wallet-title">
-Wallet Balance
-<span class="eye" onclick="toggleBalance()" id="eyeBtn">👁️</span>
+
+Wallet Overview
+
+<span class="eye"
+onclick="toggleBalance()"
+id="eyeBtn">
+👁️
+</span>
+
 </div>
 
-<div class="balance" id="walletBalance">
+<div class="balance"
+id="mainBalance">
 ₦0.00
 </div>
 
-<button class="yellow" onclick="fundWallet()">
+<button class="white"
+onclick="fundWallet()">
 💳 Fund Wallet
 </button>
 
@@ -210,11 +224,13 @@ Wallet Balance
 </div>
 
 <div class="service-text">
-Purchase affordable data bundles instantly
+Purchase affordable data bundles
+instantly
 </div>
 
-<button class="yellow" onclick="buyData()">
-Buy Now
+<button class="white"
+onclick="window.location.href='buydata.html'">
+Buy Data
 </button>
 
 </div>
@@ -222,15 +238,16 @@ Buy Now
 <div class="card">
 
 <div class="service-title">
-📞 Airtime
+📞 Buy Airtime
 </div>
 
 <div class="service-text">
 Recharge airtime instantly
 </div>
 
-<button class="yellow" onclick="buyAirtime()">
-Buy Now
+<button class="white"
+onclick="window.location.href='buyairtime.html'">
+Buy Airtime
 </button>
 
 </div>
@@ -238,7 +255,7 @@ Buy Now
 <div class="card">
 
 <div class="service-title">
-🧾 Transactions
+🧾 Recent Transactions
 </div>
 
 <div id="transactionHistory">
@@ -247,7 +264,8 @@ No transaction yet
 
 </div>
 
-<button class="red" onclick="logout()">
+<button class="red"
+onclick="logout()">
 Logout
 </button>
 
@@ -255,11 +273,11 @@ Logout
 
 <div class="bottom-nav">
 
-<button class="yellow nav-btn">
+<button class="white nav-btn">
 🏠 Home
 </button>
 
-<button class="yellow nav-btn"
+<button class="white nav-btn"
 onclick="window.location.href='profile.html'">
 👤 Profile
 </button>
@@ -268,23 +286,36 @@ onclick="window.location.href='profile.html'">
 
 <script>
 
-let email = localStorage.getItem("userEmail");
+if(localStorage.getItem("isLoggedIn") != "true"){
 
-if(email === null || email === ""){
-email = "User";
+window.location.href = "login.html";
+
+}
+
+let fullname =
+localStorage.getItem("userFullname");
+
+let email =
+localStorage.getItem("userEmail");
+
+if(fullname == null){
+
+fullname = "User";
+
 }
 
 document.getElementById("welcomeText").innerHTML =
-"Welcome,<br>" + email;
+"Welcome,<br>" + fullname;
 
 let wallet =
-parseFloat(localStorage.getItem("walletBalance")) || 0;
-
-let totalFunding =
-parseFloat(localStorage.getItem("totalFunding")) || 0;
+parseFloat(localStorage.getItem(
+"walletBalance"
+)) || 0;
 
 let transactions =
-JSON.parse(localStorage.getItem("transactions")) || [];
+JSON.parse(localStorage.getItem(
+"transactions"
+)) || [];
 
 let hidden = false;
 
@@ -292,19 +323,22 @@ updateDashboard();
 
 function updateDashboard(){
 
-document.getElementById("walletBalance").innerHTML =
-hidden ? "******" : "₦" + wallet.toFixed(2);
+let balanceText =
+hidden ? "******" :
+"₦" + wallet.toFixed(2);
 
-document.getElementById("totalFunding").innerHTML =
-"₦" + totalFunding.toFixed(2);
+document.getElementById(
+"walletBalance"
+).innerHTML = balanceText;
 
-document.getElementById("totalTransactions").innerHTML =
+document.getElementById(
+"mainBalance"
+).innerHTML = balanceText;
+
+document.getElementById(
+"transactionCount"
+).innerHTML =
 transactions.length;
-
-localStorage.setItem("walletBalance",wallet);
-localStorage.setItem("totalFunding",totalFunding);
-localStorage.setItem("transactions",
-JSON.stringify(transactions));
 
 showTransactions();
 
@@ -314,7 +348,9 @@ function toggleBalance(){
 
 hidden = !hidden;
 
-document.getElementById("eyeBtn").innerHTML =
+document.getElementById(
+"eyeBtn"
+).innerHTML =
 hidden ? "🙈" : "👁️";
 
 updateDashboard();
@@ -324,21 +360,28 @@ updateDashboard();
 function fundWallet(){
 
 let amount =
-prompt("Enter amount to fund");
+prompt("Enter amount");
 
-if(amount === null || amount === ""){
+if(amount == null || amount == ""){
 return;
 }
 
 amount = parseFloat(amount);
 
 if(isNaN(amount) || amount <= 0){
+
 alert("Invalid amount");
+
 return;
+
 }
 
 wallet += amount;
-totalFunding += amount;
+
+localStorage.setItem(
+"walletBalance",
+wallet
+);
 
 let date =
 new Date().toLocaleString();
@@ -346,9 +389,14 @@ new Date().toLocaleString();
 transactions.unshift(
 "💳 Wallet funded with ₦" +
 amount +
-" <br><small>" +
+"<br><small>" +
 date +
 "</small>"
+);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
 );
 
 updateDashboard();
@@ -357,108 +405,12 @@ alert("Wallet funded successfully");
 
 }
 
-function buyData(){
-
-let number =
-prompt("Enter phone number");
-
-if(number === null || number === ""){
-return;
-}
-
-let amount =
-prompt("Enter data amount");
-
-if(amount === null || amount === ""){
-return;
-}
-
-amount = parseFloat(amount);
-
-if(isNaN(amount) || amount <= 0){
-alert("Invalid amount");
-return;
-}
-
-if(wallet < amount){
-alert("Insufficient balance");
-return;
-}
-
-wallet -= amount;
-
-let date =
-new Date().toLocaleString();
-
-transactions.unshift(
-"📶 Bought data for " +
-number +
-" - ₦" +
-amount +
-"<br><small>" +
-date +
-"</small>"
-);
-
-updateDashboard();
-
-alert("Data purchase successful");
-
-}
-
-function buyAirtime(){
-
-let number =
-prompt("Enter phone number");
-
-if(number === null || number === ""){
-return;
-}
-
-let amount =
-prompt("Enter airtime amount");
-
-if(amount === null || amount === ""){
-return;
-}
-
-amount = parseFloat(amount);
-
-if(isNaN(amount) || amount <= 0){
-alert("Invalid amount");
-return;
-}
-
-if(wallet < amount){
-alert("Insufficient balance");
-return;
-}
-
-wallet -= amount;
-
-let date =
-new Date().toLocaleString();
-
-transactions.unshift(
-"📞 Airtime purchased for " +
-number +
-" - ₦" +
-amount +
-"<br><small>" +
-date +
-"</small>"
-);
-
-updateDashboard();
-
-alert("Airtime purchase successful");
-
-}
-
 function showTransactions(){
 
 let history =
-document.getElementById("transactionHistory");
+document.getElementById(
+"transactionHistory"
+);
 
 if(transactions.length === 0){
 
@@ -474,7 +426,7 @@ history.innerHTML = "";
 transactions.forEach(function(item){
 
 history.innerHTML +=
-'<div class="transaction-item">• ' +
+'<div class="transaction-item">' +
 item +
 '</div>';
 
@@ -484,9 +436,12 @@ item +
 
 function logout(){
 
-localStorage.removeItem("userEmail");
+localStorage.removeItem(
+"isLoggedIn"
+);
 
-window.location.href = "index.html";
+window.location.href =
+"login.html";
 
 }
 
