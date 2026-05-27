@@ -6,104 +6,142 @@
 
 <title>FadaqData Dashboard</title>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
 
-body{
+*{
 margin:0;
-padding:20px;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
+}
+
+body{
 background:#4b0000;
 color:white;
 padding-bottom:120px;
 }
 
-.logo{
+.header{
+padding:30px 20px;
 text-align:center;
-font-size:55px;
+font-size:45px;
 font-weight:bold;
-margin-top:20px;
-margin-bottom:30px;
+}
+
+.container{
+padding:15px;
+}
+
+.welcome{
+background:#8b1300;
+padding:25px;
+border-radius:20px;
+font-size:20px;
+font-weight:bold;
+margin-bottom:20px;
+word-break:break-word;
+}
+
+.stats{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+}
+
+.stat-card{
+flex:1;
+background:#8b1300;
+padding:25px 15px;
+border-radius:20px;
+text-align:center;
+}
+
+.stat-card h3{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.stat-card p{
+font-size:45px;
+font-weight:bold;
+}
+
+.wallet{
+background:#8b1300;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+text-align:center;
+}
+
+.wallet h2{
+font-size:28px;
+margin-bottom:20px;
+}
+
+.balance{
+font-size:65px;
+font-weight:bold;
+margin-bottom:25px;
+}
+
+.input{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:20px;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.yellow{
+background:gold;
+color:black;
+}
+
+.red{
+background:red;
+color:white;
 }
 
 .card{
 background:#8b1300;
 padding:25px;
-border-radius:25px;
-margin-top:25px;
-}
-
-.top-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px;
-}
-
-.small-card{
-background:#8b1300;
-padding:20px;
 border-radius:20px;
-text-align:center;
+margin-bottom:20px;
 }
 
-.small-card h2{
-margin:0;
-font-size:22px;
+.card h2{
+font-size:30px;
+margin-bottom:10px;
 }
 
-.small-card h1{
-font-size:60px;
-margin-top:20px;
+.card p{
+font-size:18px;
+margin-bottom:20px;
 }
 
-.balance-title{
-font-size:28px;
-font-weight:bold;
-margin-top:30px;
+.transaction-box{
+background:#8b1300;
+padding:25px;
+border-radius:20px;
 }
 
-.balance{
-font-size:75px;
-font-weight:bold;
-text-align:center;
-margin-top:25px;
-}
-
-input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:22px;
-margin-top:20px;
-box-sizing:border-box;
-}
-
-button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:22px;
-font-weight:bold;
-margin-top:20px;
-cursor:pointer;
-}
-
-.yellow-btn{
-background:gold;
-color:black;
-}
-
-.red-btn{
-background:red;
-color:white;
+.transaction-box ul{
+padding-left:20px;
+font-size:18px;
 }
 
 .bottom-nav{
@@ -111,26 +149,21 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:#4b0000;
+background:#3a0000;
+padding:15px;
 display:flex;
-padding:10px;
 gap:10px;
 }
 
 .nav-btn{
 flex:1;
 background:gold;
-color:black;
-padding:18px;
+padding:15px;
+border-radius:15px;
 text-align:center;
-border-radius:18px;
-font-size:24px;
-font-weight:bold;
-}
-
-.history{
-margin-top:30px;
 font-size:22px;
+font-weight:bold;
+color:black;
 }
 
 </style>
@@ -139,64 +172,59 @@ font-size:22px;
 
 <body>
 
-<div class="logo">
+<div class="header">
 FadaqData
 </div>
 
-<div class="card">
-<h1 id="welcome">
+<div class="container">
+
+<div class="welcome" id="welcomeUser">
 Welcome
-</h1>
 </div>
 
-<div class="top-grid">
+<div class="stats">
 
-<div class="small-card">
-<h2>Total Funding</h2>
-<h1 id="funding">₦0</h1>
+<div class="stat-card">
+<h3>Total Funding</h3>
+<p>₦0</p>
 </div>
 
-<div class="small-card">
-<h2>Transactions</h2>
-<h1 id="transactions">0</h1>
+<div class="stat-card">
+<h3>Transactions</h3>
+<p>0</p>
 </div>
 
 </div>
 
-<div class="balance-title">
-Wallet Balance
-</div>
+<div class="wallet">
+
+<h2>Wallet Balance</h2>
 
 <div class="balance" id="balance">
 ₦0.00
 </div>
 
-<div class="card">
-
-<h1>Fund Wallet</h1>
-
 <input
 type="number"
 id="amount"
+class="input"
 placeholder="Enter Amount">
 
 <button
-class="yellow-btn"
-onclick="payNow()">
-
+class="btn yellow"
+onclick="payWithPaystack()">
 Proceed Payment
-
 </button>
 
 </div>
 
 <div class="card">
 
-<h1>Buy Data</h1>
+<h2>Buy Data</h2>
 
-<p>Purchase affordable data instantly</p>
+<p>Purchase affordable data bundles instantly</p>
 
-<button class="yellow-btn">
+<button class="btn yellow">
 Buy Now
 </button>
 
@@ -204,42 +232,34 @@ Buy Now
 
 <div class="card">
 
-<h1>Airtime</h1>
+<h2>Airtime</h2>
 
-<p>Recharge instantly</p>
+<p>Recharge airtime easily and fast</p>
 
-<button class="yellow-btn">
+<button class="btn yellow">
 Buy Now
 </button>
 
 </div>
 
-<div class="card">
+<div class="transaction-box">
 
-<h1>Transactions</h1>
+<h2>Transactions</h2>
 
-<p>Recent activities</p>
-
-<button class="yellow-btn">
-View
-</button>
+<ul>
+<li>No transaction yet</li>
+</ul>
 
 </div>
 
-<div class="card">
+<br>
 
 <button
-class="red-btn"
+class="btn red"
 onclick="logout()">
-
 Logout
-
 </button>
 
-</div>
-
-<div class="history">
-• No transaction yet
 </div>
 
 <div class="bottom-nav">
@@ -256,65 +276,28 @@ Logout
 
 <script>
 
-const firebaseConfig = {
+let email =
+localStorage.getItem("userEmail");
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+document.getElementById("welcomeUser")
+.innerHTML =
+"Welcome, <br>" + email;
 
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
+let balance =
+localStorage.getItem("walletBalance") || 0;
 
-projectId: "fadaqdata-3bd14",
+document.getElementById("balance")
+.innerHTML =
+"₦" + Number(balance).toFixed(2);
 
-storageBucket: "fadaqdata-3bd14.firebasestorage.app",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-if (!firebase.apps.length) {
-firebase.initializeApp(firebaseConfig);
-}
-
-const auth = firebase.auth();
-
-let walletBalance = 0;
-let totalFunding = 0;
-let totalTransactions = 0;
-
-auth.onAuthStateChanged(function(user){
-
-if(user){
-
-document.getElementById("welcome").innerHTML =
-"Welcome, " + user.email;
-
-}else{
-
-window.location.href = "login.html";
-
-}
-
-});
-
-function payNow(){
+function payWithPaystack(){
 
 let amount =
 document.getElementById("amount").value;
 
-if(amount === ""){
+if(amount == ""){
 
-alert("Enter amount");
-
-return;
-
-}
-
-let user = auth.currentUser;
-
-if(!user){
-
-alert("User not logged in");
+alert("Enter Amount");
 
 return;
 
@@ -322,32 +305,30 @@ return;
 
 let handler = PaystackPop.setup({
 
-key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
+key: "pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8",
 
-email: user.email,
+email: email,
 
 amount: amount * 100,
 
-currency: 'NGN',
+currency: "NGN",
 
 callback: function(response){
 
-walletBalance += Number(amount);
+let oldBalance =
+Number(localStorage.getItem("walletBalance")) || 0;
 
-totalFunding += Number(amount);
+let newBalance =
+oldBalance + Number(amount);
 
-totalTransactions += 1;
+localStorage.setItem(
+"walletBalance",
+newBalance
+);
 
-document.getElementById("balance").innerHTML =
-"₦" + walletBalance.toFixed(2);
-
-document.getElementById("funding").innerHTML =
-"₦" + totalFunding;
-
-document.getElementById("transactions").innerHTML =
-totalTransactions;
-
-document.getElementById("amount").value = "";
+document.getElementById("balance")
+.innerHTML =
+"₦" + newBalance.toFixed(2);
 
 alert("Payment Successful");
 
@@ -367,13 +348,9 @@ handler.openIframe();
 
 function logout(){
 
-auth.signOut()
-
-.then(function(){
+localStorage.removeItem("userEmail");
 
 window.location.href = "login.html";
-
-});
 
 }
 
