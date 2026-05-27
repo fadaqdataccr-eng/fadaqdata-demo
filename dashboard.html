@@ -85,7 +85,7 @@ word-break:break-word;
 .eye{
 cursor:pointer;
 margin-left:10px;
-font-size:20px;
+font-size:22px;
 }
 
 button{
@@ -96,6 +96,11 @@ border-radius:18px;
 font-size:20px;
 font-weight:bold;
 cursor:pointer;
+transition:0.3s;
+}
+
+button:active{
+transform:scale(0.97);
 }
 
 .white{
@@ -149,10 +154,45 @@ font-size:20px;
 font-weight:bold;
 }
 
+.toast{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+background:white;
+color:#7a0000;
+padding:15px 25px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+display:none;
+z-index:999;
+animation:slideDown 0.4s ease;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+@keyframes slideDown{
+
+from{
+opacity:0;
+transform:translate(-50%,-30px);
+}
+
+to{
+opacity:1;
+transform:translate(-50%,0);
+}
+
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="toast" id="toast">
+Success
+</div>
 
 <div class="container">
 
@@ -174,7 +214,7 @@ Total Funding
 </div>
 
 <div class="stat-value" id="totalFunding">
-₦0
+₦0.00
 </div>
 </div>
 
@@ -198,14 +238,16 @@ Transactions
 
 Wallet Balance
 
-<span class="eye" id="eyeBtn"
+<span class="eye"
+id="eyeBtn"
 onclick="toggleBalance()">
 👁️
 </span>
 
 </div>
 
-<div class="wallet-balance" id="walletBalance">
+<div class="wallet-balance"
+id="walletBalance">
 ₦0.00
 </div>
 
@@ -359,6 +401,23 @@ balanceVisible = true;
 
 }
 
+function showToast(message){
+
+let toast =
+document.getElementById("toast");
+
+toast.innerHTML = message;
+
+toast.style.display = "block";
+
+setTimeout(function(){
+
+toast.style.display = "none";
+
+},3000);
+
+}
+
 function fundWallet(){
 
 let amount =
@@ -372,7 +431,7 @@ amount = parseFloat(amount);
 
 if(isNaN(amount) || amount <= 0){
 
-alert("Enter valid amount");
+showToast("Enter valid amount");
 
 return;
 
@@ -394,9 +453,13 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-alert("Wallet funded successfully");
+showToast("Wallet funded successfully");
+
+setTimeout(function(){
 
 location.reload();
+
+},1200);
 
 }
 
