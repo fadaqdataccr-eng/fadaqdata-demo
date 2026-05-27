@@ -26,7 +26,7 @@ padding-bottom:120px;
 .header{
 padding:30px 20px;
 text-align:center;
-font-size:45px;
+font-size:50px;
 font-weight:bold;
 }
 
@@ -64,7 +64,7 @@ margin-bottom:10px;
 }
 
 .stat-card p{
-font-size:45px;
+font-size:50px;
 font-weight:bold;
 }
 
@@ -77,12 +77,12 @@ text-align:center;
 }
 
 .wallet h2{
-font-size:28px;
+font-size:30px;
 margin-bottom:20px;
 }
 
 .balance{
-font-size:65px;
+font-size:70px;
 font-weight:bold;
 margin-bottom:25px;
 }
@@ -137,6 +137,7 @@ margin-bottom:20px;
 background:#8b1300;
 padding:25px;
 border-radius:20px;
+margin-bottom:20px;
 }
 
 .transaction-box ul{
@@ -204,6 +205,16 @@ Welcome
 ₦0.00
 </div>
 
+<button
+class="btn yellow"
+onclick="openFunding()">
+Fund Wallet
+</button>
+
+<div
+id="fundBox"
+style="display:none; margin-top:20px;">
+
 <input
 type="number"
 id="amount"
@@ -215,6 +226,8 @@ class="btn yellow"
 onclick="payWithPaystack()">
 Proceed Payment
 </button>
+
+</div>
 
 </div>
 
@@ -234,7 +247,7 @@ Buy Now
 
 <h2>Airtime</h2>
 
-<p>Recharge airtime easily and fast</p>
+<p>Recharge airtime instantly</p>
 
 <button class="btn yellow">
 Buy Now
@@ -251,8 +264,6 @@ Buy Now
 </ul>
 
 </div>
-
-<br>
 
 <button
 class="btn red"
@@ -279,9 +290,15 @@ Logout
 let email =
 localStorage.getItem("userEmail");
 
+if(email == null){
+
+email = "User";
+
+}
+
 document.getElementById("welcomeUser")
 .innerHTML =
-"Welcome, <br>" + email;
+"Welcome,<br>" + email;
 
 let balance =
 localStorage.getItem("walletBalance") || 0;
@@ -289,6 +306,23 @@ localStorage.getItem("walletBalance") || 0;
 document.getElementById("balance")
 .innerHTML =
 "₦" + Number(balance).toFixed(2);
+
+function openFunding(){
+
+let box =
+document.getElementById("fundBox");
+
+if(box.style.display === "none"){
+
+box.style.display = "block";
+
+}else{
+
+box.style.display = "none";
+
+}
+
+}
 
 function payWithPaystack(){
 
@@ -329,6 +363,10 @@ newBalance
 document.getElementById("balance")
 .innerHTML =
 "₦" + newBalance.toFixed(2);
+
+document.getElementById("amount").value = "";
+
+document.getElementById("fundBox").style.display = "none";
 
 alert("Payment Successful");
 
