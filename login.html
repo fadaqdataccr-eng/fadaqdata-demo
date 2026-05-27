@@ -24,12 +24,12 @@ color:white;
 text-align:center;
 font-size:55px;
 font-weight:bold;
-margin-top:30px;
+margin-top:40px;
 }
 
 .card{
 background:#8b1300;
-padding:25px;
+padding:30px;
 border-radius:20px;
 margin-top:40px;
 }
@@ -39,8 +39,8 @@ width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
-font-size:20px;
-margin-top:15px;
+font-size:22px;
+margin-top:20px;
 box-sizing:border-box;
 }
 
@@ -49,21 +49,22 @@ width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 margin-top:20px;
-background:gold;
 cursor:pointer;
+background:gold;
+color:black;
+}
+
+.link{
+text-align:center;
+margin-top:20px;
+font-size:18px;
 }
 
 a{
-color:gold;
-text-decoration:none;
-}
-
-p{
-text-align:center;
-margin-top:20px;
+color:white;
 }
 
 </style>
@@ -78,7 +79,7 @@ FadaqData
 
 <div class="card">
 
-<h2>Login</h2>
+<h1>Login</h1>
 
 <input
 type="email"
@@ -94,12 +95,12 @@ placeholder="Enter Password">
 Login
 </button>
 
-<p>
+<div class="link">
 Don't have account?
 <a href="register.html">
 Register
 </a>
-</p>
+</div>
 
 </div>
 
@@ -133,25 +134,11 @@ document.getElementById("email").value;
 let password =
 document.getElementById("password").value;
 
-if(email == "" || password == ""){
-
-alert("Fill all fields");
-
-return;
-
-}
-
-auth.signInWithEmailAndPassword(email,password)
+auth.signInWithEmailAndPassword(email, password)
 
 .then(function(){
 
-alert("Login Successful");
-
-setTimeout(function(){
-
 window.location.href = "dashboard.html";
-
-},1000);
 
 })
 
