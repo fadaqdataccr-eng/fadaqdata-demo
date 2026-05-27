@@ -125,12 +125,6 @@ opacity:0.9;
 margin-bottom:20px;
 }
 
-.transaction-item{
-font-size:17px;
-margin-top:12px;
-word-break:break-word;
-}
-
 .bottom-nav{
 position:fixed;
 bottom:0;
@@ -167,8 +161,6 @@ font-size:18px;
 font-weight:bold;
 display:none;
 z-index:999;
-animation:slideDown 0.4s ease;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .loader-box{
@@ -247,6 +239,44 @@ gap:10px;
 flex:1;
 }
 
+.transaction-card{
+background:#920000;
+padding:18px;
+border-radius:18px;
+margin-top:15px;
+}
+
+.transaction-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.transaction-type{
+font-size:18px;
+font-weight:bold;
+}
+
+.transaction-status{
+background:#00b300;
+padding:6px 12px;
+border-radius:20px;
+font-size:14px;
+font-weight:bold;
+}
+
+.transaction-amount{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.transaction-date{
+font-size:14px;
+opacity:0.8;
+}
+
 @keyframes spin{
 
 0%{
@@ -255,20 +285,6 @@ transform:rotate(0deg);
 
 100%{
 transform:rotate(360deg);
-}
-
-}
-
-@keyframes slideDown{
-
-from{
-opacity:0;
-transform:translate(-50%,-30px);
-}
-
-to{
-opacity:1;
-transform:translate(-50%,0);
 }
 
 }
@@ -479,26 +495,57 @@ document.getElementById("totalFunding").innerHTML =
 document.getElementById("transactionCount").innerHTML =
 transactions.length;
 
-let transactionHTML = "";
+function renderTransactions(){
+
+let html = "";
 
 if(transactions.length === 0){
 
-transactionHTML =
-"<div class='transaction-item'>• No transaction yet</div>";
+html =
+"<div class='transaction-card'>No transaction yet</div>";
 
 }else{
 
 transactions.reverse().forEach(function(item){
 
-transactionHTML +=
-"<div class='transaction-item'>• " + item + "</div>";
+html += `
+
+<div class="transaction-card">
+
+<div class="transaction-top">
+
+<div class="transaction-type">
+💳 Wallet Funding
+</div>
+
+<div class="transaction-status">
+Success
+</div>
+
+</div>
+
+<div class="transaction-amount">
+₦${item.amount}
+</div>
+
+<div class="transaction-date">
+${item.date}
+</div>
+
+</div>
+
+`;
 
 });
 
 }
 
 document.getElementById("transactionList").innerHTML =
-transactionHTML;
+html;
+
+}
+
+renderTransactions();
 
 let balanceVisible = true;
 
@@ -603,9 +650,10 @@ localStorage.setItem(
 wallet
 );
 
-transactions.push(
-"Wallet funded successfully with ₦" + amount
-);
+transactions.push({
+amount: amount,
+date: new Date().toLocaleString()
+});
 
 localStorage.setItem(
 "transactions",
