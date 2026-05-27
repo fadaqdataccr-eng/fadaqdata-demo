@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>FadaqData Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,6 +64,12 @@ font-weight:bold;
 margin:0;
 }
 
+.balance-title{
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
 .balance{
 text-align:center;
 font-size:80px;
@@ -119,6 +126,7 @@ flex:1;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -128,9 +136,11 @@ FadaqData
 </div>
 
 <div class="card">
+
 <div class="welcome" id="welcomeText">
 Welcome, User
 </div>
+
 </div>
 
 <div class="stats">
@@ -149,9 +159,9 @@ Welcome, User
 
 <div class="card">
 
-<h1 style="text-align:center;">
+<div class="balance-title">
 Wallet Balance
-</h1>
+</div>
 
 <div class="balance" id="walletBalance">
 ₦0.00
@@ -257,7 +267,7 @@ function fundWallet(){
 let amount =
 prompt("Enter Amount");
 
-if(amount === null || amount === ""){
+if(amount == null || amount == ""){
 
 return;
 
@@ -273,23 +283,25 @@ return;
 
 }
 
-let handler = PaystackPop.setup({
+var handler = PaystackPop.setup({
 
 key: 'pk_test_1b3f9a355adc3a08d52a861a5577200edad434b8',
 
-email: email,
+email: localStorage.getItem("userEmail") || "test@gmail.com",
 
 amount: amount * 100,
 
-currency: 'NGN',
+currency: "NGN",
+
+ref: "FADAQ" + Math.floor(Math.random() * 1000000000),
 
 callback: function(response){
 
-let currentBalance =
+let oldBalance =
 Number(localStorage.getItem("walletBalance")) || 0;
 
 let newBalance =
-currentBalance + amount;
+oldBalance + amount;
 
 localStorage.setItem(
 "walletBalance",
