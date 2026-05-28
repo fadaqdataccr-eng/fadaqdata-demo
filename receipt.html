@@ -1,51 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
-<title>Transaction Receipt</title>
+<meta charset="UTF-8">
 
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
+
+<title>Transaction Receipt</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
+padding:0;
 background:#8B0000;
-font-family:Arial;
+font-family:Arial,sans-serif;
 color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+width:90%;
+max-width:450px;
+}
+
+.card{
+background:white;
+color:#7a0000;
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
 
 .logo{
-text-align:center;
-font-size:50px;
+font-size:40px;
 font-weight:bold;
-margin-top:30px;
-margin-bottom:30px;
+text-align:center;
+margin-bottom:20px;
 }
 
-.receipt-card{
-background:white;
-color:#8B0000;
-padding:25px;
-border-radius:25px;
-max-width:500px;
-margin:auto;
-}
-
-.receipt-title{
-font-size:35px;
+.title{
+font-size:34px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
 }
 
-.receipt-item{
-font-size:20px;
+.item{
+font-size:21px;
 margin-bottom:20px;
 line-height:1.5;
 word-break:break-word;
+}
+
+.label{
+font-weight:bold;
 }
 
 .success{
@@ -57,21 +70,13 @@ font-weight:bold;
 width:100%;
 padding:18px;
 border:none;
-border-radius:15px;
+border-radius:18px;
+background:#7a0000;
+color:white;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
 margin-top:20px;
-}
-
-.red{
-background:#8B0000;
-color:white;
-}
-
-.white{
-background:white;
-color:#8B0000;
 }
 
 </style>
@@ -80,40 +85,89 @@ color:#8B0000;
 
 <body>
 
+<script>
+
+if(localStorage.getItem("loggedIn") !== "true"){
+
+window.location.href =
+"login.html";
+
+}
+
+</script>
+
+<div class="container">
+
+<div class="card">
+
 <div class="logo">
 FadaqData
 </div>
 
-<div class="receipt-card">
-
-<div class="receipt-title">
-🧾 Transaction Receipt
+<div class="title">
+✅ Transaction Receipt
 </div>
 
-<div class="receipt-item"
-id="receiptText">
+<div class="item">
+<span class="label">
+Description:
+</span>
+
+<span id="receiptText">
+-
+</span>
 </div>
 
-<div class="receipt-item"
-id="receiptDate">
+<div class="item">
+<span class="label">
+Amount:
+</span>
+
+<span id="receiptAmount">
+-
+</span>
 </div>
 
-<div class="receipt-item"
-id="receiptAmount">
+<div class="item">
+<span class="label">
+Type:
+</span>
+
+<span id="receiptType">
+-
+</span>
 </div>
 
-<div class="receipt-item"
-id="receiptID">
+<div class="item">
+<span class="label">
+Transaction ID:
+</span>
+
+<span id="receiptID">
+-
+</span>
 </div>
 
-<div class="receipt-item success">
+<div class="item">
+<span class="label">
+Date:
+</span>
+
+<span id="receiptDate">
+-
+</span>
+</div>
+
+<div class="item success">
 Status: Successful
 </div>
 
-<button class="btn red"
+<button class="btn"
 onclick="goBack()">
-⬅ Back To Dashboard
+Done
 </button>
+
+</div>
 
 </div>
 
@@ -136,37 +190,30 @@ window.location.href =
 document.getElementById(
 "receiptText"
 ).innerHTML =
-"<b>Transaction:</b><br>" +
-(transaction.text || "Transaction");
-
-document.getElementById(
-"receiptDate"
-).innerHTML =
-"<b>Date:</b><br>" +
-(transaction.date || "No Date");
+transaction.text || "-";
 
 document.getElementById(
 "receiptAmount"
 ).innerHTML =
-"<b>Amount:</b><br>" +
+"₦" +
 (
-transaction.amount
-? "₦" + transaction.amount
-: "Not Available"
+transaction.amount || 0
 );
+
+document.getElementById(
+"receiptType"
+).innerHTML =
+transaction.type || "-";
 
 document.getElementById(
 "receiptID"
 ).innerHTML =
-"<b>Transaction ID:</b><br>" +
-(
-transaction.id
-||
-"FD" +
-Math.floor(
-Math.random()*100000000
-)
-);
+transaction.id || "-";
+
+document.getElementById(
+"receiptDate"
+).innerHTML =
+transaction.date || "-";
 
 function goBack(){
 
