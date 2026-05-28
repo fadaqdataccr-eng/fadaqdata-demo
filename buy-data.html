@@ -28,6 +28,13 @@ h2{
 text-align:center;
 }
 
+.balance{
+text-align:center;
+font-size:35px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
 select,input,button{
 width:100%;
 padding:15px;
@@ -40,6 +47,7 @@ box-sizing:border-box;
 
 button{
 font-weight:bold;
+cursor:pointer;
 }
 
 </style>
@@ -49,6 +57,13 @@ font-weight:bold;
 <body>
 
 <div class="card">
+
+<div
+class="balance"
+id="balance"
+>
+₦100
+</div>
 
 <h2>Buy Data</h2>
 
@@ -82,6 +97,35 @@ Buy Data
 
 <script>
 
+// LOGIN CHECK
+if(localStorage.getItem("loggedIn") !== "true"){
+
+window.location.href =
+"login.html";
+
+}
+
+// DEFAULT BALANCE
+if(!localStorage.getItem("walletBalance")){
+
+localStorage.setItem(
+"walletBalance",
+"100"
+);
+
+}
+
+function loadBalance(){
+
+document.getElementById("balance")
+.innerHTML =
+"₦" +
+localStorage.getItem("walletBalance");
+
+}
+
+loadBalance();
+
 async function buyData(){
 
 const network =
@@ -101,6 +145,31 @@ return;
 
 }
 
+let wallet =
+parseInt(
+localStorage.getItem("walletBalance")
+);
+
+const amount = 100;
+
+// CHECK BALANCE
+if(wallet < amount){
+
+alert("Insufficient balance");
+
+return;
+
+}
+
+// DEDUCT
+wallet -= amount;
+
+localStorage.setItem(
+"walletBalance",
+wallet
+);
+
+// SAVE TRANSACTION
 const transactions =
 JSON.parse(
 localStorage.getItem("transactions")
@@ -114,7 +183,7 @@ phone:phone,
 
 plan:"500MB SME",
 
-amount:"100",
+amount:amount,
 
 date:new Date().toLocaleString()
 
@@ -124,6 +193,8 @@ localStorage.setItem(
 "transactions",
 JSON.stringify(transactions)
 );
+
+loadBalance();
 
 alert("Purchase Successful");
 
