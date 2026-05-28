@@ -757,34 +757,248 @@ font-size:18px;
 
 <div class="container">
 
+<div class="tab// FUND WALLET PAGE
+app.get("/fund-wallet", (req, res) => {
+
+res.send(`
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fund Wallet</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+min-height:100vh;
+}
+
+.top{
+background:linear-gradient(to right,#2b0000,#7a0000);
+padding:22px;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+.back{
+font-size:32px;
+cursor:pointer;
+}
+
+.title{
+font-size:28px;
+font-weight:bold;
+}
+
+.help{
+font-size:28px;
+}
+
+.container{
+width:92%;
+max-width:500px;
+margin:auto;
+margin-top:-10px;
+background:white;
+border-radius:30px;
+padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.tabs{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #ddd;
+margin-bottom:25px;
+}
+
+.tab{
+width:50%;
+text-align:center;
+padding-bottom:15px;
+font-weight:bold;
+font-size:17px;
+}
+
+.active{
+color:#7a0000;
+border-bottom:3px solid #7a0000;
+}
+
+.bank-box{
+background:#fff8ef;
+padding:20px;
+border-radius:18px;
+position:relative;
+margin-bottom:20px;
+}
+
+.label{
+font-size:16px;
+color:#555;
+margin-top:12px;
+}
+
+.value{
+font-size:20px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.copy{
+position:absolute;
+right:18px;
+bottom:20px;
+font-size:28px;
+cursor:pointer;
+color:#7a0000;
+}
+
+.input-box{
+background:white;
+border:2px solid #eee;
+border-radius:18px;
+padding:18px;
+margin-top:18px;
+}
+
+.input-title{
+font-size:18px;
+color:#555;
+margin-bottom:10px;
+}
+
+.input{
+width:100%;
+border:none;
+outline:none;
+font-size:18px;
+background:none;
+}
+
+.btn{
+width:100%;
+margin-top:25px;
+padding:20px;
+border:none;
+border-radius:18px;
+background:linear-gradient(to right,#2b0000,#7a0000);
+color:white;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.secure{
+margin-top:25px;
+text-align:center;
+color:#666;
+font-size:17px;
+padding-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="back" onclick="window.location.href='/dashboard'">
+←
+</div>
+
+<div class="title">
+Fund Wallet
+</div>
+
+<div class="help">
+❔
+</div>
+
+</div>
+
+<div class="container">
+
 <div class="tabs">
 
-<div class="tab">
+<div class="tab active">
 Automated Funding
 </div>
 
-<div class="tab" style="border-bottom:none;color:gray;">
+<div class="tab">
 Manual Funding
 </div>
 
 </div>
 
-<div class="card">
+<div class="bank-box">
 
-<div class="label">Bank Name</div>
-<div class="value">Providus Bank</div>
+<div class="label">
+Bank Name
+</div>
 
-<div class="label">Account Name</div>
-<div class="value">FadaqData - John O.</div>
+<div class="value">
+Providus Bank
+</div>
 
-<div class="label">Account Number</div>
-<div class="value">1234567890</div>
+<div class="label">
+Account Name
+</div>
 
+<div class="value">
+FadaqData - John O.
+</div>
+
+<div class="label">
+Account Number
+</div>
+
+<div class="value">
+1234567890
+</div>
+
+<div class="copy">
+📋
+</div>
+
+</div>
+
+<div class="input-box">
+
+<div class="input-title">
+₦ Enter amount
 </div>
 
 <input type="number" class="input" placeholder="Enter amount">
 
-<input type="text" class="input" placeholder="Reference ID / Description (Optional)">
+</div>
+
+<div class="input-box">
+
+<div class="input-title">
+Reference ID / Description (Optional)
+</div>
+
+<input type="text" class="input" placeholder="Enter reference or description">
+
+</div>
 
 <button class="btn">
 Proceed to Pay
@@ -798,7 +1012,9 @@ Proceed to Pay
 
 </body>
 </html>
+
 `);
+
 });
 
 app.listen(PORT, () => {
