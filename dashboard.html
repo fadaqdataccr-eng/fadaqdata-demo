@@ -7,99 +7,114 @@
 <title>Dashboard</title>
 
 <style>
-
 body{
-margin:0;
-padding:0;
-background:#990000;
-font-family:Arial;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-padding:20px;
-padding-bottom:120px;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding:40px 0 120px;
 }
 
 .logo{
-text-align:center;
-font-size:70px;
-font-weight:bold;
-margin-top:40px;
+    font-size:55px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:40px;
 }
 
 .card{
-background:#cc0000;
-padding:25px;
-border-radius:25px;
-margin-top:30px;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+    background:#e60000;
+    padding:25px;
+    border-radius:25px;
+    margin-bottom:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.welcome{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:20px;
 }
 
 .balance-box{
-background:#bb0000;
-padding:25px;
-border-radius:20px;
-margin-top:20px;
-text-align:center;
+    background:#d10000;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.balance-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:20px;
 }
 
 .balance{
-font-size:65px;
-font-weight:bold;
-margin-top:20px;
-}
-
-.eye{
-font-size:30px;
-cursor:pointer;
+    font-size:60px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
 .btn{
-display:block;
-width:100%;
-padding:20px;
-border:none;
-border-radius:18px;
-margin-top:25px;
-font-size:28px;
-font-weight:bold;
-background:white;
-color:#660000;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.title{
-font-size:40px;
-font-weight:bold;
+.service-card{
+    background:#e60000;
+    padding:30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-.desc{
-font-size:24px;
-margin-top:15px;
+.service-title{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.service-desc{
+    font-size:18px;
+    margin-bottom:25px;
 }
 
 .bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#990000;
-display:flex;
-justify-content:space-around;
-padding:15px 0;
+    position:fixed;
+    bottom:20px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
 }
 
 .nav-btn{
-background:white;
-padding:15px 35px;
-border-radius:15px;
-font-weight:bold;
-color:#660000;
-text-decoration:none;
-font-size:25px;
+    background:white;
+    color:#6b0000;
+    padding:18px 35px;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
+.eye{
+    cursor:pointer;
+}
 </style>
 </head>
 
@@ -107,173 +122,153 @@ font-size:25px;
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">FadaqData</div>
 
-<div class="card">
+    <div class="card">
 
-<h2>
-Welcome,
-<span id="username"></span>
-</h2>
+        <div class="welcome" id="userName">
+            Welcome
+        </div>
 
-<div class="balance-box">
+        <div class="balance-box">
 
-<h3>
-Wallet Balance
-<span class="eye" onclick="toggleBalance()">
-👁️
-</span>
-</h3>
+            <div class="balance-title">
+                Wallet Balance
+                <span class="eye" onclick="toggleBalance()">👁️</span>
+            </div>
 
-<div class="balance" id="wallet">
-₦0
-</div>
+            <div class="balance" id="walletBalance">
+                ₦0
+            </div>
 
-<button
-class="btn"
-onclick="window.location.href='fund-wallet.html'"
->
-💳 Fund Wallet
-</button>
+            <button class="btn"
+                onclick="window.location.href='fund-wallet.html'">
+                💳 Fund Wallet
+            </button>
 
-</div>
+        </div>
+    </div>
 
-</div>
+    <div class="service-card">
 
-<div class="card">
+        <div class="service-title">
+            📶 Buy Data
+        </div>
 
-<div class="title">
-📶 Buy Data
-</div>
+        <div class="service-desc">
+            Purchase affordable data bundles instantly
+        </div>
 
-<div class="desc">
-Purchase affordable data bundles instantly
-</div>
+        <button class="btn"
+            onclick="window.location.href='buy-data.html'">
+            Buy Now
+        </button>
 
-<button
-class="btn"
-onclick="window.location.href='buy-data.html'"
->
-Buy Now
-</button>
+    </div>
 
-</div>
+    <div class="service-card">
 
-<div class="card">
+        <div class="service-title">
+            📞 Buy Airtime
+        </div>
 
-<div class="title">
-📞 Buy Airtime
-</div>
+        <div class="service-desc">
+            Recharge airtime instantly
+        </div>
 
-<div class="desc">
-Recharge airtime instantly
-</div>
+        <button class="btn"
+            onclick="window.location.href='buy-airtime.html'">
+            Buy Airtime
+        </button>
 
-<button
-class="btn"
-onclick="window.location.href='buy-airtime.html'"
->
-Buy Airtime
-</button>
-
-</div>
+    </div>
 
 </div>
 
 <div class="bottom-nav">
 
-<a href="dashboard.html" class="nav-btn">
-🏠 Home
-</a>
+    <a href="dashboard.html" class="nav-btn">
+        🏠 Home
+    </a>
 
-<a href="profile.html" class="nav-btn">
-👤 Profile
-</a>
+    <a href="profile.html" class="nav-btn">
+        👤 Profile
+    </a>
 
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script>
 
-const firebaseConfig = {
+/* CHECK LOGIN */
+const currentUser =
+JSON.parse(localStorage.getItem("currentUser"));
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
-
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
-
-projectId: "fadaqdata-3bd14",
-
-storageBucket: "fadaqdata-3bd14.firebasestorage.app",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-const user =
-JSON.parse(localStorage.getItem("user"));
-
-if(!user){
-
-window.location.href = "login.html";
-
+if(!currentUser){
+    window.location.href = "login.html";
 }
 
-document.getElementById("username").innerHTML =
-user.name || "User";
+/* GET USERS */
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
 
+/* FIND USER */
+let userIndex = users.findIndex(
+    user => user.email === currentUser.email
+);
+
+if(userIndex === -1){
+    window.location.href = "login.html";
+}
+
+/* USER DATA */
+let updatedUser = users[userIndex];
+
+/* SHOW NAME */
+document.getElementById("userName").innerText =
+"Welcome, " + updatedUser.name;
+
+/* SHOW BALANCE */
+const balanceElement =
+document.getElementById("walletBalance");
+
+function updateBalance(){
+    balanceElement.innerText =
+    "₦" + (updatedUser.balance || 0);
+}
+
+updateBalance();
+
+/* TOGGLE BALANCE */
 let balanceVisible = true;
-
-const walletEl =
-document.getElementById("wallet");
 
 function toggleBalance(){
 
-if(balanceVisible){
+    balanceVisible = !balanceVisible;
 
-walletEl.innerHTML = "₦******";
-
-balanceVisible = false;
-
-}else{
-
-loadWallet();
-
-balanceVisible = true;
-
+    if(balanceVisible){
+        balanceElement.innerText =
+        "₦" + (updatedUser.balance || 0);
+    }else{
+        balanceElement.innerText = "₦******";
+    }
 }
 
-}
+/* AUTO REFRESH BALANCE */
+window.addEventListener("focus", () => {
 
-async function loadWallet(){
+    users =
+    JSON.parse(localStorage.getItem("users")) || [];
 
-const snap = await db
-.collection("users")
-.doc(user.uid)
-.get();
+    userIndex = users.findIndex(
+        user => user.email === currentUser.email
+    );
 
-if(snap.exists){
+    updatedUser = users[userIndex];
 
-const data = snap.data();
-
-walletEl.innerHTML =
-"₦" + (data.wallet || 0);
-
-}
-
-}
-
-loadWallet();
+    if(balanceVisible){
+        updateBalance();
+    }
+});
 
 </script>
 
