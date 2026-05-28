@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Transaction Receipt</title>
+<title>Receipt</title>
 
 <style>
 
@@ -17,56 +17,58 @@ padding:0;
 background:#8B0000;
 font-family:Arial,sans-serif;
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
 }
 
 .container{
 width:90%;
 max-width:450px;
+margin:auto;
+padding:30px 0;
+}
+
+.logo{
+font-size:50px;
+font-weight:bold;
+text-align:center;
+margin-bottom:30px;
 }
 
 .card{
 background:white;
 color:#7a0000;
-padding:30px;
+padding:25px;
 border-radius:25px;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
-}
-
-.logo{
-font-size:40px;
-font-weight:bold;
-text-align:center;
-margin-bottom:20px;
 }
 
 .title{
-font-size:34px;
+font-size:35px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
 }
 
 .item{
-font-size:21px;
 margin-bottom:20px;
-line-height:1.5;
-word-break:break-word;
+font-size:20px;
+line-height:1.6;
 }
 
 .label{
 font-weight:bold;
 }
 
-.success{
-color:green;
+.status{
+background:green;
+color:white;
+padding:12px;
+border-radius:15px;
+text-align:center;
+font-size:20px;
 font-weight:bold;
+margin-top:20px;
 }
 
-.btn{
+button{
 width:100%;
 padding:18px;
 border:none;
@@ -76,7 +78,7 @@ color:white;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
-margin-top:20px;
+margin-top:25px;
 }
 
 </style>
@@ -85,85 +87,83 @@ margin-top:20px;
 
 <body>
 
-<script>
-
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href =
-"login.html";
-
-}
-
-</script>
-
 <div class="container">
-
-<div class="card">
 
 <div class="logo">
 FadaqData
 </div>
 
+<div class="card">
+
 <div class="title">
-✅ Transaction Receipt
+Transaction Receipt
 </div>
 
 <div class="item">
-<span class="label">
-Description:
-</span>
 
-<span id="receiptText">
--
-</span>
-</div>
-
-<div class="item">
-<span class="label">
-Amount:
-</span>
-
-<span id="receiptAmount">
--
-</span>
-</div>
-
-<div class="item">
 <span class="label">
 Type:
 </span>
 
-<span id="receiptType">
+<span id="type">
 -
 </span>
+
 </div>
 
 <div class="item">
+
 <span class="label">
-Transaction ID:
+Network:
 </span>
 
-<span id="receiptID">
+<span id="network">
 -
 </span>
+
 </div>
 
 <div class="item">
+
+<span class="label">
+Phone:
+</span>
+
+<span id="phone">
+-
+</span>
+
+</div>
+
+<div class="item">
+
+<span class="label">
+Amount:
+</span>
+
+<span id="amount">
+-
+</span>
+
+</div>
+
+<div class="item">
+
 <span class="label">
 Date:
 </span>
 
-<span id="receiptDate">
+<span id="date">
 -
 </span>
+
 </div>
 
-<div class="item success">
-Status: Successful
+<div class="status">
+Successful ✅
 </div>
 
-<button class="btn"
-onclick="goBack()">
+<button onclick="goBack()">
 Done
 </button>
 
@@ -173,52 +173,49 @@ Done
 
 <script>
 
-let transaction =
+let receipt =
 JSON.parse(
 localStorage.getItem(
-"selectedTransaction"
+"receipt"
 )
 );
 
-if(!transaction){
+if(!receipt){
 
 window.location.href =
-"dashboard.html";
+"history.html";
 
 }
 
 document.getElementById(
-"receiptText"
+"type"
 ).innerHTML =
-transaction.text || "-";
+receipt.type || "-";
 
 document.getElementById(
-"receiptAmount"
+"network"
 ).innerHTML =
-"₦" +
-(
-transaction.amount || 0
-);
+receipt.network || "-";
 
 document.getElementById(
-"receiptType"
+"phone"
 ).innerHTML =
-transaction.type || "-";
+receipt.phone || "-";
 
 document.getElementById(
-"receiptID"
+"amount"
 ).innerHTML =
-transaction.id || "-";
+"₦" + receipt.amount;
 
 document.getElementById(
-"receiptDate"
+"date"
 ).innerHTML =
-transaction.date || "-";
+receipt.date || "-";
 
 function goBack(){
 
 window.location.href =
-"dashboard.html";
+"history.html";
 
 }
 
