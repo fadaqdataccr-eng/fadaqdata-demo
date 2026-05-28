@@ -1,305 +1,84 @@
 const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
 
-const API_KEY = process.env.API_KEY;
+const PORT = process.env.PORT || 3000;
 
-// HOME
 app.get("/", (req, res) => {
-
-res.sendFile(__dirname + "/index.html");
-
+    res.send("Server running");
 });
 
-// BUY DATA
 app.post("/buy-data", async (req, res) => {
 
-try{
+    try {
 
-const {
+        const { network, phone, plan } = req.body;
 
-network,
-phone,
-plan
+        console.log("Incoming Request:", req.body);
 
-} = req.body;
+        const response = await fetch(
+            "https://fadaqdata.com/api/data/",
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Token ${process.env.API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    network: network,
+                    mobile_number: phone,
+                    plan: plan,
+                    Ported_number: true
+                })
+            }
+        );
 
-// VALIDATION
-if(
-!network ||
-!phone ||
-!plan
-){
+        const data = await response.json();
 
-return res.json({
+        console.log("API Response:", data);
 
-status:"failed",
-message:"All fields required"
+        if (
+            data.Status === "successful" ||
+            data.status === "success"
+        ) {
 
-});
+            return res.json({
+                success: true,
+                message: "Data purchase successful",
+                api: data
+            });
 
-}
+        } else {
 
-// PAYLOAD
-const payload = {
+            return res.json({
+                success: false,
+                message:
+                    data.message ||
+                    data.Status ||
+                    "Transaction failed",
+                api: data
+            });
 
-network:String(network),
+        }
 
-phone:String(phone),
+    } catch (error) {
 
-data_plan:String(plan),
+        console.log("SERVER ERROR:", error);
 
-ref:"FDQ" + Date.now(),
+        return res.json({
+            success: false,
+            message: "Server Error"
+        });
 
-ported_number:true
-
-};
-
-console.log("PAYLOAD:");
-console.log(payload);
-
-// REAL API REQUEST
-const response = await fetch(
-"https://fadaqdata.com/api/data/",
-{
-
-method:"POST",
-
-headers:{
-
-"Content-Type":"application/json",
-
-"Authorization":
-`Token ${API_KEY}`
-
-},
-
-body:JSON.stringify(payload)
-
-}
-);
-
-// RAW RESPONSE
-const raw =
-await response.text();
-
-console.log("RAW RESPONSE:");
-console.log(raw);
-
-// JSON PARSE
-let data;
-
-try{
-
-data =
-JSON.parse(raw);
-
-}catch(err){
-
-return res.json({
-
-status:"failed",
-message:"Invalid API response",
-raw:raw
+    }
 
 });
 
-}
-
-// SUCCESS
-if(
-data.status === "success"
-||
-data.Status === "successful"
-){
-
-return res.json({
-
-status:"success",
-
-reference:
-payload.ref,
-
-api:data
-
-});
-
-}
-
-// FAILED
-return res.json({
-
-status:"failed",
-
-message:
-data.message
-||
-data.error
-||
-data.true_response
-||
-"Transaction failed"
-
-});
-
-}catch(error){
-
-console.log(error);
-
-return res.json({
-
-status:"failed",
-message:"Server Error"
-
-});
-
-}
-
-});
-
-// BUY AIRTIME
-app.post("/buy-airtime", async (req, res) => {
-
-try{
-
-const {
-
-network,
-phone,
-amount
-
-} = req.body;
-
-if(
-!network ||
-!phone ||
-!amount
-){
-
-return res.json({
-
-status:"failed",
-message:"All fields required"
-
-});
-
-}
-
-const payload = {
-
-network:String(network),
-
-phone:String(phone),
-
-amount:String(amount),
-
-airtime_type:"VTU"
-
-};
-
-console.log(payload);
-
-const response = await fetch(
-"https://fadaqdata.com/api/topup/",
-{
-
-method:"POST",
-
-headers:{
-
-"Content-Type":"application/json",
-
-"Authorization":
-`Token ${API_KEY}`
-
-},
-
-body:JSON.stringify(payload)
-
-}
-);
-
-const raw =
-await response.text();
-
-console.log(raw);
-
-let data;
-
-try{
-
-data =
-JSON.parse(raw);
-
-}catch{
-
-return res.json({
-
-status:"failed",
-message:"Invalid API response"
-
-});
-
-}
-
-if(
-data.status === "success"
-||
-data.Status === "successful"
-){
-
-return res.json({
-
-status:"success",
-
-reference:
-"FDQ" + Date.now(),
-
-api:data
-
-});
-
-}
-
-return res.json({
-
-status:"failed",
-
-message:
-data.message
-||
-data.error
-||
-"Transaction failed"
-
-});
-
-}catch(error){
-
-console.log(error);
-
-return res.json({
-
-status:"failed",
-message:"Server Error"
-
-});
-
-}
-
-});
-
-// SERVER
-const PORT =
-process.env.PORT || 3000;
-
-app.listen(PORT, ()=>{
-
-console.log(
-"Server running on port " + PORT
-);
-
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
 });
