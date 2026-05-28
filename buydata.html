@@ -23,7 +23,7 @@ color:white;
 width:90%;
 max-width:450px;
 margin:auto;
-padding:20px 0 120px;
+padding:40px 0 120px;
 }
 
 .logo{
@@ -35,24 +35,33 @@ margin:30px 0;
 
 .card{
 background:#c00000;
-padding:25px;
+padding:30px;
 border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.25);
+}
+
+.title{
+font-size:35px;
+font-weight:bold;
+margin-bottom:25px;
 }
 
 .balance{
-font-size:40px;
+font-size:60px;
 font-weight:bold;
 text-align:center;
-margin:20px 0;
+margin-bottom:30px;
 }
 
-select,input{
+select,
+input{
 width:100%;
 padding:18px;
+margin-bottom:20px;
 border:none;
 border-radius:15px;
-margin-top:20px;
 font-size:18px;
+outline:none;
 box-sizing:border-box;
 }
 
@@ -63,10 +72,9 @@ border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
-margin-top:20px;
 }
 
 .bottomnav{
@@ -104,13 +112,13 @@ FadaqData
 
 <div class="card">
 
-<h2>
+<div class="title">
 📶 Buy Data
-</h2>
+</div>
 
 <div class="balance"
-id="wallet">
-₦0.00
+id="balance">
+₦0
 </div>
 
 <select id="network">
@@ -136,25 +144,26 @@ Glo
 <select id="plan">
 
 <option value="1200">
-5GB - ₦1200
+1GB - ₦1200
 </option>
 
 <option value="2500">
-10GB - ₦2500
+2GB - ₦2500
 </option>
 
 <option value="5000">
-20GB - ₦5000
+5GB - ₦5000
 </option>
 
 </select>
 
-<input type="text"
+<input
+type="number"
 id="phone"
-placeholder="Phone Number">
+placeholder="Enter Phone Number">
 
 <button onclick="buyData()">
-Purchase Data
+Buy Data
 </button>
 
 </div>
@@ -192,8 +201,7 @@ import {
 getFirestore,
 doc,
 getDoc,
-updateDoc,
-arrayUnion
+updateDoc
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -223,6 +231,7 @@ const db =
 getFirestore(app);
 
 let currentUser;
+let wallet = 0;
 
 onAuthStateChanged(auth,
 async(user)=>{
@@ -239,10 +248,13 @@ await getDoc(docRef);
 
 if(docSnap.exists()){
 
+wallet =
+docSnap.data().wallet || 0;
+
 document.getElementById(
-"wallet"
-).innerHTML =
-"₦" + docSnap.data().wallet;
+"balance"
+).innerText =
+"₦" + wallet;
 
 }
 
@@ -258,32 +270,44 @@ window.location.href =
 window.buyData =
 async function(){
 
-let network =
+const network =
 document.getElementById(
 "network"
 ).value;
 
-let amount =
-parseFloat(
+const amount =
+parseInt(
 document.getElementById(
 "plan"
 ).value
 );
 
-let phone =
+const phone =
 document.getElementById(
 "phone"
 ).value;
 
-if(phone === ""){
+if(phone.length < 11){
 
 alert(
-"Enter phone number"
+"Enter Valid Phone Number"
 );
 
 return;
 
 }
+
+if(wallet < amount){
+
+alert(
+"Insufficient Balance"
+);
+
+return;
+
+}
+
+wallet -= amount;
 
 const docRef =
 doc(db,"users",currentUser.uid);
@@ -291,27 +315,10 @@ doc(db,"users",currentUser.uid);
 const docSnap =
 await getDoc(docRef);
 
-let wallet =
-docSnap.data().wallet || 0;
+let transactions =
+docSnap.data().transactions || [];
 
-if(wallet < amount){
-
-alert(
-"Insufficient balance"
-);
-
-return;
-
-}
-
-let newBalance =
-wallet - amount;
-
-await updateDoc(docRef,{
-
-wallet:newBalance,
-
-transactions:arrayUnion({
+transactions.push({
 
 type:"Data Purchase",
 
@@ -323,16 +330,29 @@ amount:amount,
 
 date:new Date().toLocaleString()
 
-})
+});
+
+await updateDoc(docRef,{
+
+wallet:wallet,
+
+transactions:transactions
 
 });
 
-alert(
-"Data Purchase Successful ✅"
+localStorage.setItem(
+"receipt",
+JSON.stringify({
+type:"Data Purchase",
+network:network,
+phone:phone,
+amount:amount,
+date:new Date().toLocaleString()
+})
 );
 
 window.location.href =
-"dashboard.html";
+"receipt.html";
 
 };
 
