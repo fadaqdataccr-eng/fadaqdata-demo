@@ -1,347 +1,530 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>FadaqData Dashboard</title>
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-background:#7a0000;
-padding-bottom:90px;
+    background:#f5f5f5;
+    color:#111;
+    padding-bottom:100px;
 }
 
-.topbar{
-background:linear-gradient(to right,#3b0000,#7a0000);
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-color:white;
+/* TOP HEADER */
+
+.header{
+    background:linear-gradient(to right,#6b0000,#b30000);
+    padding:20px;
+    color:white;
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo{
-font-size:34px;
-font-weight:bold;
+    font-size:42px;
+    font-weight:bold;
 }
 
 .profile{
-width:45px;
-height:45px;
-border-radius:50%;
-background:white;
-color:#7a0000;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:20px;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:white;
+    color:#8b0000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:bold;
 }
+
+/* NOTICE */
 
 .notice{
-background:#fff4e8;
-margin:15px;
-padding:14px;
-border-radius:14px;
-display:flex;
-justify-content:space-between;
-font-size:14px;
-font-weight:bold;
+    background:#fff6ee;
+    margin:18px;
+    padding:16px;
+    border-radius:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:bold;
 }
 
+/* WALLET */
+
 .wallet-card{
-background:white;
-margin:15px;
-border-radius:22px;
-padding:20px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    background:white;
+    margin:18px;
+    padding:25px;
+    border-radius:28px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.08);
 }
 
 .wallet-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .wallet-title{
-font-size:16px;
-color:#666;
+    font-size:18px;
+    color:#444;
+}
+
+.eye{
+    font-size:28px;
 }
 
 .balance{
-font-size:45px;
-font-weight:bold;
-margin-top:10px;
-color:#111;
+    font-size:58px;
+    font-weight:bold;
+    margin-top:20px;
+    color:#8b0000;
 }
 
-.wallet-buttons{
-display:flex;
-gap:12px;
-margin-top:20px;
+.wallet-actions{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
 }
 
-.wallet-buttons button{
-flex:1;
-padding:14px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+.wallet-btn{
+    flex:1;
+    padding:18px;
+    border-radius:18px;
+    border:none;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .fund-btn{
-background:#6b0000;
-color:white;
+    background:#8b0000;
+    color:white;
 }
 
 .transfer-btn{
-background:white;
-border:2px solid #6b0000 !important;
-color:#6b0000;
+    background:white;
+    border:2px solid #8b0000;
+    color:#8b0000;
 }
+
+/* SECTION */
 
 .section{
-margin:15px;
+    padding:0 18px;
+    margin-top:25px;
 }
 
-.section-header{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-color:white;
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
 }
+
+.section-head h2{
+    font-size:34px;
+}
+
+.view-all{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+/* SERVICES */
 
 .services-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:12px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
 }
 
-.service{
-background:white;
-padding:18px 10px;
-border-radius:18px;
-text-align:center;
-font-weight:bold;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
-cursor:pointer;
+.service-card{
+    background:white;
+    border-radius:22px;
+    padding:28px 15px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    cursor:pointer;
 }
 
 .service-icon{
-font-size:30px;
-margin-bottom:10px;
+    font-size:42px;
 }
+
+.service-title{
+    margin-top:15px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* TRANSACTION */
 
 .transaction-card{
-background:white;
-padding:15px;
-border-radius:18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:12px;
+    background:white;
+    border-radius:22px;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
 }
 
-.transaction-left{
-display:flex;
-gap:10px;
-align-items:center;
+.trans-left{
+    display:flex;
+    gap:15px;
+    align-items:center;
 }
 
-.transaction-icon{
-width:45px;
-height:45px;
-border-radius:12px;
-background:#ffd000;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
+.mtn-logo{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    background:#ffcc00;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:22px;
 }
 
-.transaction-title{
-font-weight:bold;
+.trans-title{
+    font-size:26px;
+    font-weight:bold;
 }
 
-.transaction-date{
-font-size:13px;
-color:gray;
-margin-top:4px;
+.trans-date{
+    margin-top:5px;
+    color:#666;
+    font-size:18px;
 }
 
-.transaction-amount{
-font-weight:bold;
-color:green;
+.trans-amount{
+    color:#8b0000;
+    font-size:28px;
+    font-weight:bold;
 }
+
+.success{
+    color:green;
+    font-weight:bold;
+    margin-top:5px;
+    text-align:right;
+    font-size:18px;
+}
+
+/* STATS */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:20px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.stat-title{
+    color:#555;
+    font-size:20px;
+}
+
+.stat-number{
+    font-size:38px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+/* BOTTOM NAV */
 
 .bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:linear-gradient(to right,#3b0000,#7a0000);
-display:flex;
-justify-content:space-around;
-padding:14px 0;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:linear-gradient(to right,#6b0000,#b30000);
+    display:flex;
+    justify-content:space-around;
+    padding:15px 0;
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
 }
 
 .nav-item{
-text-align:center;
-color:white;
-font-size:13px;
-text-decoration:none;
+    text-align:center;
+    color:white;
+    text-decoration:none;
+    font-size:18px;
 }
 
 .nav-icon{
-font-size:22px;
-margin-bottom:4px;
+    font-size:28px;
+    margin-bottom:5px;
 }
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.logo{
+    font-size:28px;
+}
+
+.balance{
+    font-size:45px;
+}
+
+.section-head h2{
+    font-size:24px;
+}
+
+.service-title{
+    font-size:18px;
+}
+
+.trans-title{
+    font-size:20px;
+}
+
+.trans-amount{
+    font-size:22px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<div class="logo">FadaqData</div>
-<div class="profile">F</div>
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="header-top">
+
+        <div class="logo">
+            FadaqData
+        </div>
+
+        <div class="profile">
+            F
+        </div>
+
+    </div>
+
 </div>
 
+<!-- NOTICE -->
+
 <div class="notice">
-<span>📢 MTN Share & Sell temporarily unavailable</span>
-<span>View all</span>
+    <span>📢 MTN Share & Sell temporarily unavailable</span>
+    <span>View all</span>
 </div>
+
+<!-- WALLET -->
 
 <div class="wallet-card">
 
-<div class="wallet-top">
-<div class="wallet-title">Wallet Balance</div>
-<div style="font-size:24px;">👁️</div>
+    <div class="wallet-top">
+
+        <div class="wallet-title">
+            Wallet Balance
+        </div>
+
+        <div class="eye">
+            👁️
+        </div>
+
+    </div>
+
+    <div class="balance">
+        ₦0
+    </div>
+
+    <div class="wallet-actions">
+
+        <button class="wallet-btn fund-btn">
+            Fund Wallet
+        </button>
+
+        <button class="wallet-btn transfer-btn">
+            Transfer
+        </button>
+
+    </div>
+
 </div>
 
-<div class="balance">₦0</div>
-
-<div class="wallet-buttons">
-<button class="fund-btn">
-Fund Wallet
-</button>
-
-<button class="transfer-btn">
-Transfer
-</button>
-</div>
-
-</div>
+<!-- SERVICES -->
 
 <div class="section">
 
-<div class="section-header">
-<h2>Quick Services</h2>
-<span>View all</span>
+    <div class="section-head">
+        <h2>Quick Services</h2>
+        <div class="view-all">View all</div>
+    </div>
+
+    <div class="services-grid">
+
+        <div class="service-card" onclick="window.location.href='buy-airtime.html'">
+            <div class="service-icon">📱</div>
+            <div class="service-title">Airtime</div>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='buy-data.html'">
+            <div class="service-icon">📶</div>
+            <div class="service-title">Data</div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">💸</div>
+            <div class="service-title">Airtime to Cash</div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">📺</div>
+            <div class="service-title">Cable TV</div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">⚡</div>
+            <div class="service-title">Electricity</div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🎓</div>
+            <div class="service-title">Exam PIN</div>
+        </div>
+
+    </div>
+
 </div>
 
-<div class="services-grid">
-
-<div class="service" onclick="window.location.href='airtime.html'">
-<div class="service-icon">📱</div>
-Airtime
-</div>
-
-<div class="service" onclick="window.location.href='buy-data.html'">
-<div class="service-icon">📶</div>
-Data
-</div>
-
-<div class="service">
-<div class="service-icon">💸</div>
-Airtime2Cash
-</div>
-
-<div class="service">
-<div class="service-icon">📺</div>
-Cable TV
-</div>
-
-<div class="service">
-<div class="service-icon">⚡</div>
-Electricity
-</div>
-
-<div class="service">
-<div class="service-icon">🎓</div>
-Exam PIN
-</div>
-
-</div>
-
-</div>
+<!-- TRANSACTION -->
 
 <div class="section">
 
-<div class="section-header">
-<h2>Recent Transactions</h2>
-<span onclick="window.location.href='history.html'">
-View all
-</span>
+    <div class="section-head">
+        <h2>Recent Transactions</h2>
+        <div class="view-all">View all</div>
+    </div>
+
+    <div class="transaction-card">
+
+        <div class="trans-left">
+
+            <div class="mtn-logo">
+                MTN
+            </div>
+
+            <div>
+
+                <div class="trans-title">
+                    MTN 500MB SME
+                </div>
+
+                <div class="trans-date">
+                    May 28, 2026 • 5:00 PM
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="trans-amount">
+                - ₦100
+            </div>
+
+            <div class="success">
+                Successful
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="transaction-card"
-onclick="window.location.href='receipt.html?id=0'">
+<!-- STATS -->
 
-<div class="transaction-left">
+<div class="section">
 
-<div class="transaction-icon">
-MTN
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-title">Today's Transactions</div>
+            <div class="stat-number">1,259</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Pending Funding</div>
+            <div class="stat-number">36</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Total Profit</div>
+            <div class="stat-number">₦25K</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Failed Orders</div>
+            <div class="stat-number">18</div>
+        </div>
+
+    </div>
+
 </div>
 
-<div>
-<div class="transaction-title">
-MTN 500MB SME
-</div>
-
-<div class="transaction-date">
-May 28, 2026 • 5:00 PM
-</div>
-</div>
-
-</div>
-
-<div class="transaction-amount">
-- ₦100
-</div>
-
-</div>
-
-</div>
+<!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
 
-<a href="dashboard.html" class="nav-item">
-<div class="nav-icon">🏠</div>
-Home
-</a>
+    <a href="dashboard.html" class="nav-item">
+        <div class="nav-icon">🏠</div>
+        Home
+    </a>
 
-<a href="history.html" class="nav-item">
-<div class="nav-icon">📋</div>
-Transactions
-</a>
+    <a href="history.html" class="nav-item">
+        <div class="nav-icon">📄</div>
+        Transactions
+    </a>
 
-<a href="#" class="nav-item">
-<div class="nav-icon">🔔</div>
-Notifications
-</a>
+    <a href="buy-data.html" class="nav-item">
+        <div class="nav-icon">📶</div>
+        Services
+    </a>
 
-<a href="#" class="nav-item">
-<div class="nav-icon">👤</div>
-Profile
-</a>
+    <a href="#" class="nav-item">
+        <div class="nav-icon">👤</div>
+        Profile
+    </a>
 
 </div>
 
