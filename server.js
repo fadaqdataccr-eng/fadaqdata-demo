@@ -24,43 +24,55 @@ app.post("/buy-data", async (req, res) => {
 
       return res.json({
         success: false,
-        message: "Missing fields"
+        message: "All fields required"
       });
 
     }
 
     const payload = {
-      network: network,
-      phone: phone,
-      data_plan: data_plan,
-      bypass: false
+
+      network: String(network),
+
+      phone: String(phone),
+
+      data_plan: String(data_plan),
+
+      ref: "DATA" + Date.now(),
+
+      ported_number: true
+
     };
 
-    console.log("Sending Payload:", payload);
+    console.log("PAYLOAD:", payload);
 
     const response = await fetch(
       "https://fadaqdata.com/api/data/",
       {
+
         method: "POST",
 
         headers: {
+
           "Content-Type": "application/json",
+
           "Authorization": `Token ${API_KEY}`
+
         },
 
         body: JSON.stringify(payload)
+
       }
     );
 
-    const text = await response.text();
+    const raw = await response.text();
 
-    console.log("RAW API RESPONSE:", text);
+    console.log("RAW RESPONSE:", raw);
 
     let data;
 
     try {
 
-      data = JSON.parse(text);
+      data = JSON.parse(raw);
 
     } catch {
 
@@ -77,29 +89,43 @@ app.post("/buy-data", async (req, res) => {
     ) {
 
       return res.json({
+
         success: true,
+
         message: "Transaction successful",
 
         receipt: {
-          phone: phone,
-          network: network,
-          plan: data_plan,
-          response: data.true_response
+
+          network,
+
+          phone,
+
+          data_plan,
+
+          response: data.true_response || ""
+
         }
+
       });
 
     } else {
 
       return res.json({
+
         success: false,
-        message: data.message || "Transaction failed"
+
+        message:
+          data.message ||
+          data.error ||
+          "Transaction failed"
+
       });
 
     }
 
-  } catch (error) {
+  } catch (err) {
 
-    console.log(error);
+    console.log(err);
 
     return res.json({
       success: false,
@@ -113,5 +139,7 @@ app.post("/buy-data", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
+
   console.log("Server running on port " + PORT);
+
 });
