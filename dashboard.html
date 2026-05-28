@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard</title>
 
@@ -34,11 +35,11 @@ margin-bottom:40px;
 background:red;
 padding:25px;
 border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
 margin-bottom:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-.balance-card{
+.balance-box{
 background:#cc0000;
 padding:25px;
 border-radius:20px;
@@ -48,7 +49,6 @@ margin-top:20px;
 
 .balance-title{
 font-size:22px;
-font-weight:bold;
 margin-bottom:10px;
 }
 
@@ -68,22 +68,10 @@ background:white;
 color:#660000;
 font-size:22px;
 font-weight:bold;
-cursor:pointer;
 text-decoration:none;
 text-align:center;
 box-sizing:border-box;
 margin-top:15px;
-}
-
-.card-title{
-font-size:30px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.card-text{
-font-size:18px;
-line-height:1.5;
 }
 
 .bottom-nav{
@@ -107,6 +95,15 @@ color:#660000;
 text-decoration:none;
 }
 
+.eye-btn{
+background:none;
+border:none;
+color:white;
+font-size:24px;
+cursor:pointer;
+margin-left:10px;
+}
+
 </style>
 </head>
 
@@ -118,25 +115,37 @@ text-decoration:none;
 FadaqData
 </div>
 
-<!-- WELCOME CARD -->
-
 <div class="card">
 
 <h1 id="welcomeText">
 Welcome
 </h1>
 
-<div class="balance-card">
+<div class="balance-box">
 
 <div class="balance-title">
-Wallet Balance 👁️
+Wallet Balance
+
+<button
+class="eye-btn"
+onclick="toggleBalance()"
+>
+👁️
+</button>
+
 </div>
 
-<div class="balance" id="walletBalance">
+<div
+class="balance"
+id="walletBalance"
+>
 ₦0
 </div>
 
-<a href="fund-wallet.html" class="btn">
+<a
+href="fund-wallet.html"
+class="btn"
+>
 💳 Fund Wallet
 </a>
 
@@ -144,55 +153,46 @@ Wallet Balance 👁️
 
 </div>
 
-<!-- BUY DATA -->
-
 <div class="card">
 
-<div class="card-title">
+<h2>
 📶 Buy Data
-</div>
+</h2>
 
-<div class="card-text">
-Purchase affordable data bundles instantly
-</div>
-
-<a href="buy-data.html" class="btn">
+<a
+href="buy-data.html"
+class="btn"
+>
 Buy Data
 </a>
 
 </div>
 
-<!-- BUY AIRTIME -->
-
 <div class="card">
 
-<div class="card-title">
+<h2>
 📞 Buy Airtime
-</div>
+</h2>
 
-<div class="card-text">
-Recharge airtime instantly
-</div>
-
-<a href="buy-airtime.html" class="btn">
+<a
+href="buy-airtime.html"
+class="btn"
+>
 Buy Airtime
 </a>
 
 </div>
 
-<!-- TRANSACTION HISTORY -->
-
 <div class="card">
 
-<div class="card-title">
+<h2>
 📜 Transaction History
-</div>
+</h2>
 
-<div class="card-text">
-View all your recent transactions
-</div>
-
-<a href="history.html" class="btn">
+<a
+href="history.html"
+class="btn"
+>
 View History
 </a>
 
@@ -200,15 +200,19 @@ View History
 
 </div>
 
-<!-- BOTTOM NAV -->
-
 <div class="bottom-nav">
 
-<a href="dashboard.html" class="nav-btn">
+<a
+href="dashboard.html"
+class="nav-btn"
+>
 🏠 Home
 </a>
 
-<a href="profile.html" class="nav-btn">
+<a
+href="profile.html"
+class="nav-btn"
+>
 👤 Profile
 </a>
 
@@ -218,35 +222,59 @@ View History
 
 // LOGIN CHECK
 const user =
-JSON.parse(localStorage.getItem("loggedInUser"));
+JSON.parse(
+localStorage.getItem("loggedInUser")
+);
 
 if(!user){
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
-// SHOW USER NAME
-document.getElementById("welcomeText").innerText =
+// USER NAME
+document.getElementById("welcomeText")
+.innerText =
 "Welcome, " + user.name;
 
-// WALLET BALANCE
+// BALANCE
 let balance =
 localStorage.getItem("walletBalance");
 
 if(balance === null){
 
-balance = 0;
+balance = 100;
 
 localStorage.setItem(
 "walletBalance",
-0
+100
 );
 
 }
 
-document.getElementById("walletBalance").innerText =
-"₦" + Number(balance).toLocaleString();
+let hidden = false;
+
+function renderBalance(){
+
+document.getElementById(
+"walletBalance"
+).innerText = hidden
+? "******"
+: "₦" + Number(balance).toLocaleString();
+
+}
+
+renderBalance();
+
+// TOGGLE
+function toggleBalance(){
+
+hidden = !hidden;
+
+renderBalance();
+
+}
 
 </script>
 
