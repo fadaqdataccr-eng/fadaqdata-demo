@@ -130,19 +130,19 @@ id="walletBalance"
 
 <select id="network">
 
-<option value="MTN">
+<option value="1">
 MTN
 </option>
 
-<option value="AIRTEL">
+<option value="2">
 AIRTEL
 </option>
 
-<option value="GLO">
+<option value="3">
 GLO
 </option>
 
-<option value="9MOBILE">
+<option value="4">
 9MOBILE
 </option>
 
@@ -150,15 +150,15 @@ GLO
 
 <select id="plan">
 
-<option value="100">
+<option value="1">
 MTN 500MB - ₦100
 </option>
 
-<option value="300">
+<option value="2">
 MTN 1GB - ₦300
 </option>
 
-<option value="500">
+<option value="3">
 MTN 2GB - ₦500
 </option>
 
@@ -228,21 +228,33 @@ async function buyData(){
 const network =
 document.getElementById("network").value;
 
-const plan =
+const data_plan =
 document.getElementById("plan").value;
 
 const phone =
 document.getElementById("phone").value;
 
 // VALIDATION
-if(!network || !plan || !phone){
+if(!network || !data_plan || !phone){
 
 alert("All fields required");
 return;
 
 }
 
-if(balance < parseInt(plan)){
+// PLAN PRICE
+let amount = 100;
+
+if(data_plan == "2"){
+amount = 300;
+}
+
+if(data_plan == "3"){
+amount = 500;
+}
+
+// CHECK BALANCE
+if(balance < amount){
 
 alert("Insufficient balance");
 return;
@@ -255,23 +267,29 @@ document.querySelector("button").innerText =
 
 try{
 
-// API REQUEST
 const response =
 await fetch(
-"https://fadaqdata-server.onrender.com/buy-data",
+"https://fadaqdata.com/api/data/",
 {
 
 method:"POST",
 
 headers:{
-"Content-Type":"application/json"
+
+"Content-Type":"application/json",
+
+"Authorization":
+"Token 952x342vA24B7c6CG8CC93BdaACyiICEcBF5CtCqDHlgz3oCwAA16J1xBeh01779957867"
+
 },
 
 body:JSON.stringify({
 
-network: network,
-mobile_number: phone,
-plan: plan
+network:network,
+phone:phone,
+ref:"DATA" + Date.now(),
+data_plan:data_plan,
+ported_number:true
 
 })
 
@@ -285,16 +303,18 @@ await response.json();
 console.log(data);
 
 // SUCCESS
-if(data.success){
+if(
+data.status === "success"
+){
 
-balance -= parseInt(plan);
+balance -= amount;
 
 localStorage.setItem(
 "walletBalance",
 balance
 );
 
-// TRANSACTION
+// SAVE TRANSACTION
 let transaction = {
 
 id:"TRX" + Date.now(),
@@ -305,7 +325,7 @@ network:network,
 
 phone:phone,
 
-amount:"₦" + plan,
+amount:"₦" + amount,
 
 status:"Successful",
 
@@ -337,7 +357,6 @@ alert(
 "Data Purchase Successful"
 );
 
-// REDIRECT
 window.location.href =
 "receipt.html";
 
@@ -354,7 +373,9 @@ data.message ||
 
 console.log(error);
 
-alert("Network Error");
+alert(
+"Network Error"
+);
 
 }
 
