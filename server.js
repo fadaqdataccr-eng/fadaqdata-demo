@@ -709,16 +709,23 @@ app.get("/airtime", (req, res) => {
       }
 
       .network{
-        height:85px;
-        border-radius:20px;
-        border:2px solid #eee;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:22px;
-        font-weight:bold;
+      height:90px;
+      border-radius:20px;
+      border:2px solid #eee;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:white;
+      padding:10px;
+      overflow:hidden;
       }
-
+      
+      .network img{
+      width:40px;
+      height:40px;
+      object-fit:contain;
+      }
+      
       .mtn{
         background:#ffd800;
       }
