@@ -591,8 +591,222 @@ Profile
 
 });
 
+// REGISTER PAGE
+app.get("/register", (req, res) => {
+
+res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+min-height:100vh;
+}
+
+.top{
+background:linear-gradient(to right,#3b0000,#7a0000);
+height:260px;
+padding:30px;
+color:white;
+position:relative;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
+}
+
+.back{
+font-size:40px;
+position:absolute;
+left:25px;
+top:30px;
+cursor:pointer;
+}
+
+.dark{
+position:absolute;
+right:25px;
+top:30px;
+background:#2a0b00;
+border:2px solid #b86a2d;
+padding:10px 20px;
+border-radius:30px;
+font-size:20px;
+}
+
+.title{
+margin-top:90px;
+text-align:center;
+font-size:50px;
+font-weight:bold;
+}
+
+.sub{
+text-align:center;
+font-size:20px;
+margin-top:10px;
+}
+
+.card{
+background:white;
+width:92%;
+margin:-40px auto 30px;
+padding:30px 20px;
+border-radius:35px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.input-box{
+width:100%;
+margin-bottom:22px;
+position:relative;
+}
+
+.input{
+width:100%;
+padding:22px 20px 22px 60px;
+border:2px solid #eee;
+border-radius:18px;
+font-size:18px;
+background:white;
+}
+
+.icon{
+position:absolute;
+left:20px;
+top:22px;
+font-size:22px;
+}
+
+.eye{
+position:absolute;
+right:20px;
+top:22px;
+font-size:22px;
+}
+
+.btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+background:linear-gradient(to right,#3b0000,#7a0000);
+color:white;
+font-size:24px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.bottom{
+text-align:center;
+margin-top:35px;
+font-size:22px;
+}
+
+.login{
+color:#7a0000;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="back" onclick="window.location.href='/'">
+←
+</div>
+
+<div class="dark">
+🌙 Dark
+</div>
+
+<div class="title">
+Create Account
+</div>
+
+<div class="sub">
+Fill in the details below to get started
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="input-box">
+<div class="icon">👤</div>
+<input type="text" class="input" placeholder="Full Name">
+</div>
+
+<div class="input-box">
+<div class="icon">🪪</div>
+<input type="text" class="input" placeholder="Username">
+</div>
+
+<div class="input-box">
+<div class="icon">✉️</div>
+<input type="email" class="input" placeholder="Email Address">
+</div>
+
+<div class="input-box">
+<div class="icon">🇳🇬</div>
+<input type="text" class="input" placeholder="Phone Number">
+</div>
+
+<div class="input-box">
+<div class="icon">🔒</div>
+<div class="eye">👁️</div>
+<input type="password" class="input" placeholder="Password">
+</div>
+
+<div class="input-box">
+<div class="icon">🔒</div>
+<div class="eye">👁️</div>
+<input type="password" class="input" placeholder="Confirm Password">
+</div>
+
+<div class="input-box">
+<div class="icon">🎁</div>
+<input type="text" class="input" placeholder="Referral Code (Optional)">
+</div>
+
+<button class="btn" onclick="window.location.href='/dashboard'">
+Create Account
+</button>
+
+<div class="bottom">
+Already have an account?
+<span class="login" onclick="window.location.href='/'">
+Login
+</span>
+</div>
+
+</div>
+
+</body>
+</html>
+`);
+
+});
+
+
+
 
 
 app.listen(PORT, () => {
 console.log("Server running on port " + PORT);
 });
+
