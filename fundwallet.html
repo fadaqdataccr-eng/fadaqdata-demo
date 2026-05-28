@@ -9,8 +9,6 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Fund Wallet</title>
 
-<script src="https://js.paystack.co/v1/inline.js"></script>
-
 <style>
 
 body{
@@ -22,16 +20,17 @@ color:white;
 }
 
 .container{
-padding:25px;
-padding-bottom:100px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:20px 0;
 }
 
 .logo{
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:30px;
-margin-bottom:40px;
+margin:30px 0;
 }
 
 .card{
@@ -40,28 +39,11 @@ padding:25px;
 border-radius:25px;
 }
 
-.title{
-font-size:40px;
+.balance{
+font-size:45px;
 font-weight:bold;
 text-align:center;
-margin-bottom:30px;
-}
-
-.balance-box{
-background:#a00000;
-padding:20px;
-border-radius:18px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
-}
-
-label{
-display:block;
-font-size:20px;
-font-weight:bold;
-margin-bottom:10px;
+margin:20px 0;
 }
 
 input{
@@ -69,37 +51,13 @@ width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
-margin-bottom:25px;
+margin-top:20px;
 font-size:18px;
 box-sizing:border-box;
-outline:none;
 }
 
 button{
 width:100%;
-padding:20px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:24px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#8B0000;
-padding:15px;
-display:flex;
-gap:15px;
-}
-
-.nav-btn{
-flex:1;
 padding:18px;
 border:none;
 border-radius:18px;
@@ -108,6 +66,7 @@ color:#7a0000;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
+margin-top:20px;
 }
 
 </style>
@@ -124,40 +83,24 @@ FadaqData
 
 <div class="card">
 
-<div class="title">
-💳 Fund Wallet
-</div>
+<h2>
+Wallet Balance
+</h2>
 
-<div class="balance-box"
-id="walletBalance">
-Wallet: ₦0.00
+<div class="balance"
+id="wallet">
+₦0.00
 </div>
-
-<label>Enter Amount</label>
 
 <input type="number"
 id="amount"
 placeholder="Enter amount">
 
-<button onclick="payWithPaystack()">
+<button onclick="fundWallet()">
 Fund Wallet
 </button>
 
 </div>
-
-</div>
-
-<div class="bottom-nav">
-
-<button class="nav-btn"
-onclick="window.location.href='dashboard.html'">
-🏠 Home
-</button>
-
-<button class="nav-btn"
-onclick="window.location.href='profile.html'">
-👤 Profile
-</button>
 
 </div>
 
@@ -178,14 +121,13 @@ import {
 getFirestore,
 doc,
 getDoc,
-updateDoc,
-arrayUnion
+updateDoc
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
 
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
@@ -208,20 +150,12 @@ getAuth(app);
 const db =
 getFirestore(app);
 
-let currentUser = null;
-let currentWallet = 0;
+let currentUser;
 
 onAuthStateChanged(auth,
 async(user)=>{
 
-if(!user){
-
-window.location.href =
-"login.html";
-
-return;
-
-}
+if(user){
 
 currentUser = user;
 
@@ -236,21 +170,24 @@ if(docSnap.exists()){
 const data =
 docSnap.data();
 
-currentWallet =
-data.wallet || 0;
-
 document.getElementById(
-"walletBalance"
+"wallet"
 ).innerHTML =
-"Wallet: ₦" +
-currentWallet.toFixed(2);
+"₦" + data.wallet;
+
+}
+
+}else{
+
+window.location.href =
+"login.html";
 
 }
 
 });
 
-window.payWithPaystack =
-function(){
+window.fundWallet =
+async function(){
 
 let amount =
 parseFloat(
@@ -259,7 +196,7 @@ document.getElementById(
 ).value
 );
 
-if(isNaN(amount) || amount <= 0){
+if(!amount || amount <= 0){
 
 alert(
 "Enter valid amount"
@@ -269,85 +206,27 @@ return;
 
 }
 
-let handler =
-PaystackPop.setup({
+const docRef =
+doc(db,"users",currentUser.uid);
 
-key:
-'pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c',
+const docSnap =
+await getDoc(docRef);
 
-email:
-currentUser.email,
+let currentBalance =
+docSnap.data().wallet || 0;
 
-amount:
-amount * 100,
+let newBalance =
+currentBalance + amount;
 
-currency:
-'NGN',
-
-ref:
-'FD' +
-Math.floor(
-(Math.random() * 1000000000) + 1
-),
-
-callback:
-async function(response){
-
-let newWallet =
-currentWallet + amount;
-
-let transaction = {
-
-text:
-"💳 Wallet funded with ₦" +
-amount,
-
-date:
-new Date().toLocaleString(),
-
-amount:amount,
-
-type:"Wallet Funding",
-
-status:"Successful",
-
-id:response.reference
-
-};
-
-await updateDoc(
-doc(db,"users",currentUser.uid),
-{
-
-wallet:newWallet,
-
-transactions:
-arrayUnion(transaction)
-
-}
-
-);
+await updateDoc(docRef,{
+wallet:newBalance
+});
 
 alert(
 "Wallet Funded Successfully ✅"
 );
 
-window.location.href =
-"dashboard.html";
-
-},
-
-onClose:function(){
-
-alert(
-"Transaction Cancelled"
-);
-
-}
-
-});
-
-handler.openIframe();
+location.reload();
 
 };
 
