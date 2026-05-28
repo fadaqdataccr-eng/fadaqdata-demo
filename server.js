@@ -10,98 +10,133 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// =========================
-// TEST ROUTE
-// =========================
+// ======================
+// HOME ROUTE
+// ======================
 app.get("/", (req, res) => {
   res.json({
     status: "success",
-    message: "FadaqData Server Running Successfully"
+    message: "FadaqData Server Running"
   });
 });
 
-// =========================
+// ======================
 // BUY DATA ROUTE
-// =========================
+// ======================
 app.post("/buy-data", async (req, res) => {
+
   try {
+
     const { network, phone, data_plan } = req.body;
 
-    // =========================
+    // ======================
     // VALIDATION
-    // =========================
+    // ======================
     if (!network || !phone || !data_plan) {
+
       return res.status(400).json({
         status: "error",
         message: "All fields are required"
       });
+
     }
 
-    // =========================
+    // ======================
     // GENERATE REFERENCE
-    // =========================
+    // ======================
     const ref = "DATA" + Date.now();
 
-    // =========================
-    // FADAQDATA API REQUEST
-    // =========================
-    const response = await fetch("https://fadaqdata.com/api/data/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Token geCAbvc3prhCyC5dtB05wi11q4C9n4zsCHC79DoxFG366xAA3C3aAJ2bBBAf1757076980"
-      },
-      body: JSON.stringify({
-        network: network,
-        phone: phone,
-        ref: ref,
-        data_plan: data_plan,
-        ported_number: true
-      })
+    console.log("Incoming Request:", {
+      network,
+      phone,
+      data_plan
     });
 
-    const data = await response.json();
+    // ======================
+    // API REQUEST
+    // ======================
+    const apiResponse = await fetch(
+      "https://fadaqdata.com/api/data/",
+      {
+        method: "POST",
 
-    console.log("FadaqData Response:", data);
+        headers: {
+          "Content-Type": "application/json",
 
-    // =========================
-    // SUCCESS RESPONSE
-    // =========================
+          // PUT YOUR NEW API KEY HERE
+          "Authorization":
+            "Token PASTE_YOUR_NEW_API_KEY_HERE"
+        },
+
+        body: JSON.stringify({
+          network: String(network),
+          phone: String(phone),
+          ref: ref,
+          data_plan: String(data_plan),
+          ported_number: true
+        })
+
+      }
+    );
+
+    // ======================
+    // API RESPONSE
+    // ======================
+    const result = await apiResponse.json();
+
+    console.log("FadaqData API Response:", result);
+
+    // ======================
+    // SUCCESS
+    // ======================
     if (
-      data.status === "success" ||
-      data.Status === "successful"
+      result.status === "success" ||
+      result.Status === "successful"
     ) {
+
       return res.json({
         status: "success",
-        message: data.true_response || "Data purchase successful",
-        api_response: data
+        message:
+          result.true_response ||
+          "Data Purchase Successful",
+
+        api_response: result
       });
+
     }
 
-    // =========================
-    // FAILED RESPONSE
-    // =========================
+    // ======================
+    // FAILED
+    // ======================
     return res.status(400).json({
       status: "error",
-      message: data.message || "Transaction failed",
-      api_response: data
+      message:
+        result.message ||
+        "Transaction failed",
+
+      api_response: result
     });
 
   } catch (error) {
-    console.log(error);
+
+    console.log("SERVER ERROR:", error);
 
     return res.status(500).json({
       status: "error",
-      message: "Server Error",
-      error: error.message
+      message: error.message
     });
+
   }
+
 });
 
-// =========================
+// ======================
 // START SERVER
-// =========================
+// ======================
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+  console.log(
+    `Server running on port ${PORT}`
+  );
+
 });
