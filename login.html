@@ -83,31 +83,11 @@ font-weight:bold;
 text-decoration:none;
 }
 
-.toast{
-position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:#7a0000;
-padding:18px 25px;
-border-radius:15px;
-font-size:18px;
-font-weight:bold;
-display:none;
-z-index:99999;
-}
-
 </style>
 
 </head>
 
 <body>
-
-<div class="toast"
-id="toast">
-Login Successful ✅
-</div>
 
 <div class="container">
 
@@ -147,37 +127,55 @@ Signup
 
 </div>
 
-<script>
+<script type="module">
 
-if(localStorage.getItem("loggedIn") === "true"){
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
+projectId: "fadaqdata-3bd14",
+
+storageBucket: "fadaqdata-3bd14.appspot.com",
+
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
 
 window.location.href =
 "dashboard.html";
 
 }
 
-function showToast(message){
+});
 
-let toast =
-document.getElementById(
-"toast"
-);
-
-toast.innerHTML = message;
-
-toast.style.display =
-"block";
-
-setTimeout(function(){
-
-toast.style.display =
-"none";
-
-},3000);
-
-}
-
-function login(){
+window.login =
+async function(){
 
 let email =
 document.getElementById(
@@ -189,9 +187,12 @@ document.getElementById(
 "password"
 ).value;
 
-if(email === "" || password === ""){
+if(
+email === "" ||
+password === ""
+){
 
-showToast(
+alert(
 "Fill all fields"
 );
 
@@ -199,54 +200,32 @@ return;
 
 }
 
-let savedUser =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
 );
 
-if(!savedUser){
-
-showToast(
-"No account found"
-);
-
-return;
-
-}
-
-if(
-savedUser.email !== email
-||
-savedUser.password !== password
-){
-
-showToast(
-"Invalid login details"
-);
-
-return;
-
-}
-
-localStorage.setItem(
-"loggedIn",
-"true"
-);
-
-showToast(
+alert(
 "Login Successful ✅"
 );
-
-setTimeout(function(){
 
 window.location.href =
 "dashboard.html";
 
-},1500);
+}
+
+catch(error){
+
+alert(
+error.message
+);
 
 }
+
+};
 
 </script>
 
