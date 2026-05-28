@@ -20,73 +20,56 @@ color:white;
 }
 
 .container{
-padding:25px;
-padding-bottom:120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:20px 0 120px;
 }
 
 .logo{
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:30px;
-margin-bottom:40px;
+margin:30px 0;
 }
 
 .card{
 background:#c00000;
 padding:25px;
 border-radius:25px;
-margin-bottom:25px;
 }
 
-.title{
+.balance{
 font-size:40px;
 font-weight:bold;
 text-align:center;
-margin-bottom:30px;
+margin:20px 0;
 }
 
-.balance-box{
-background:#a00000;
-padding:20px;
-border-radius:18px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
-}
-
-label{
-display:block;
-font-size:20px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-input,select{
+select,input{
 width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
-margin-bottom:25px;
+margin-top:20px;
 font-size:18px;
 box-sizing:border-box;
-outline:none;
 }
 
-.buy-btn{
+button{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
+margin-top:20px;
 }
 
-.bottom-nav{
+.bottomnav{
 position:fixed;
 bottom:0;
 left:0;
@@ -94,73 +77,17 @@ right:0;
 background:#8B0000;
 padding:15px;
 display:flex;
-gap:15px;
+justify-content:space-around;
 }
 
-.nav-btn{
-flex:1;
-padding:18px;
-border:none;
+.navbtn{
+background:white;
+padding:15px 30px;
 border-radius:18px;
-background:white;
 color:#7a0000;
-font-size:22px;
 font-weight:bold;
-cursor:pointer;
-}
-
-.receipt-modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-box-sizing:border-box;
-}
-
-.receipt-card{
-background:white;
-color:#7a0000;
-padding:25px;
-border-radius:25px;
-width:100%;
-max-width:400px;
-}
-
-.receipt-title{
-font-size:32px;
-font-weight:bold;
-text-align:center;
-margin-bottom:25px;
-}
-
-.receipt-item{
+text-decoration:none;
 font-size:20px;
-margin-bottom:18px;
-line-height:1.5;
-}
-
-.success{
-color:green;
-font-weight:bold;
-}
-
-.done-btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:#7a0000;
-color:white;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
 }
 
 </style>
@@ -177,56 +104,56 @@ FadaqData
 
 <div class="card">
 
-<div class="title">
+<h2>
 📶 Buy Data
-</div>
+</h2>
 
-<div class="balance-box"
-id="walletBalance">
-Wallet: ₦0.00
+<div class="balance"
+id="wallet">
+₦0.00
 </div>
-
-<label>Select Network</label>
 
 <select id="network">
 
-<option value="MTN">MTN</option>
-<option value="Airtel">Airtel</option>
-<option value="Glo">Glo</option>
-<option value="9mobile">9mobile</option>
+<option value="MTN">
+MTN
+</option>
+
+<option value="Airtel">
+Airtel
+</option>
+
+<option value="Glo">
+Glo
+</option>
+
+<option value="9mobile">
+9mobile
+</option>
 
 </select>
 
-<label>Select Plan</label>
+<select id="plan">
 
-<select id="plan"
-onchange="updateAmount()">
+<option value="1200">
+5GB - ₦1200
+</option>
 
-<option value="500MB">500MB - ₦100</option>
-<option value="1GB">1GB - ₦300</option>
-<option value="2GB">2GB - ₦500</option>
-<option value="5GB">5GB - ₦1200</option>
+<option value="2500">
+10GB - ₦2500
+</option>
+
+<option value="5000">
+20GB - ₦5000
+</option>
 
 </select>
-
-<label>Phone Number</label>
-
-<input type="number"
-id="phone"
-placeholder="Enter phone number">
-
-<label>Amount</label>
 
 <input type="text"
-id="amount"
-readonly
-style="
-background:#eee;
-font-weight:bold;
-">
+id="phone"
+placeholder="Phone Number">
 
-<button class="buy-btn"
-onclick="buyData()">
+<button onclick="buyData()">
 Purchase Data
 </button>
 
@@ -234,57 +161,17 @@ Purchase Data
 
 </div>
 
-<div class="bottom-nav">
+<div class="bottomnav">
 
-<button class="nav-btn"
-onclick="window.location.href='dashboard.html'">
+<a href="dashboard.html"
+class="navbtn">
 🏠 Home
-</button>
+</a>
 
-<button class="nav-btn"
-onclick="window.location.href='profile.html'">
+<a href="profile.html"
+class="navbtn">
 👤 Profile
-</button>
-
-</div>
-
-<div class="receipt-modal"
-id="receiptModal">
-
-<div class="receipt-card">
-
-<div class="receipt-title">
-✅ Data Receipt
-</div>
-
-<div class="receipt-item"
-id="receiptNetwork"></div>
-
-<div class="receipt-item"
-id="receiptPlan"></div>
-
-<div class="receipt-item"
-id="receiptPhone"></div>
-
-<div class="receipt-item"
-id="receiptAmount"></div>
-
-<div class="receipt-item"
-id="receiptID"></div>
-
-<div class="receipt-item"
-id="receiptDate"></div>
-
-<div class="receipt-item success">
-Status: Successful
-</div>
-
-<button class="done-btn"
-onclick="closeReceipt()">
-Done
-</button>
-
-</div>
+</a>
 
 </div>
 
@@ -312,7 +199,7 @@ arrayUnion
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
 
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
@@ -335,20 +222,12 @@ getAuth(app);
 const db =
 getFirestore(app);
 
-let currentUser = null;
-let currentWallet = 0;
+let currentUser;
 
 onAuthStateChanged(auth,
 async(user)=>{
 
-if(!user){
-
-window.location.href =
-"login.html";
-
-return;
-
-}
+if(user){
 
 currentUser = user;
 
@@ -360,52 +239,21 @@ await getDoc(docRef);
 
 if(docSnap.exists()){
 
-const data =
-docSnap.data();
-
-currentWallet =
-data.wallet || 0;
-
 document.getElementById(
-"walletBalance"
+"wallet"
 ).innerHTML =
-"Wallet: ₦" +
-currentWallet.toFixed(2);
+"₦" + docSnap.data().wallet;
+
+}
+
+}else{
+
+window.location.href =
+"login.html";
 
 }
 
 });
-
-window.updateAmount =
-function(){
-
-let plan =
-document.getElementById(
-"plan"
-).value;
-
-let amountField =
-document.getElementById(
-"amount"
-);
-
-if(plan === "500MB"){
-amountField.value = 100;
-}
-
-else if(plan === "1GB"){
-amountField.value = 300;
-}
-
-else if(plan === "2GB"){
-amountField.value = 500;
-}
-
-else if(plan === "5GB"){
-amountField.value = 1200;
-}
-
-};
 
 window.buyData =
 async function(){
@@ -415,22 +263,17 @@ document.getElementById(
 "network"
 ).value;
 
-let plan =
+let amount =
+parseFloat(
 document.getElementById(
 "plan"
-).value;
+).value
+);
 
 let phone =
 document.getElementById(
 "phone"
 ).value;
-
-let amount =
-parseFloat(
-document.getElementById(
-"amount"
-).value
-);
 
 if(phone === ""){
 
@@ -442,7 +285,16 @@ return;
 
 }
 
-if(currentWallet < amount){
+const docRef =
+doc(db,"users",currentUser.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+let wallet =
+docSnap.data().wallet || 0;
+
+if(wallet < amount){
 
 alert(
 "Insufficient balance"
@@ -452,104 +304,39 @@ return;
 
 }
 
-let newWallet =
-currentWallet - amount;
+let newBalance =
+wallet - amount;
 
-let transactionID =
-"FD" +
-Math.floor(
-Math.random()*100000000
-);
+await updateDoc(docRef,{
 
-let transactionDate =
-new Date().toLocaleString();
+wallet:newBalance,
 
-let transaction = {
-
-text:
-"📶 " +
-network +
-" Data for " +
-phone +
-" - ₦" +
-amount,
-
-date:
-transactionDate,
-
-amount:amount,
+transactions:arrayUnion({
 
 type:"Data Purchase",
 
-status:"Successful",
+network:network,
 
-id:transactionID
+phone:phone,
 
-};
+amount:amount,
 
-await updateDoc(
-doc(db,"users",currentUser.uid),
-{
+date:new Date().toLocaleString()
 
-wallet:newWallet,
+})
 
-transactions:
-arrayUnion(transaction)
+});
 
-}
-
+alert(
+"Data Purchase Successful ✅"
 );
-
-document.getElementById(
-"receiptNetwork"
-).innerHTML =
-"Network: " + network;
-
-document.getElementById(
-"receiptPlan"
-).innerHTML =
-"Plan: " + plan;
-
-document.getElementById(
-"receiptPhone"
-).innerHTML =
-"Phone: " + phone;
-
-document.getElementById(
-"receiptAmount"
-).innerHTML =
-"Amount: ₦" + amount;
-
-document.getElementById(
-"receiptID"
-).innerHTML =
-"Transaction ID: " +
-transactionID;
-
-document.getElementById(
-"receiptDate"
-).innerHTML =
-"Date: " +
-transactionDate;
-
-document.getElementById(
-"receiptModal"
-).style.display =
-"flex";
-
-};
-
-window.closeReceipt =
-function(){
 
 window.location.href =
 "dashboard.html";
 
 };
 
-updateAmount();
-
 </script>
 
 </body>
-  </html>
+</html>
