@@ -1,91 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Buy Data</title>
+<title>Buy Data - FadaqData</title>
 
 <style>
 body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial;
-color:white;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:#8B0000;
+    color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:40px 0 120px;
+    padding:20px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
-text-align:center;
-margin-bottom:40px;
+    text-align:center;
+    font-size:50px;
+    font-weight:bold;
+    margin-top:40px;
+    margin-bottom:40px;
 }
 
 .card{
-background:red;
-padding:30px;
-border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    background:red;
+    border-radius:25px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.4);
 }
 
-.balanceBox{
-background:#cc0000;
-padding:30px;
-border-radius:20px;
-text-align:center;
-margin-bottom:25px;
+.balance-box{
+    background:#cc0000;
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.balance-box h2{
+    margin:0;
+    font-size:25px;
 }
 
 .balance{
-font-size:70px;
-font-weight:bold;
-margin-top:10px;
+    font-size:70px;
+    font-weight:bold;
+    margin-top:10px;
 }
 
 select,input,button{
-width:100%;
-padding:20px;
-margin-top:20px;
-border:none;
-border-radius:15px;
-font-size:20px;
-box-sizing:border-box;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:15px;
+    margin-top:20px;
+    font-size:18px;
+    box-sizing:border-box;
 }
 
 button{
-background:white;
-color:#5c0000;
-font-weight:bold;
-cursor:pointer;
+    background:white;
+    color:#660000;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.bottomNav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#8B0000;
-display:flex;
-justify-content:space-around;
-padding:15px 0;
+.bottom-nav{
+    position:fixed;
+    bottom:20px;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
 }
 
-.navBtn{
-background:white;
-padding:15px 35px;
-border-radius:18px;
-font-size:18px;
-font-weight:bold;
-text-decoration:none;
-color:#5c0000;
+.nav-btn{
+    background:white;
+    color:#660000;
+    padding:15px 30px;
+    border-radius:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 </style>
 </head>
@@ -94,12 +93,14 @@ color:#5c0000;
 
 <div class="container">
 
-<div class="logo">FadaqData</div>
+<div class="logo">
+FadaqData
+</div>
 
 <div class="card">
 
-<div class="balanceBox">
-<h2>Wallet Balance 👁️</h2>
+<div class="balance-box">
+<h2>Wallet Balance 👁</h2>
 <div class="balance" id="balance">₦0</div>
 </div>
 
@@ -110,127 +111,119 @@ color:#5c0000;
 <option value="4">9MOBILE</option>
 </select>
 
-<select id="plan">
-<option value="85" data-price="100">
-MTN 500MB - ₦100
-</option>
+<select id="dataPlan">
+<option value="85">MTN 500MB - ₦100</option>
+<option value="86">MTN 1GB - ₦400</option>
+<option value="109">GLO 1GB - ₦430</option>
+<option value="110">GLO 2GB - ₦860</option>
 </select>
 
 <input type="number" id="phone" placeholder="Enter Phone Number">
 
-<button onclick="buyData()">Buy Data</button>
-
-<p id="status"></p>
-
-</div>
+<button id="buyBtn" onclick="buyData()">
+Buy Data
+</button>
 
 </div>
 
-<div class="bottomNav">
-<a href="dashboard.html" class="navBtn">🏠 Home</a>
-<a href="profile.html" class="navBtn">👤 Profile</a>
+</div>
+
+<div class="bottom-nav">
+<a href="dashboard.html" class="nav-btn">🏠 Home</a>
+<a href="profile.html" class="nav-btn">👤 Profile</a>
 </div>
 
 <script>
 
-let balance = localStorage.getItem("walletBalance") || 0;
+// LOAD WALLET
+let walletBalance = localStorage.getItem("walletBalance") || 100;
+document.getElementById("balance").innerText = "₦" + walletBalance;
 
-document.getElementById("balance").innerHTML = "₦" + balance;
-
+// BUY DATA FUNCTION
 async function buyData(){
 
-let phone = document.getElementById("phone").value;
-let network = document.getElementById("network").value;
-let plan = document.getElementById("plan").value;
+    const network = document.getElementById("network").value;
+    const dataPlan = document.getElementById("dataPlan").value;
+    const phone = document.getElementById("phone").value;
 
-let price = parseInt(
-document.getElementById("plan")
-.options[document.getElementById("plan").selectedIndex]
-.getAttribute("data-price")
-);
+    if(!network || !dataPlan || !phone){
+        alert("Please fill all fields");
+        return;
+    }
 
-if(balance < price){
-alert("Insufficient Balance");
-return;
+    document.getElementById("buyBtn").innerText =
+    "Processing Purchase...";
+
+    try{
+
+        const response = await fetch(
+        "https://fadaqdata-server.onrender.com/buy-data",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                network:network,
+                phone:phone,
+                data_plan:dataPlan
+            })
+        });
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if(data.status === "success"){
+
+            let balance =
+            parseInt(localStorage.getItem("walletBalance") || 100);
+
+            balance -= 100;
+
+            localStorage.setItem(
+                "walletBalance",
+                balance
+            );
+
+            let transactions =
+            JSON.parse(localStorage.getItem("transactions")) || [];
+
+            transactions.unshift({
+                type:"Data Purchase",
+                network:network,
+                plan:dataPlan,
+                phone:phone,
+                amount:"₦100",
+                status:"Successful",
+                date:new Date().toLocaleString()
+            });
+
+            localStorage.setItem(
+                "transactions",
+                JSON.stringify(transactions)
+            );
+
+            alert(data.message || "Purchase Successful");
+
+            window.location.href = "dashboard.html";
+
+        }else{
+
+            alert(data.message || "Transaction Failed");
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        alert("Network Error");
+
+    }
+
+    document.getElementById("buyBtn").innerText = "Buy Data";
 }
-
-document.getElementById("status").innerHTML = "Processing Purchase...";
-
-try{
-
-const response = await fetch("https://fadaqdata.com/api/data/",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-"Authorization":"Token geCAbvc3prhCyC5dtB05wi11q4C9n4zsCHC79DoxFG366xAA3C3aAJ2bBBAf1757076980"
-},
-
-body:JSON.stringify({
-network:network,
-phone:phone,
-ref:"DATA"+Date.now(),
-data_plan:plan,
-ported_number:true
-})
-
-});
-
-const data = await response.json();
-
-console.log(data);
-
-if(data.status === "success"){
-
-balance = balance - price;
-
-localStorage.setItem("walletBalance", balance);
-
-document.getElementById("balance").innerHTML = "₦" + balance;
-
-let history =
-JSON.parse(localStorage.getItem("transactions")) || [];
-
-history.unshift({
-type:"Data Purchase",
-amount:price,
-phone:phone,
-date:new Date().toLocaleString()
-});
-
-localStorage.setItem(
-"transactions",
-JSON.stringify(history)
-);
-
-alert("Data Purchase Successful");
-
-document.getElementById("status").innerHTML =
-"Purchase Successful";
-
-}else{
-
-alert("Purchase Failed");
-
-document.getElementById("status").innerHTML =
-"Purchase Failed";
-
-}
-
-}catch(error){
-
-console.log(error);
-
-alert("Network Error");
-
-document.getElementById("status").innerHTML =
-"Network Error";
-
-}
-
-}
-
 </script>
 
 </body>
