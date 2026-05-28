@@ -1,148 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Buy Data</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
+}
+
+.container{
+width:90%;
+max-width:450px;
+margin:auto;
+padding:40px 0 120px;
+}
+
+.logo{
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-bottom:40px;
+}
+
+.card{
+background:red;
+padding:25px;
+border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.balance-box{
+background:#cc0000;
+padding:25px;
+border-radius:20px;
+text-align:center;
+margin-bottom:25px;
+}
+
+.balance-title{
+font-size:22px;
+margin-bottom:10px;
+}
+
+.balance{
+font-size:65px;
+font-weight:bold;
+}
+
+select,input{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:18px;
+margin-top:20px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:white;
+color:#660000;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8B0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+}
+
+.nav-btn{
+background:white;
+padding:15px 30px;
+border-radius:20px;
+font-size:18px;
+font-weight:bold;
+color:#660000;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="card">
+
+<div class="balance-box">
+
+<div class="balance-title">
+Wallet Balance 👁️
+</div>
+
+<div class="balance" id="walletBalance">
+₦0
+</div>
+
+</div>
+
+<select id="network">
+
+<option value="MTN">
+MTN
+</option>
+
+<option value="AIRTEL">
+AIRTEL
+</option>
+
+<option value="GLO">
+GLO
+</option>
+
+<option value="9MOBILE">
+9MOBILE
+</option>
+
+</select>
+
+<select id="plan">
+
+<option value="100">
+MTN 500MB - ₦100
+</option>
+
+<option value="300">
+MTN 1GB - ₦300
+</option>
+
+<option value="500">
+MTN 2GB - ₦500
+</option>
+
+</select>
+
+<input
+type="number"
+id="phone"
+placeholder="Enter Phone Number"
+>
+
+<button onclick="buyData()">
+Buy Data
+</button>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<a
+href="dashboard.html"
+class="nav-btn"
+>
+🏠 Home
+</a>
+
+<a
+href="profile.html"
+class="nav-btn"
+>
+👤 Profile
+</a>
+
+</div>
+
 <script>
 
-// LOAD WALLET BALANCE
-let walletBalance =
-localStorage.getItem("walletBalance") || 100;
+// LOGIN CHECK
+const user =
+JSON.parse(
+localStorage.getItem("loggedInUser")
+);
 
-document.getElementById("balance").innerText =
-"₦" + walletBalance;
+if(!user){
 
-// BUY DATA FUNCTION
+window.location.href =
+"login.html";
+
+}
+
+// WALLET
+let balance =
+parseInt(
+localStorage.getItem("walletBalance")
+) || 100;
+
+document.getElementById(
+"walletBalance"
+).innerText =
+"₦" + balance.toLocaleString();
+
+// BUY DATA
 async function buyData(){
 
-    const network =
-    document.getElementById("network").value;
+const network =
+document.getElementById("network").value;
 
-    const dataPlan =
-    document.getElementById("dataPlan").value;
+const amount =
+parseInt(
+document.getElementById("plan").value
+);
 
-    const phone =
-    document.getElementById("phone").value;
+const phone =
+document.getElementById("phone").value;
 
-    if(!network || !dataPlan || !phone){
+// VALIDATION
+if(!phone){
 
-        alert("Please fill all fields");
-        return;
+alert("Enter phone number");
+return;
 
-    }
-
-    document.getElementById("buyBtn").innerText =
-    "Processing Purchase...";
-
-    try{
-
-        const response = await fetch(
-        "https://fadaqdata-server.onrender.com/buy-data",
-        {
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                network:network,
-                phone:phone,
-                data_plan:dataPlan
-            })
-        });
-
-        const data = await response.json();
-
-        console.log(data);
-
-        // SUCCESS
-        if(
-            data.status === "success" ||
-            data.Status === "successful"
-        ){
-
-            // DEDUCT WALLET
-            let balance =
-            parseInt(
-                localStorage.getItem("walletBalance") || 100
-            );
-
-            balance -= 100;
-
-            localStorage.setItem(
-                "walletBalance",
-                balance
-            );
-
-            // SAVE HISTORY
-            let transactions =
-            JSON.parse(
-                localStorage.getItem("transactions")
-            ) || [];
-
-            transactions.unshift({
-
-                id: "TRX" + Date.now(),
-
-                type: "Data Purchase",
-
-                network:
-                network == 1 ? "MTN" :
-                network == 2 ? "AIRTEL" :
-                network == 3 ? "GLO" :
-                "9MOBILE",
-
-                plan: dataPlan,
-
-                phone: phone,
-
-                amount: "₦100",
-
-                status: "Successful",
-
-                message:
-                data.message ||
-                data.true_response ||
-                "Purchase Successful",
-
-                date:
-                new Date().toLocaleString()
-            });
-
-            localStorage.setItem(
-                "transactions",
-                JSON.stringify(transactions)
-            );
-
-            // SAVE RECEIPT
-            localStorage.setItem(
-                "lastReceipt",
-                JSON.stringify(transactions[0])
-            );
-
-            alert(
-                data.message ||
-                "Data Purchase Successful"
-            );
-
-            // REDIRECT TO RECEIPT
-            window.location.href =
-            "receipt.html";
-
-        }else{
-
-            alert(
-                data.message ||
-                "Transaction failed"
-            );
-
-        }
-
-    }catch(error){
-
-        console.log(error);
-
-        alert("Network Error");
-
-    }
-
-    document.getElementById("buyBtn").innerText =
-    "Buy Data";
 }
+
+if(balance < amount){
+
+alert("Insufficient balance");
+return;
+
+}
+
+try{
+
+// BUTTON LOADING
+document.querySelector("button").innerText =
+"Processing Purchase...";
+
+// API REQUEST
+const response =
+await fetch(
+"https://fadaqdata-server.onrender.com/buy-data",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+network:network,
+phone:phone,
+amount:amount
+
+})
+
+}
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+// SUCCESS
+if(data.success){
+
+balance -= amount;
+
+localStorage.setItem(
+"walletBalance",
+balance
+);
+
+// SAVE TRANSACTION
+let transaction = {
+
+id:"TRX" + Date.now(),
+
+type:"Data Purchase",
+
+network:network,
+
+phone:phone,
+
+amount:"₦" + amount,
+
+status:"Successful",
+
+reference:"DATA" + Date.now(),
+
+date:new Date().toLocaleString()
+
+};
+
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
+
+transactions.unshift(transaction);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+// SAVE RECEIPT
+localStorage.setItem(
+"lastReceipt",
+JSON.stringify(transaction)
+);
+
+alert("Data Purchase Successful");
+
+// REDIRECT
+window.location.href =
+"receipt.html";
+
+}else{
+
+alert(
+data.message ||
+"Transaction failed"
+);
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert(
+"Network Error"
+);
+
+}
+
+// RESET BUTTON
+document.querySelector("button").innerText =
+"Buy Data";
+
+}
+
 </script>
+
+</body>
+</html>
