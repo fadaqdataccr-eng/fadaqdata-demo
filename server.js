@@ -1,17 +1,211 @@
 const express = require("express");
-const path = require("path");
-
 const app = express();
 
-/* STATIC FILES */
-app.use(express.static("public"));
+const PORT = process.env.PORT || 3000;
 
-/* HOME PAGE */
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "login.html"));
+
+res.send(`
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FadaqData</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+min-height:100vh;
+}
+
+.top{
+background:linear-gradient(to right,#5b0000,#d10000);
+padding:40px 30px 120px;
+color:white;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
+}
+
+.logo{
+font-size:60px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.subtitle{
+font-size:20px;
+line-height:1.5;
+}
+
+.card{
+background:white;
+width:90%;
+margin:-70px auto 30px;
+border-radius:35px;
+padding:40px 25px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.welcome{
+font-size:55px;
+font-weight:bold;
+text-align:center;
+margin-bottom:10px;
+}
+
+.small{
+text-align:center;
+color:gray;
+font-size:18px;
+margin-bottom:35px;
+}
+
+.input{
+width:100%;
+padding:22px;
+margin-bottom:25px;
+border-radius:18px;
+border:2px solid #eee;
+background:#f7f1c6;
+font-size:18px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+font-size:18px;
+}
+
+.forgot{
+color:#7a0000;
+font-weight:bold;
+}
+
+.login-btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+background:linear-gradient(to right,#5b0000,#d10000);
+color:white;
+font-size:22px;
+font-weight:bold;
+margin-bottom:30px;
+cursor:pointer;
+}
+
+.or{
+text-align:center;
+font-size:30px;
+font-weight:bold;
+color:gray;
+margin-bottom:30px;
+}
+
+.google{
+width:100%;
+padding:22px;
+border-radius:18px;
+border:2px solid #eee;
+background:white;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.bottom{
+text-align:center;
+margin-top:40px;
+font-size:20px;
+}
+
+.register{
+color:#7a0000;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="subtitle">
+Fadaqdata Your Data, Your Way – Anytime, Anywhere.
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="welcome">
+Welcome Back! 👋
+</div>
+
+<div class="small">
+Login to continue to your account
+</div>
+
+<input type="text" class="input" placeholder="Email, Username or Phone Number">
+
+<input type="password" class="input" placeholder="Password">
+
+<div class="row">
+
+<div>
+<input type="checkbox"> Remember Me
+</div>
+
+<div class="forgot">
+Forgot Password?
+</div>
+
+</div>
+
+<button class="login-btn" onclick="window.location.href='/dashboard'">
+Login
+</button>
+
+<div class="or">
+OR
+</div>
+
+<button class="google">
+Continue with Google
+</button>
+
+<div class="bottom">
+Don’t have an account?
+<span class="register"> Register</span>
+</div>
+
+</div>
+
+</body>
+</html>
+
+`);
+
 });
 
-/* DASHBOARD PAGE */
 app.get("/dashboard", (req, res) => {
 
 res.send(`
@@ -22,7 +216,7 @@ res.send(`
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FadaqData Dashboard</title>
+<title>Dashboard</title>
 
 <style>
 
@@ -30,31 +224,29 @@ res.send(`
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
-background:#f3f3f3;
-padding-bottom:100px;
+background:#f5f5f5;
+padding-bottom:120px;
 }
-
-/* HEADER */
 
 .header{
 background:linear-gradient(to right,#5b0000,#d10000);
-padding:25px 20px;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
+padding:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 color:white;
-box-shadow:0 5px 15px rgba(0,0,0,0.15);
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+box-shadow:0 5px 10px rgba(0,0,0,0.2);
 }
 
 .logo{
 font-size:28px;
-font-weight:900;
+font-weight:bold;
 }
 
 .right{
@@ -63,212 +255,192 @@ align-items:center;
 gap:15px;
 }
 
-.notification{
+.notify{
+font-size:35px;
 position:relative;
-font-size:28px;
 }
 
 .badge{
 position:absolute;
 top:-5px;
-right:-5px;
+right:-10px;
 background:red;
 color:white;
 font-size:12px;
-width:18px;
-height:18px;
-display:flex;
-justify-content:center;
-align-items:center;
+width:20px;
+height:20px;
 border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.profile{
-width:50px;
-height:50px;
-border-radius:50%;
+.avatar{
+width:55px;
+height:55px;
 background:white;
+border-radius:50%;
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
+font-size:30px;
 color:#7a0000;
 font-weight:bold;
-font-size:25px;
 }
 
-/* CONTAINER */
-
-.container{
-padding:20px;
-}
-
-/* ALERT */
-
-.alert{
-background:#f7efe7;
-padding:16px;
-border-radius:15px;
+.notice{
+background:#f8efe9;
+margin:20px;
+padding:18px;
+border-radius:18px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 font-weight:bold;
-margin-bottom:20px;
 }
 
-/* WALLET */
-
-.wallet{
+.card{
 background:white;
+margin:20px;
 padding:25px;
-border-radius:25px;
+border-radius:30px;
 box-shadow:0 5px 15px rgba(0,0,0,0.08);
-margin-bottom:25px;
 }
 
-.wallet-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.wallet-balance{
+.balance{
 font-size:55px;
 font-weight:bold;
 color:#7a0000;
-margin-top:10px;
+margin:20px 0;
 }
 
-.wallet-buttons{
+.actions{
 display:flex;
 gap:15px;
-margin-top:25px;
+margin-top:20px;
 }
 
-.btn{
+.btn1{
 flex:1;
-padding:16px;
-border-radius:15px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.primary{
-background:linear-gradient(to right,#5b0000,#c40000);
-color:white;
+padding:18px;
 border:none;
+border-radius:15px;
+background:linear-gradient(to right,#5b0000,#d10000);
+color:white;
+font-size:20px;
+font-weight:bold;
 }
 
-.outline{
+.btn2{
+flex:1;
+padding:18px;
+border-radius:15px;
+border:3px solid #7a0000;
 background:white;
-border:2px solid #8b0000;
-color:#8b0000;
+color:#7a0000;
+font-size:20px;
+font-weight:bold;
 }
-
-/* SECTION */
 
 .section{
-margin-bottom:30px;
-}
-
-.section-header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px;
+padding:0 20px;
+margin-top:10px;
 }
 
-.section-title{
+.section h2{
+font-size:25px;
+}
+
+.view{
+color:#7a0000;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+padding:20px;
+}
+
+.box{
+background:white;
+border-radius:25px;
+padding:30px 15px;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.06);
 font-size:22px;
 font-weight:bold;
 }
 
-.view-all{
-color:#8b0000;
-font-weight:bold;
+.icon{
+font-size:50px;
+margin-bottom:15px;
 }
 
-/* SERVICES */
-
-.services{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-}
-
-.service{
+.tx{
 background:white;
-padding:25px 10px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 5px 10px rgba(0,0,0,0.05);
-font-weight:bold;
-}
-
-.service-icon{
-font-size:38px;
-margin-bottom:10px;
-}
-
-/* TRANSACTION */
-
-.transaction{
-background:white;
+margin:20px;
 padding:18px;
 border-radius:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 5px 10px rgba(0,0,0,0.05);
+box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 
-.transaction-left{
+.lefttx{
 display:flex;
-align-items:center;
 gap:15px;
+align-items:center;
 }
 
-.network{
-width:55px;
-height:55px;
-background:#ffcc00;
-border-radius:15px;
-display:flex;
-justify-content:center;
-align-items:center;
+.mtn{
+background:#ffd400;
+padding:18px;
+border-radius:18px;
 font-weight:bold;
+}
+
+.name{
+font-size:18px;
+font-weight:bold;
+}
+
+.time{
+color:gray;
+margin-top:5px;
 }
 
 .amount{
-color:green;
+font-size:22px;
 font-weight:bold;
-font-size:28px;
+color:#7a0000;
 }
 
-/* BOTTOM NAV */
-
-.bottom-nav{
+.bottomnav{
 position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:linear-gradient(to right,#5b0000,#c40000);
+background:linear-gradient(to right,#5b0000,#d10000);
 display:flex;
 justify-content:space-around;
-padding:14px 0;
+padding:18px 0;
 border-top-left-radius:25px;
 border-top-right-radius:25px;
 color:white;
+font-size:18px;
 }
 
-.nav-item{
+.navitem{
 text-align:center;
-font-size:14px;
 }
 
-.nav-icon{
-font-size:28px;
+.navicon{
+font-size:30px;
 margin-bottom:5px;
 }
 
@@ -286,12 +458,12 @@ FadaqData
 
 <div class="right">
 
-<div class="notification">
+<div class="notify">
 🔔
 <div class="badge">3</div>
 </div>
 
-<div class="profile">
+<div class="avatar">
 F
 </div>
 
@@ -299,118 +471,80 @@ F
 
 </div>
 
-<div class="container">
-
-<div class="alert">
+<div class="notice">
 <div>📢 MTN Share & Sell temporarily unavailable</div>
 <div>View all</div>
 </div>
 
-<div class="wallet">
+<div class="card">
 
-<div class="wallet-top">
-
-<div>
 <h2>Wallet Balance 👁️</h2>
 
-<div class="wallet-balance">
-₦0
-</div>
-</div>
+<div class="balance">₦0</div>
 
-<div style="font-size:70px;">
-👛
-</div>
+<div class="actions">
 
-</div>
+<button class="btn1">Fund Wallet</button>
 
-<div class="wallet-buttons">
-
-<button class="btn primary">
-Fund Wallet
-</button>
-
-<button class="btn outline">
-Transfer
-</button>
+<button class="btn2">Transfer</button>
 
 </div>
 
 </div>
 
 <div class="section">
-
-<div class="section-header">
-<div class="section-title">
-Quick Services
+<h2>Quick Services</h2>
+<div class="view">View all</div>
 </div>
 
-<div class="view-all">
-View all
-</div>
-</div>
+<div class="grid">
 
-<div class="services">
-
-<div class="service">
-<div class="service-icon">📱</div>
+<div class="box">
+<div class="icon">📱</div>
 Airtime
 </div>
 
-<div class="service">
-<div class="service-icon">📶</div>
+<div class="box">
+<div class="icon">📶</div>
 Data
 </div>
 
-<div class="service">
-<div class="service-icon">💸</div>
-Airtime2Cash
+<div class="box">
+<div class="icon">💸</div>
+Airtime to Cash
 </div>
 
-<div class="service">
-<div class="service-icon">📺</div>
+<div class="box">
+<div class="icon">📺</div>
 Cable TV
 </div>
 
-<div class="service">
-<div class="service-icon">⚡</div>
+<div class="box">
+<div class="icon">⚡</div>
 Electricity
 </div>
 
-<div class="service">
-<div class="service-icon">🎓</div>
+<div class="box">
+<div class="icon">🎓</div>
 Exam PIN
 </div>
 
 </div>
 
-</div>
-
 <div class="section">
-
-<div class="section-header">
-
-<div class="section-title">
-Recent Transactions
+<h2>Recent Transactions</h2>
+<div class="view">View all</div>
 </div>
 
-<div class="view-all">
-View all
-</div>
+<div class="tx">
 
-</div>
+<div class="lefttx">
 
-<div class="transaction">
-
-<div class="transaction-left">
-
-<div class="network">
-MTN
-</div>
+<div class="mtn">MTN</div>
 
 <div>
-<h3>MTN 500MB SME</h3>
-<p>May 28, 2026 • 5:00 PM</p>
+<div class="name">MTN 500MB SME</div>
+<div class="time">May 28, 2026 • 5:00 PM</div>
 </div>
 
 </div>
@@ -421,34 +555,30 @@ MTN
 
 </div>
 
-</div>
+<div class="bottomnav">
 
-</div>
-
-<div class="bottom-nav">
-
-<div class="nav-item">
-<div class="nav-icon">🏠</div>
+<div class="navitem">
+<div class="navicon">🏠</div>
 Home
 </div>
 
-<div class="nav-item">
-<div class="nav-icon">💼</div>
+<div class="navitem">
+<div class="navicon">💼</div>
 Wallet
 </div>
 
-<div class="nav-item">
-<div class="nav-icon">📋</div>
+<div class="navitem">
+<div class="navicon">📋</div>
 Services
 </div>
 
-<div class="nav-item">
-<div class="nav-icon">🧾</div>
+<div class="navitem">
+<div class="navicon">🧾</div>
 Transactions
 </div>
 
-<div class="nav-item">
-<div class="nav-icon">👤</div>
+<div class="navitem">
+<div class="navicon">👤</div>
 Profile
 </div>
 
@@ -460,8 +590,6 @@ Profile
 `);
 
 });
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
 console.log("Server running on port " + PORT);
