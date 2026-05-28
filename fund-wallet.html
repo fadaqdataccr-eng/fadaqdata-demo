@@ -12,87 +12,94 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-    margin:0;
-    padding:0;
-    background:#8B0000;
-    font-family:Arial,sans-serif;
-    color:white;
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
 }
 
 .container{
-    width:90%;
-    max-width:450px;
-    margin:auto;
-    padding:40px 0 120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:40px 0 120px;
 }
 
 .logo{
-    text-align:center;
-    font-size:55px;
-    font-weight:bold;
-    margin-bottom:40px;
+text-align:center;
+font-size:55px;
+font-weight:bold;
+margin-bottom:40px;
 }
 
 .card{
-    background:#e60000;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+background:red;
+padding:25px;
+border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-.title{
-    font-size:30px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:30px;
+.balance-box{
+background:#cc0000;
+padding:25px;
+border-radius:20px;
+text-align:center;
+margin-bottom:25px;
+}
+
+.balance-title{
+font-size:22px;
+margin-bottom:10px;
 }
 
 .balance{
-    text-align:center;
-    font-size:60px;
-    font-weight:bold;
-    margin-bottom:30px;
+font-size:65px;
+font-weight:bold;
 }
 
 input{
-    width:100%;
-    padding:20px;
-    border:none;
-    border-radius:18px;
-    font-size:20px;
-    margin-bottom:25px;
-    box-sizing:border-box;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:18px;
+margin-top:20px;
+box-sizing:border-box;
 }
 
 button{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:18px;
-    background:white;
-    color:#6b0000;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:white;
+color:#660000;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
 }
 
 .bottom-nav{
-    position:fixed;
-    bottom:20px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-around;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8B0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
 }
 
 .nav-btn{
-    background:white;
-    color:#6b0000;
-    padding:18px 35px;
-    border-radius:18px;
-    font-size:20px;
-    font-weight:bold;
-    text-decoration:none;
+background:white;
+padding:15px 30px;
+border-radius:20px;
+font-size:18px;
+font-weight:bold;
+color:#660000;
+text-decoration:none;
 }
 
 </style>
@@ -102,147 +109,174 @@ button{
 
 <div class="container">
 
-    <div class="logo">
-        FadaqData
-    </div>
+<div class="logo">
+FadaqData
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <div class="title">
-            💳 Fund Wallet
-        </div>
+<div class="balance-box">
 
-        <div class="balance"
-            id="walletBalance">
-            ₦0
-        </div>
+<div class="balance-title">
+Wallet Balance 👁️
+</div>
 
-        <input type="number"
-            id="amount"
-            placeholder="Enter Amount">
+<div
+class="balance"
+id="walletBalance"
+>
+₦0
+</div>
 
-        <button onclick="fundWallet()">
-            Fund Wallet
-        </button>
+</div>
 
-    </div>
+<input
+type="number"
+id="amount"
+placeholder="Enter Amount"
+>
+
+<button onclick="fundWallet()">
+Fund Wallet
+</button>
+
+</div>
 
 </div>
 
 <div class="bottom-nav">
 
-    <a href="dashboard.html"
-        class="nav-btn">
-        🏠 Home
-    </a>
+<a
+href="dashboard.html"
+class="nav-btn"
+>
+🏠 Home
+</a>
 
-    <a href="profile.html"
-        class="nav-btn">
-        👤 Profile
-    </a>
+<a
+href="profile.html"
+class="nav-btn"
+>
+👤 Profile
+</a>
 
 </div>
 
 <script>
 
-/* CHECK LOGIN */
-const currentUser =
-JSON.parse(localStorage.getItem("currentUser"));
-
-if(!currentUser){
-    window.location.href = "login.html";
-}
-
-/* GET USERS */
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
-
-/* FIND USER */
-let userIndex = users.findIndex(
-    user => user.email === currentUser.email
+// LOGIN CHECK
+const user =
+JSON.parse(
+localStorage.getItem("loggedInUser")
 );
 
-if(userIndex === -1){
-    window.location.href = "login.html";
+if(!user){
+
+window.location.href =
+"login.html";
+
 }
 
-/* USER */
-let updatedUser = users[userIndex];
+// LOAD BALANCE
+let balance =
+parseInt(
+localStorage.getItem("walletBalance")
+) || 100;
 
-/* SHOW BALANCE */
-document.getElementById("walletBalance").innerText =
-"₦" + (updatedUser.balance || 0);
+document.getElementById(
+"walletBalance"
+).innerText =
+"₦" + balance.toLocaleString();
 
-/* FUND WALLET */
+// FUND WALLET
 function fundWallet(){
 
-    const amount =
-    parseInt(document.getElementById("amount").value);
+const amount =
+parseInt(
+document.getElementById("amount").value
+);
 
-    if(!amount || amount < 100){
-        alert("Minimum amount is ₦100");
-        return;
-    }
+if(!amount || amount < 100){
 
-    let handler = PaystackPop.setup({
+alert("Minimum funding is ₦100");
+return;
 
-        key: 'pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c',
+}
 
-        email: updatedUser.email,
+// PAYSTACK
+let handler =
+PaystackPop.setup({
 
-        amount: amount * 100,
+key:
+"pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
 
-        currency: 'NGN',
+email:user.email,
 
-        callback: function(response){
+amount:amount * 100,
 
-            /* UPDATE BALANCE */
-            updatedUser.balance =
-            (updatedUser.balance || 0) + amount;
+currency:"NGN",
 
-            /* SAVE TRANSACTION */
-            if(!updatedUser.transactions){
-                updatedUser.transactions = [];
-            }
+callback:function(response){
 
-            updatedUser.transactions.unshift({
+balance += amount;
 
-                type:"Wallet Funding",
+localStorage.setItem(
+"walletBalance",
+balance
+);
 
-                amount:amount,
+// SAVE TRANSACTION
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
 
-                reference:response.reference,
+transactions.unshift({
 
-                date:new Date().toLocaleString()
+id:"TRX" + Date.now(),
 
-            });
+type:"Wallet Funding",
 
-            /* UPDATE USERS */
-            users[userIndex] = updatedUser;
+amount:"₦" + amount,
 
-            localStorage.setItem(
-                "users",
-                JSON.stringify(users)
-            );
+status:"Successful",
 
-            localStorage.setItem(
-                "currentUser",
-                JSON.stringify(updatedUser)
-            );
+reference:response.reference,
 
-            alert("Wallet Funded Successfully ✅");
+date:new Date().toLocaleString()
 
-            window.location.href =
-            "dashboard.html";
-        },
+});
 
-        onClose:function(){
-            console.log("Payment Closed");
-        }
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
 
-    });
+// UPDATE BALANCE
+document.getElementById(
+"walletBalance"
+).innerText =
+"₦" + balance.toLocaleString();
 
-    handler.openIframe();
+alert(
+"Wallet Funded Successfully"
+);
+
+window.location.href =
+"dashboard.html";
+
+},
+
+onClose:function(){
+
+alert("Transaction Cancelled");
+
+}
+
+});
+
+handler.openIframe();
+
 }
 
 </script>
