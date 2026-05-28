@@ -192,17 +192,6 @@ margin-top:20px;
 
 <body>
 
-<script>
-
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href =
-"login.html";
-
-}
-
-</script>
-
 <div class="container">
 
 <div class="logo">
@@ -333,24 +322,97 @@ Done
 
 </div>
 
-<script>
+<script type="module">
 
-let wallet =
-parseFloat(
-localStorage.getItem(
-"walletBalance"
-)
-) || 0;
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+updateDoc,
+arrayUnion
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
+projectId: "fadaqdata-3bd14",
+
+storageBucket: "fadaqdata-3bd14.appspot.com",
+
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+let currentUser = null;
+let currentWallet = 0;
+let selectedAmount = 0;
+
+onAuthStateChanged(auth,
+async(user)=>{
+
+if(!user){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+currentUser = user;
+
+const docRef =
+doc(db,"users",user.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data =
+docSnap.data();
+
+currentWallet =
+data.wallet || 0;
 
 document.getElementById(
 "walletBalance"
 ).innerHTML =
 "Wallet: ₦" +
-wallet.toFixed(2);
+currentWallet.toFixed(2);
 
-let selectedAmount = 0;
+}
 
-function selectAmount(amount,button){
+});
+
+window.selectAmount =
+function(amount,button){
 
 selectedAmount = amount;
 
@@ -371,9 +433,10 @@ button.classList.add(
 "active-amount"
 );
 
-}
+};
 
-function buyAirtime(){
+window.buyAirtime =
+async function(){
 
 let network =
 document.getElementById(
@@ -405,7 +468,7 @@ return;
 
 }
 
-if(wallet < selectedAmount){
+if(currentWallet < selectedAmount){
 
 alert(
 "Insufficient balance"
@@ -415,19 +478,8 @@ return;
 
 }
 
-wallet -= selectedAmount;
-
-localStorage.setItem(
-"walletBalance",
-wallet
-);
-
-let transactions =
-JSON.parse(
-localStorage.getItem(
-"transactions"
-)
-) || [];
+let newWallet =
+currentWallet - selectedAmount;
 
 let transactionID =
 "FD" +
@@ -438,7 +490,7 @@ Math.random()*100000000
 let transactionDate =
 new Date().toLocaleString();
 
-transactions.push({
+let transaction = {
 
 text:
 "📞 Airtime purchased for " +
@@ -457,11 +509,19 @@ status:"Successful",
 
 id:transactionID
 
-});
+};
 
-localStorage.setItem(
-"transactions",
-JSON.stringify(transactions)
+await updateDoc(
+doc(db,"users",currentUser.uid),
+{
+
+wallet:newWallet,
+
+transactions:
+arrayUnion(transaction)
+
+}
+
 );
 
 document.getElementById(
@@ -496,14 +556,15 @@ document.getElementById(
 ).style.display =
 "flex";
 
-}
+};
 
-function closeReceipt(){
+window.closeReceipt =
+function(){
 
 window.location.href =
 "dashboard.html";
 
-}
+};
 
 </script>
 
