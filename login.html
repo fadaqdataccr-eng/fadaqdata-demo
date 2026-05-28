@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Login</title>
 
@@ -14,76 +11,59 @@ content="width=device-width, initial-scale=1.0">
 body{
 margin:0;
 padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
+background:#990000;
+font-family:Arial;
 color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding-top:120px;
+padding:20px;
+text-align:center;
 }
 
 .logo{
-font-size:60px;
+font-size:70px;
 font-weight:bold;
-text-align:center;
-margin-bottom:50px;
+margin-top:120px;
 }
 
 .card{
-background:#c00000;
-padding:30px;
+background:#cc0000;
+padding:25px;
 border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-.title{
-font-size:45px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
+margin-top:40px;
 }
 
 input{
-width:100%;
+width:90%;
 padding:18px;
-margin-bottom:20px;
 border:none;
 border-radius:15px;
-font-size:18px;
+font-size:22px;
+margin-top:20px;
 outline:none;
-box-sizing:border-box;
 }
 
 button{
-width:100%;
+width:95%;
 padding:18px;
 border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:24px;
+border-radius:15px;
+font-size:25px;
 font-weight:bold;
+margin-top:25px;
+background:white;
+color:#660000;
 cursor:pointer;
 }
 
-.bottom{
-text-align:center;
-margin-top:20px;
-font-size:18px;
-}
-
-.bottom a{
+a{
 color:white;
-font-weight:bold;
+font-size:20px;
 text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -96,50 +76,41 @@ FadaqData
 
 <div class="card">
 
-<div class="title">
-Login
-</div>
+<h1>Login</h1>
 
 <input
 type="email"
 id="email"
-placeholder="Email Address">
+placeholder="Email Address"
+/>
 
 <input
 type="password"
 id="password"
-placeholder="Password">
+placeholder="Password"
+/>
 
-<button onclick="login()">
+<button onclick="loginUser()">
 Login
 </button>
 
-<div class="bottom">
-
-Don't have account?
+<br><br>
 
 <a href="signup.html">
-Signup
+Don't have account? Signup
 </a>
 
 </div>
 
 </div>
 
-</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-import {
-getAuth,
-signInWithEmailAndPassword
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<script>
 
 const firebaseConfig = {
 
@@ -149,7 +120,7 @@ authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
 projectId: "fadaqdata-3bd14",
 
-storageBucket: "fadaqdata-3bd14.appspot.com",
+storageBucket: "fadaqdata-3bd14.firebasestorage.app",
 
 messagingSenderId: "609845657857",
 
@@ -157,45 +128,79 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-const auth =
-getAuth(app);
+const auth = firebase.auth();
 
-window.login =
-function(){
+const db = firebase.firestore();
+
+async function loginUser(){
 
 const email =
-document.getElementById(
-"email"
-).value;
+document.getElementById("email").value;
 
 const password =
-document.getElementById(
-"password"
-).value;
+document.getElementById("password").value;
 
-signInWithEmailAndPassword(
-auth,
+if(!email || !password){
+
+alert("Enter Email and Password");
+
+return;
+
+}
+
+try{
+
+const result =
+await auth.signInWithEmailAndPassword(
 email,
 password
-)
+);
 
-.then(()=>{
+const uid = result.user.uid;
+
+const userDoc =
+await db.collection("users")
+.doc(uid)
+.get();
+
+if(userDoc.exists){
+
+const userData =
+userDoc.data();
+
+localStorage.setItem(
+"user",
+JSON.stringify({
+
+uid:uid,
+
+email:email,
+
+name:userData.name || "User"
+
+})
+);
+
+alert("Login Successful ✅");
 
 window.location.href =
 "dashboard.html";
 
-})
+}else{
 
-.catch((error)=>{
+alert("User data not found");
+
+}
+
+}catch(error){
 
 alert(error.message);
 
-});
+}
 
-};
+}
 
 </script>
 
