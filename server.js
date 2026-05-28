@@ -1,129 +1,135 @@
 const express = require("express");
 const cors = require("cors");
+const fetch = require("node-fetch");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
-const PORT = process.env.PORT || 3000;
+const API_KEY = "952x342vA24B7c6CG8CC93BdaACyiICEcBF5CtCqDHlgz3oCwAA16J1xBeh01779957867";
 
-// HOME
-app.get("/", (req, res) => {
+let history = [];
 
-  res.json({
-    status: "success",
-    message: "FadaqData Server Running"
-  });
-
-});
-
+// =====================
 // BUY DATA
+// =====================
 app.post("/buy-data", async (req, res) => {
-
   try {
-
     const { network, phone, data_plan } = req.body;
 
     if (!network || !phone || !data_plan) {
-
-      return res.status(400).json({
-        status: "error",
+      return res.json({
+        success: false,
         message: "All fields required"
       });
-
     }
 
     const ref = "DATA" + Date.now();
 
-    const response = await fetch(
-      "https://fadaqdata.com/api/data/",
-      {
-        method: "POST",
+    const response = await fetch("https://fadaqdata.com/api/data/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${API_KEY}`
+      },
+      body: JSON.stringify({
+        network: network,
+        phone: phone,
+        data_plan: data_plan,
+        ref: ref,
+        ported_number: true
+      })
+    });
 
-        headers: {
-          "Content-Type": "application/json",
+    const data = await response.json();
 
-          "Authorization":
-          "Token 952x342vA24B7c6CG8CC93BdaACyiICEcBF5CtCqDHlgz3oCwAA16J1xBeh01779957867"
-        },
+    console.log(data);
 
-        body: JSON.stringify({
-          network: String(network),
-          phone: String(phone),
-          ref: ref,
-          data_plan: String(data_plan),
-          ported_number: true
-        })
+    if (
+      data.status === "success" ||
+      data.Status === "successful"
+    ) {
 
-      }
-    );
+      const receipt = {
+        type: "Data",
+        phone,
+        network,
+        plan: data_plan,
+        ref,
+        amount: "Success",
+        date: new Date().toLocaleString()
+      };
 
-    // GET RAW RESPONSE
-    const rawText = await response.text();
-
-    console.log("Raw API Response:", rawText);
-
-    // CHECK HTML ERROR
-    if(rawText.includes("<html")){
-
-      return res.status(503).json({
-        status: "error",
-        message:
-        "FadaqData server temporarily unavailable. Please try again later."
-      });
-
-    }
-
-    // PARSE JSON
-    const result = JSON.parse(rawText);
-
-    console.log("Parsed Response:", result);
-
-    // SUCCESS
-    if(
-      result.status === "success" ||
-      result.Status === "successful"
-    ){
+      history.push(receipt);
 
       return res.json({
-        status: "success",
-        message:
-        result.true_response ||
-        "Data Purchase Successful",
-
-        api_response: result
+        success: true,
+        message: "Data purchase successful",
+        receipt
       });
-
     }
 
-    // FAILED
-    return res.status(400).json({
-      status: "error",
-      message:
-      result.message ||
-      "Transaction failed"
+    return res.json({
+      success: false,
+      message: data.message || data.true_response || "Transaction failed"
     });
 
-  } catch(error){
+  } catch (err) {
+    console.log(err);
 
-    console.log("SERVER ERROR:", error);
-
-    return res.status(500).json({
-      status: "error",
-      message:
-      "Internal server error"
+    res.json({
+      success: false,
+      message: "Network Error"
     });
-
   }
-
 });
 
-// START SERVER
-app.listen(PORT, () => {
+// =====================
+// HISTORY
+// =====================
+app.get("/history", (req, res) => {
+  res.json(history);
+});
 
-  console.log(
-    `Server running on port ${PORT}`
+// =====================
+// RECEIPT
+// =====================
+app.get("/receipt/:ref", (req, res) => {
+
+  const receipt = history.find(
+    item => item.ref === req.params.ref
   );
 
+  if (!receipt) {
+    return res.send("Receipt not found");
+  }
+
+  res.json(receipt);
+});
+
+// =====================
+// ROUTES
+// =====================
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/buy-data-page", (req, res) => {
+  res.sendFile(path.join(__dirname, "buy-data.html"));
+});
+
+app.get("/buy-airtime-page", (req, res) => {
+  res.sendFile(path.join(__dirname, "buy-airtime.html"));
+});
+
+// =====================
+// SERVER
+// =====================
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
 });
