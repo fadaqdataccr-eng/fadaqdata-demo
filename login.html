@@ -108,7 +108,7 @@ id="password"
 placeholder="Password"
 >
 
-<button onclick="loginUser()">
+<button id="loginBtn">
 Login
 </button>
 
@@ -125,6 +125,11 @@ Signup
 
 <script>
 
+// LOGIN BUTTON
+document.getElementById("loginBtn")
+.addEventListener("click", loginUser);
+
+// LOGIN FUNCTION
 function loginUser(){
 
 const email =
@@ -132,6 +137,14 @@ document.getElementById("email").value.trim();
 
 const password =
 document.getElementById("password").value.trim();
+
+// CHECK EMPTY
+if(!email || !password){
+
+alert("Please fill all fields");
+return;
+
+}
 
 // GET USERS
 let users =
@@ -146,6 +159,7 @@ user.password === password
 
 );
 
+// USER FOUND
 if(foundUser){
 
 // SAVE LOGIN SESSION
@@ -154,10 +168,35 @@ localStorage.setItem(
 JSON.stringify(foundUser)
 );
 
-// CREATE BALANCE IF NOT EXIST
+// CREATE WALLET IF NULL
 if(
 localStorage.getItem("walletBalance")
 === null
 ){
 
-local
+localStorage.setItem(
+"walletBalance",
+100
+);
+
+}
+
+// SUCCESS
+alert("Login Successful");
+
+// REDIRECT
+window.location.href =
+"dashboard.html";
+
+}else{
+
+alert("Invalid Email or Password");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
