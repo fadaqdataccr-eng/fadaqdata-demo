@@ -7,313 +7,262 @@
 <title>FadaqData Dashboard</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-    background:#f5f5f5;
-    color:#111;
-    padding-bottom:100px;
+background:#f5f5f5;
+padding-bottom:100px;
 }
 
-/* TOP HEADER */
+/* HEADER */
 
 .header{
-    background:linear-gradient(to right,#6b0000,#b30000);
-    padding:20px;
-    color:white;
-    border-bottom-left-radius:25px;
-    border-bottom-right-radius:25px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-
-.header-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+background:linear-gradient(to right,#650000,#b30000);
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
 .logo{
-    font-size:42px;
-    font-weight:bold;
+color:white;
+font-size:22px;
+font-weight:bold;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.bell{
+position:relative;
+font-size:26px;
+color:white;
+}
+
+.badge{
+position:absolute;
+top:-6px;
+right:-8px;
+background:red;
+color:white;
+font-size:10px;
+padding:2px 6px;
+border-radius:50%;
+font-weight:bold;
 }
 
 .profile{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:white;
-    color:#8b0000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
-    font-weight:bold;
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:22px;
+color:#900000;
 }
 
-/* NOTICE */
+/* ALERT */
 
-.notice{
-    background:#fff6ee;
-    margin:18px;
-    padding:16px;
-    border-radius:16px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-weight:bold;
+.alert{
+background:#f7efe7;
+margin:15px;
+padding:14px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:bold;
 }
 
-/* WALLET */
+.alert span{
+color:#900000;
+}
+
+/* WALLET CARD */
 
 .wallet-card{
-    background:white;
-    margin:18px;
-    padding:25px;
-    border-radius:28px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.08);
+background:white;
+margin:15px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.wallet-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.wallet-title{
-    font-size:18px;
-    color:#444;
-}
-
-.eye{
-    font-size:28px;
+.wallet-left h3{
+font-size:18px;
+margin-bottom:15px;
 }
 
 .balance{
-    font-size:58px;
-    font-weight:bold;
-    margin-top:20px;
-    color:#8b0000;
+font-size:48px;
+font-weight:bold;
+color:#900000;
+margin-bottom:20px;
 }
 
-.wallet-actions{
-    display:flex;
-    gap:15px;
-    margin-top:25px;
+.wallet-buttons{
+display:flex;
+gap:10px;
 }
 
-.wallet-btn{
-    flex:1;
-    padding:18px;
-    border-radius:18px;
-    border:none;
-    font-size:20px;
-    font-weight:bold;
-    cursor:pointer;
+.btn-red{
+background:#900000;
+color:white;
+padding:14px 22px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+font-size:16px;
 }
 
-.fund-btn{
-    background:#8b0000;
-    color:white;
+.btn-outline{
+background:white;
+color:#900000;
+padding:14px 22px;
+border:2px solid #900000;
+border-radius:12px;
+font-weight:bold;
+font-size:16px;
 }
 
-.transfer-btn{
-    background:white;
-    border:2px solid #8b0000;
-    color:#8b0000;
+.wallet-image{
+font-size:70px;
 }
 
 /* SECTION */
 
 .section{
-    padding:0 18px;
-    margin-top:25px;
+margin:15px;
 }
 
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-.section-head h2{
-    font-size:34px;
+.section-header h2{
+font-size:30px;
 }
 
 .view-all{
-    color:#8b0000;
-    font-weight:bold;
+color:#900000;
+font-weight:bold;
 }
 
 /* SERVICES */
 
-.services-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
+.services{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
 }
 
 .service-card{
-    background:white;
-    border-radius:22px;
-    padding:28px 15px;
-    text-align:center;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-    cursor:pointer;
+background:white;
+padding:20px 10px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
 
-.service-icon{
-    font-size:42px;
+.service-card div{
+font-size:40px;
+margin-bottom:10px;
 }
 
-.service-title{
-    margin-top:15px;
-    font-size:24px;
-    font-weight:bold;
+.service-card p{
+font-size:18px;
+font-weight:bold;
 }
 
-/* TRANSACTION */
+/* TRANSACTIONS */
 
 .transaction-card{
-    background:white;
-    border-radius:22px;
-    padding:18px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+background:white;
+padding:15px;
+border-radius:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
 
-.trans-left{
-    display:flex;
-    gap:15px;
-    align-items:center;
+.transaction-left{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-.mtn-logo{
-    width:60px;
-    height:60px;
-    border-radius:16px;
-    background:#ffcc00;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:22px;
+.network-logo{
+width:50px;
+height:50px;
+background:#ffcc00;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
 }
 
-.trans-title{
-    font-size:26px;
-    font-weight:bold;
+.transaction-info h3{
+font-size:20px;
+margin-bottom:5px;
 }
 
-.trans-date{
-    margin-top:5px;
-    color:#666;
-    font-size:18px;
+.transaction-info p{
+color:gray;
 }
 
-.trans-amount{
-    color:#8b0000;
-    font-size:28px;
-    font-weight:bold;
+.amount{
+color:#900000;
+font-weight:bold;
+font-size:22px;
 }
 
-.success{
-    color:green;
-    font-weight:bold;
-    margin-top:5px;
-    text-align:right;
-    font-size:18px;
-}
+/* NAVBAR */
 
-/* STATS */
-
-.stats-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-    margin-top:20px;
-}
-
-.stat-card{
-    background:white;
-    border-radius:22px;
-    padding:22px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-}
-
-.stat-title{
-    color:#555;
-    font-size:20px;
-}
-
-.stat-number{
-    font-size:38px;
-    font-weight:bold;
-    margin-top:15px;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:linear-gradient(to right,#6b0000,#b30000);
-    display:flex;
-    justify-content:space-around;
-    padding:15px 0;
-    border-top-left-radius:20px;
-    border-top-right-radius:20px;
+.navbar{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:linear-gradient(to right,#650000,#b30000);
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top-left-radius:20px;
+border-top-right-radius:20px;
 }
 
 .nav-item{
-    text-align:center;
-    color:white;
-    text-decoration:none;
-    font-size:18px;
+text-align:center;
+color:white;
+font-size:14px;
 }
 
-.nav-icon{
-    font-size:28px;
-    margin-bottom:5px;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-.logo{
-    font-size:28px;
-}
-
-.balance{
-    font-size:45px;
-}
-
-.section-head h2{
-    font-size:24px;
-}
-
-.service-title{
-    font-size:18px;
-}
-
-.trans-title{
-    font-size:20px;
-}
-
-.trans-amount{
-    font-size:22px;
-}
-
+.nav-item div{
+font-size:28px;
+margin-bottom:5px;
 }
 
 </style>
@@ -325,206 +274,167 @@ body{
 
 <div class="header">
 
-    <div class="header-top">
+<div class="logo">
+FadaqData
+</div>
 
-        <div class="logo">
-            FadaqData
-        </div>
+<div class="header-right">
 
-        <div class="profile">
-            F
-        </div>
+<div class="bell">
+🔔
+<div class="badge">3</div>
+</div>
 
-    </div>
+<div class="profile">
+F
+</div>
 
 </div>
 
-<!-- NOTICE -->
+</div>
 
-<div class="notice">
-    <span>📢 MTN Share & Sell temporarily unavailable</span>
-    <span>View all</span>
+<!-- ALERT -->
+
+<div class="alert">
+<div>📢 MTN Share & Sell temporarily unavailable</div>
+<span>View all</span>
 </div>
 
 <!-- WALLET -->
 
 <div class="wallet-card">
 
-    <div class="wallet-top">
+<div class="wallet-left">
 
-        <div class="wallet-title">
-            Wallet Balance
-        </div>
+<h3>Wallet Balance 👁️</h3>
 
-        <div class="eye">
-            👁️
-        </div>
+<div class="balance">₦0</div>
 
-    </div>
+<div class="wallet-buttons">
 
-    <div class="balance">
-        ₦0
-    </div>
+<button class="btn-red">
+Fund Wallet
+</button>
 
-    <div class="wallet-actions">
-
-        <button class="wallet-btn fund-btn">
-            Fund Wallet
-        </button>
-
-        <button class="wallet-btn transfer-btn">
-            Transfer
-        </button>
-
-    </div>
+<button class="btn-outline">
+Transfer
+</button>
 
 </div>
 
-<!-- SERVICES -->
+</div>
+
+<div class="wallet-image">
+👛
+</div>
+
+</div>
+
+<!-- QUICK SERVICES -->
 
 <div class="section">
 
-    <div class="section-head">
-        <h2>Quick Services</h2>
-        <div class="view-all">View all</div>
-    </div>
+<div class="section-header">
+<h2>Quick Services</h2>
+<div class="view-all">View all</div>
+</div>
 
-    <div class="services-grid">
+<div class="services">
 
-        <div class="service-card" onclick="window.location.href='buy-airtime.html'">
-            <div class="service-icon">📱</div>
-            <div class="service-title">Airtime</div>
-        </div>
+<div class="service-card">
+<div>📱</div>
+<p>Airtime</p>
+</div>
 
-        <div class="service-card" onclick="window.location.href='buy-data.html'">
-            <div class="service-icon">📶</div>
-            <div class="service-title">Data</div>
-        </div>
+<div class="service-card">
+<div>📶</div>
+<p>Data</p>
+</div>
 
-        <div class="service-card">
-            <div class="service-icon">💸</div>
-            <div class="service-title">Airtime to Cash</div>
-        </div>
+<div class="service-card">
+<div>💸</div>
+<p>Airtime2Cash</p>
+</div>
 
-        <div class="service-card">
-            <div class="service-icon">📺</div>
-            <div class="service-title">Cable TV</div>
-        </div>
+<div class="service-card">
+<div>📺</div>
+<p>Cable TV</p>
+</div>
 
-        <div class="service-card">
-            <div class="service-icon">⚡</div>
-            <div class="service-title">Electricity</div>
-        </div>
+<div class="service-card">
+<div>⚡</div>
+<p>Electricity</p>
+</div>
 
-        <div class="service-card">
-            <div class="service-icon">🎓</div>
-            <div class="service-title">Exam PIN</div>
-        </div>
-
-    </div>
+<div class="service-card">
+<div>🎓</div>
+<p>Exam PIN</p>
+</div>
 
 </div>
 
-<!-- TRANSACTION -->
+</div>
+
+<!-- RECENT TRANSACTIONS -->
 
 <div class="section">
 
-    <div class="section-head">
-        <h2>Recent Transactions</h2>
-        <div class="view-all">View all</div>
-    </div>
+<div class="section-header">
+<h2>Recent Transactions</h2>
+<div class="view-all">View all</div>
+</div>
 
-    <div class="transaction-card">
+<div class="transaction-card">
 
-        <div class="trans-left">
+<div class="transaction-left">
 
-            <div class="mtn-logo">
-                MTN
-            </div>
+<div class="network-logo">
+MTN
+</div>
 
-            <div>
-
-                <div class="trans-title">
-                    MTN 500MB SME
-                </div>
-
-                <div class="trans-date">
-                    May 28, 2026 • 5:00 PM
-                </div>
-
-            </div>
-
-        </div>
-
-        <div>
-
-            <div class="trans-amount">
-                - ₦100
-            </div>
-
-            <div class="success">
-                Successful
-            </div>
-
-        </div>
-
-    </div>
+<div class="transaction-info">
+<h3>MTN 500MB SME</h3>
+<p>May 28, 2026 • 5:00 PM</p>
+</div>
 
 </div>
 
-<!-- STATS -->
-
-<div class="section">
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-            <div class="stat-title">Today's Transactions</div>
-            <div class="stat-number">1,259</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-title">Pending Funding</div>
-            <div class="stat-number">36</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-title">Total Profit</div>
-            <div class="stat-number">₦25K</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-title">Failed Orders</div>
-            <div class="stat-number">18</div>
-        </div>
-
-    </div>
+<div class="amount">
+- ₦100
+</div>
 
 </div>
 
-<!-- BOTTOM NAV -->
+</div>
 
-<div class="bottom-nav">
+<!-- NAVBAR -->
 
-    <a href="dashboard.html" class="nav-item">
-        <div class="nav-icon">🏠</div>
-        Home
-    </a>
+<div class="navbar">
 
-    <a href="history.html" class="nav-item">
-        <div class="nav-icon">📄</div>
-        Transactions
-    </a>
+<div class="nav-item">
+<div>🏠</div>
+Home
+</div>
 
-    <a href="buy-data.html" class="nav-item">
-        <div class="nav-icon">📶</div>
-        Services
-    </a>
+<div class="nav-item">
+<div>💼</div>
+Wallet
+</div>
 
-    <a href="#" class="nav-item">
-        <div class="nav-icon">👤</div>
-        Profile
-    </a>
+<div class="nav-item">
+<div>📋</div>
+Services
+</div>
+
+<div class="nav-item">
+<div>🧾</div>
+Transactions
+</div>
+
+<div class="nav-item">
+<div>👤</div>
+Profile
+</div>
 
 </div>
 
