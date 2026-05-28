@@ -1,17 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FadaqData Dashboard</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -20,33 +13,25 @@ font-family:Arial;
 }
 
 body{
-
-background:#5b0000;
-padding:18px;
-color:white;
-
+background:#7a0000;
+padding-bottom:90px;
 }
 
-/* TOP */
-
-.topBar{
-
+.topbar{
+background:linear-gradient(to right,#3b0000,#7a0000);
+padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
-
+color:white;
 }
 
 .logo{
-
-font-size:32px;
+font-size:34px;
 font-weight:bold;
-
 }
 
 .profile{
-
 width:45px;
 height:45px;
 border-radius:50%;
@@ -56,336 +41,309 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-weight:bold;
-font-size:18px;
-
+font-size:20px;
 }
 
-/* WALLET */
-
-.walletCard{
-
-background:linear-gradient(
-135deg,
-#8b0000,
-#5e0000
-);
-
-padding:25px;
-border-radius:28px;
-
-box-shadow:
-0 0 25px rgba(0,0,0,0.35);
-
-margin-bottom:25px;
-
+.notice{
+background:#fff4e8;
+margin:15px;
+padding:14px;
+border-radius:14px;
+display:flex;
+justify-content:space-between;
+font-size:14px;
+font-weight:bold;
 }
 
-.walletTop{
+.wallet-card{
+background:white;
+margin:15px;
+border-radius:22px;
+padding:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
 
+.wallet-top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 }
 
-.walletText{
-
-font-size:17px;
-opacity:0.9;
-
-}
-
-.eye{
-
-font-size:24px;
-
+.wallet-title{
+font-size:16px;
+color:#666;
 }
 
 .balance{
-
-font-size:52px;
+font-size:45px;
 font-weight:bold;
-margin-top:18px;
-
+margin-top:10px;
+color:#111;
 }
 
-/* SERVICES */
-
-.sectionTitle{
-
-font-size:24px;
-font-weight:bold;
-margin-bottom:18px;
-
+.wallet-buttons{
+display:flex;
+gap:12px;
+margin-top:20px;
 }
 
-.grid{
+.wallet-buttons button{
+flex:1;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
 
+.fund-btn{
+background:#6b0000;
+color:white;
+}
+
+.transfer-btn{
+background:white;
+border:2px solid #6b0000 !important;
+color:#6b0000;
+}
+
+.section{
+margin:15px;
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+color:white;
+}
+
+.services-grid{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-
+grid-template-columns:1fr 1fr 1fr;
+gap:12px;
 }
 
-/* CARD */
-
-.serviceCard{
-
-background:#7a0000;
-border-radius:22px;
-padding:20px;
+.service{
+background:white;
+padding:18px 10px;
+border-radius:18px;
 text-align:center;
-
-box-shadow:
-0 0 20px rgba(0,0,0,0.25);
-
-}
-
-.serviceIcon{
-
-font-size:38px;
-margin-bottom:12px;
-
-}
-
-.serviceText{
-
-font-size:18px;
 font-weight:bold;
-
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+cursor:pointer;
 }
 
-/* NAVIGATION */
+.service-icon{
+font-size:30px;
+margin-bottom:10px;
+}
 
-.bottomNav{
+.transaction-card{
+background:white;
+padding:15px;
+border-radius:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
 
+.transaction-left{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.transaction-icon{
+width:45px;
+height:45px;
+border-radius:12px;
+background:#ffd000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.transaction-title{
+font-weight:bold;
+}
+
+.transaction-date{
+font-size:13px;
+color:gray;
+margin-top:4px;
+}
+
+.transaction-amount{
+font-weight:bold;
+color:green;
+}
+
+.bottom-nav{
 position:fixed;
 bottom:0;
 left:0;
-width:100%;
-
-background:#6a0000;
-
+right:0;
+background:linear-gradient(to right,#3b0000,#7a0000);
 display:flex;
 justify-content:space-around;
-align-items:center;
-
-padding:16px 10px;
-
-box-shadow:
-0 -5px 20px rgba(0,0,0,0.3);
-
+padding:14px 0;
 }
 
-.navItem{
-
+.nav-item{
 text-align:center;
+color:white;
 font-size:13px;
-font-weight:bold;
-
+text-decoration:none;
 }
 
-.navIcon{
-
+.nav-icon{
 font-size:22px;
-margin-bottom:5px;
-
+margin-bottom:4px;
 }
-
-.space{
-
-height:120px;
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-<!-- TOP -->
-
-<div class="topBar">
-
-<div class="logo">
-FadaqData
+<div class="topbar">
+<div class="logo">FadaqData</div>
+<div class="profile">F</div>
 </div>
 
-<div class="profile">
-F
+<div class="notice">
+<span>📢 MTN Share & Sell temporarily unavailable</span>
+<span>View all</span>
 </div>
 
+<div class="wallet-card">
+
+<div class="wallet-top">
+<div class="wallet-title">Wallet Balance</div>
+<div style="font-size:24px;">👁️</div>
 </div>
 
-<!-- WALLET -->
+<div class="balance">₦0</div>
 
-<div class="walletCard">
-
-<div class="walletTop">
-
-<div class="walletText">
-Wallet Balance
-</div>
-
-<div class="eye">
-👁️
-</div>
-
-</div>
-
-<div class="balance"
-id="balance">
-
-₦0
-
-</div>
-
-</div>
-
-<!-- SERVICES -->
-
-<div class="sectionTitle">
-Services
-</div>
-
-<div class="grid">
-
-<!-- FUND -->
-
-<div class="serviceCard"
-onclick="window.location.href='fund.html'">
-
-<div class="serviceIcon">
-💰
-</div>
-
-<div class="serviceText">
+<div class="wallet-buttons">
+<button class="fund-btn">
 Fund Wallet
+</button>
+
+<button class="transfer-btn">
+Transfer
+</button>
 </div>
 
 </div>
 
-<!-- DATA -->
+<div class="section">
 
-<div class="serviceCard"
-onclick="window.location.href='buydata.html'">
-
-<div class="serviceIcon">
-📶
+<div class="section-header">
+<h2>Quick Services</h2>
+<span>View all</span>
 </div>
 
-<div class="serviceText">
-Buy Data
+<div class="services-grid">
+
+<div class="service" onclick="window.location.href='airtime.html'">
+<div class="service-icon">📱</div>
+Airtime
 </div>
 
+<div class="service" onclick="window.location.href='buy-data.html'">
+<div class="service-icon">📶</div>
+Data
 </div>
 
-<!-- AIRTIME -->
-
-<div class="serviceCard"
-onclick="window.location.href='buyairtime.html'">
-
-<div class="serviceIcon">
-📱
+<div class="service">
+<div class="service-icon">💸</div>
+Airtime2Cash
 </div>
 
-<div class="serviceText">
-Buy Airtime
+<div class="service">
+<div class="service-icon">📺</div>
+Cable TV
 </div>
 
+<div class="service">
+<div class="service-icon">⚡</div>
+Electricity
 </div>
 
-<!-- HISTORY -->
-
-<div class="serviceCard"
-onclick="window.location.href='history.html'">
-
-<div class="serviceIcon">
-🧾
-</div>
-
-<div class="serviceText">
-History
+<div class="service">
+<div class="service-icon">🎓</div>
+Exam PIN
 </div>
 
 </div>
 
 </div>
 
-<div class="space"></div>
+<div class="section">
 
-<!-- BOTTOM NAV -->
-
-<div class="bottomNav">
-
-<div class="navItem">
-
-<div class="navIcon">
-🏠
+<div class="section-header">
+<h2>Recent Transactions</h2>
+<span onclick="window.location.href='history.html'">
+View all
+</span>
 </div>
 
+<div class="transaction-card"
+onclick="window.location.href='receipt.html?id=0'">
+
+<div class="transaction-left">
+
+<div class="transaction-icon">
+MTN
+</div>
+
+<div>
+<div class="transaction-title">
+MTN 500MB SME
+</div>
+
+<div class="transaction-date">
+May 28, 2026 • 5:00 PM
+</div>
+</div>
+
+</div>
+
+<div class="transaction-amount">
+- ₦100
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<a href="dashboard.html" class="nav-item">
+<div class="nav-icon">🏠</div>
 Home
+</a>
 
-</div>
-
-<div class="navItem"
-onclick="window.location.href='history.html'">
-
-<div class="navIcon">
-📋
-</div>
-
+<a href="history.html" class="nav-item">
+<div class="nav-icon">📋</div>
 Transactions
+</a>
+
+<a href="#" class="nav-item">
+<div class="nav-icon">🔔</div>
+Notifications
+</a>
+
+<a href="#" class="nav-item">
+<div class="nav-icon">👤</div>
+Profile
+</a>
 
 </div>
-
-<div class="navItem"
-onclick="window.location.href='buydata.html'">
-
-<div class="navIcon">
-📶
-</div>
-
-Services
-
-</div>
-
-<div class="navItem"
-onclick="logout()">
-
-<div class="navIcon">
-🚪
-</div>
-
-Logout
-
-</div>
-
-</div>
-
-<script>
-
-function loadBalance(){
-
-let wallet =
-localStorage.getItem("walletBalance") || 0;
-
-document.getElementById("balance")
-innerHTML = "₦" + wallet;
-
-}
-
-loadBalance();
-
-function logout(){
-
-window.location.href =
-"index.html";
-
-}
-
-</script>
 
 </body>
 </html>
