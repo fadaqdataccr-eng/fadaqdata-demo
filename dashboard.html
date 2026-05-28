@@ -1,58 +1,99 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard</title>
 
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0"/>
+
 <style>
 
-body{
-background:#5b0000;
-font-family:Arial;
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+
+background:#5b0000;
 padding:20px;
 color:white;
+
 }
 
 .card{
+
 background:#7a0000;
-padding:20px;
-border-radius:20px;
+padding:30px 25px;
+border-radius:25px;
 margin-top:40px;
+
+box-shadow:
+0 0 25px rgba(0,0,0,0.3);
+
 }
 
-button{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-font-size:18px;
+.logo{
+
+text-align:center;
+font-size:38px;
 font-weight:bold;
-cursor:pointer;
+margin-bottom:10px;
+
+}
+
+.sub{
+
+text-align:center;
+opacity:0.8;
+margin-bottom:30px;
+font-size:15px;
+
+}
+
+.balanceBox{
+
+text-align:center;
+margin-bottom:35px;
+
+}
+
+.balanceText{
+
+font-size:18px;
+opacity:0.8;
+margin-bottom:10px;
+
 }
 
 .balance{
-font-size:50px;
-text-align:center;
+
+font-size:65px;
 font-weight:bold;
-margin-top:20px;
+
 }
 
-.eye{
-text-align:center;
-font-size:25px;
-cursor:pointer;
-margin-top:10px;
+.btn{
+
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+margin-top:18px;
+font-size:20px;
+font-weight:bold;
+background:white;
+color:#7a0000;
+
 }
 
-.title{
-text-align:center;
-font-size:30px;
-font-weight:bold;
+.btn:active{
+
+transform:scale(0.98);
+
 }
 
 </style>
@@ -63,99 +104,87 @@ font-weight:bold;
 
 <div class="card">
 
-<div class="title">
-FadaqData Dashboard
+<div class="logo">
+FadaqData
 </div>
 
-<div
-class="eye"
-onclick="toggleBalance()"
->
-👁️
+<div class="sub">
+Fast & Reliable VTU Services
 </div>
 
-<div
-class="balance"
-id="balance"
->
-₦100
+<div class="balanceBox">
+
+<div class="balanceText">
+Wallet Balance
 </div>
 
-<button onclick="window.location.href='fund-wallet.html'">
+<div class="balance"
+id="balance">
+
+₦0
+
+</div>
+
+</div>
+
+<button class="btn"
+onclick="window.location.href='fund.html'">
+
 Fund Wallet
+
 </button>
 
-<button onclick="window.location.href='buy-data.html'">
+<button class="btn"
+onclick="window.location.href='buydata.html'">
+
 Buy Data
+
 </button>
 
-<button onclick="window.location.href='buy-airtime.html'">
+<button class="btn"
+onclick="window.location.href='buyairtime.html'">
+
 Buy Airtime
+
 </button>
 
-<button onclick="window.location.href='history.html'">
+<button class="btn"
+onclick="window.location.href='history.html'">
+
 Transaction History
+
 </button>
 
-<button onclick="logout()">
+<button class="btn"
+onclick="logout()">
+
 Logout
+
 </button>
 
 </div>
 
 <script>
 
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href =
-"login.html";
-
-}
-
-if(!localStorage.getItem("walletBalance")){
-
-localStorage.setItem(
-"walletBalance",
-"100"
-);
-
-}
-
-let hidden = false;
-
 function loadBalance(){
 
-const balance =
-localStorage.getItem("walletBalance");
+let wallet =
+localStorage.getItem("walletBalance") || 0;
 
 document.getElementById("balance")
-.innerHTML = hidden
-? "******"
-: "₦" + balance;
+innerHTML = "₦" + wallet;
 
 }
 
 loadBalance();
-
-function toggleBalance(){
-
-hidden = !hidden;
-
-loadBalance();
-
-}
 
 function logout(){
 
-localStorage.removeItem("loggedIn");
-
-window.location.href =
-"login.html";
+window.location.href = "index.html";
 
 }
 
 </script>
 
 </body>
-
 </html>
