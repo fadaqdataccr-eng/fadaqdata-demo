@@ -136,14 +136,13 @@ initializeApp
 
 import {
 getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged
+signInWithEmailAndPassword
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
 
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
@@ -162,17 +161,6 @@ initializeApp(firebaseConfig);
 
 const auth =
 getAuth(app);
-
-onAuthStateChanged(auth,(user)=>{
-
-if(user){
-
-window.location.href =
-"dashboard.html";
-
-}
-
-});
 
 window.login =
 async function(){
