@@ -2,65 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Login</title>
 
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#990000;
-font-family:Arial;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-padding:20px;
-text-align:center;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding-top:120px;
 }
 
 .logo{
-font-size:70px;
-font-weight:bold;
-margin-top:120px;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:50px;
 }
 
 .card{
-background:#cc0000;
-padding:25px;
-border-radius:25px;
-margin-top:40px;
+    background:#e60000;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:35px;
 }
 
 input{
-width:90%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:22px;
-margin-top:20px;
-outline:none;
+    width:100%;
+    padding:20px;
+    margin-bottom:25px;
+    border:none;
+    border-radius:18px;
+    font-size:18px;
+    box-sizing:border-box;
 }
 
 button{
-width:95%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:25px;
-font-weight:bold;
-margin-top:25px;
-background:white;
-color:#660000;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-a{
-color:white;
-font-size:20px;
-text-decoration:none;
+.bottom-text{
+    text-align:center;
+    margin-top:25px;
+    font-size:18px;
+}
+
+.bottom-text a{
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
@@ -70,134 +86,70 @@ text-decoration:none;
 
 <div class="container">
 
-<div class="logo">
-FadaqData
+    <div class="logo">
+        FadaqData
+    </div>
+
+    <div class="card">
+
+        <div class="title">
+            Login
+        </div>
+
+        <input type="email"
+            id="email"
+            placeholder="Email Address">
+
+        <input type="password"
+            id="password"
+            placeholder="Password">
+
+        <button onclick="loginUser()">
+            Login
+        </button>
+
+        <div class="bottom-text">
+            Don't have account?
+            <a href="signup.html">
+                Signup
+            </a>
+        </div>
+
+    </div>
+
 </div>
-
-<div class="card">
-
-<h1>Login</h1>
-
-<input
-type="email"
-id="email"
-placeholder="Email Address"
-/>
-
-<input
-type="password"
-id="password"
-placeholder="Password"
-/>
-
-<button onclick="loginUser()">
-Login
-</button>
-
-<br><br>
-
-<a href="signup.html">
-Don't have account? Signup
-</a>
-
-</div>
-
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 
-const firebaseConfig = {
+function loginUser(){
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+    const email =
+    document.getElementById("email").value.trim();
 
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
+    const password =
+    document.getElementById("password").value.trim();
 
-projectId: "fadaqdata-3bd14",
+    let users =
+    JSON.parse(localStorage.getItem("users")) || [];
 
-storageBucket: "fadaqdata-3bd14.firebasestorage.app",
+    const user = users.find(
+        u => u.email === email &&
+        u.password === password
+    );
 
-messagingSenderId: "609845657857",
+    if(!user){
+        alert("Invalid Email or Password");
+        return;
+    }
 
-appId: "1:609845657857:web:48817ce972c054e203db00"
+    /* SAVE LOGIN SESSION */
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(user)
+    );
 
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-
-const db = firebase.firestore();
-
-async function loginUser(){
-
-const email =
-document.getElementById("email").value;
-
-const password =
-document.getElementById("password").value;
-
-if(!email || !password){
-
-alert("Enter Email and Password");
-
-return;
-
-}
-
-try{
-
-const result =
-await auth.signInWithEmailAndPassword(
-email,
-password
-);
-
-const uid = result.user.uid;
-
-const userDoc =
-await db.collection("users")
-.doc(uid)
-.get();
-
-if(userDoc.exists){
-
-const userData =
-userDoc.data();
-
-localStorage.setItem(
-"user",
-JSON.stringify({
-
-uid:uid,
-
-email:email,
-
-name:userData.name || "User"
-
-})
-);
-
-window.location.href =
-"dashboard.html";
-
-}else{
-
-alert("User data not found");
-
-}
-
-}catch(error){
-
-alert(error.message);
-
-}
-
+    /* GO TO DASHBOARD */
+    window.location.href = "dashboard.html";
 }
 
 </script>
