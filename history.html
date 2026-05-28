@@ -10,82 +10,85 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-    margin:0;
-    padding:0;
-    background:#8B0000;
-    font-family:Arial,sans-serif;
-    color:white;
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
 }
 
 .container{
-    width:90%;
-    max-width:450px;
-    margin:auto;
-    padding:40px 0 120px;
+width:90%;
+max-width:500px;
+margin:auto;
+padding:40px 0 120px;
 }
 
 .logo{
-    text-align:center;
-    font-size:55px;
-    font-weight:bold;
-    margin-bottom:40px;
-}
-
-.title{
-    text-align:center;
-    font-size:30px;
-    font-weight:bold;
-    margin-bottom:30px;
+text-align:center;
+font-size:50px;
+font-weight:bold;
+margin-bottom:40px;
 }
 
 .card{
-    background:#e60000;
-    padding:20px;
-    border-radius:20px;
-    margin-bottom:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
-    cursor:pointer;
+background:red;
+padding:20px;
+border-radius:25px;
+margin-bottom:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.title{
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+text-align:center;
+}
+
+.transaction{
+background:#cc0000;
+padding:18px;
+border-radius:18px;
+margin-bottom:15px;
 }
 
 .type{
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:10px;
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
-.amount{
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.date{
-    font-size:16px;
+.details{
+font-size:17px;
+line-height:1.6;
 }
 
 .empty{
-    text-align:center;
-    font-size:22px;
-    margin-top:50px;
+text-align:center;
+font-size:20px;
+padding:30px 0;
 }
 
 .bottom-nav{
-    position:fixed;
-    bottom:20px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-around;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8B0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
 }
 
 .nav-btn{
-    background:white;
-    color:#6b0000;
-    padding:18px 35px;
-    border-radius:18px;
-    font-size:20px;
-    font-weight:bold;
-    text-decoration:none;
+background:white;
+padding:15px 30px;
+border-radius:20px;
+font-size:18px;
+font-weight:bold;
+color:#660000;
+text-decoration:none;
 }
 
 </style>
@@ -95,114 +98,122 @@ body{
 
 <div class="container">
 
-    <div class="logo">
-        FadaqData
-    </div>
+<div class="logo">
+FadaqData
+</div>
 
-    <div class="title">
-        📜 Transaction History
-    </div>
+<div class="card">
 
-    <div id="historyContainer">
+<div class="title">
+📜 Transaction History
+</div>
 
-    </div>
+<div id="historyContainer">
+
+<div class="empty">
+No Transactions Yet
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <div class="bottom-nav">
 
-    <a href="dashboard.html"
-        class="nav-btn">
-        🏠 Home
-    </a>
+<a
+href="dashboard.html"
+class="nav-btn"
+>
+🏠 Home
+</a>
 
-    <a href="profile.html"
-        class="nav-btn">
-        👤 Profile
-    </a>
+<a
+href="profile.html"
+class="nav-btn"
+>
+👤 Profile
+</a>
 
 </div>
 
 <script>
 
-/* LOGIN CHECK */
-const loggedInUser =
-JSON.parse(localStorage.getItem("currentUser"));
-
-if(!loggedInUser){
-    window.location.href = "login.html";
-}
-
-/* USERS */
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
-
-/* FIND USER */
-let userIndex = users.findIndex(
-    user => user.email === loggedInUser.email
+// LOGIN CHECK
+const user =
+JSON.parse(
+localStorage.getItem("loggedInUser")
 );
 
-if(userIndex === -1){
-    window.location.href = "login.html";
+if(!user){
+
+window.location.href =
+"login.html";
+
 }
 
-let currentUser = users[userIndex];
+// GET TRANSACTIONS
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
 
-/* TRANSACTIONS */
 const historyContainer =
-document.getElementById("historyContainer");
+document.getElementById(
+"historyContainer"
+);
 
-if(
-    !currentUser.transactions ||
-    currentUser.transactions.length === 0
-){
+// EMPTY
+if(transactions.length === 0){
 
-    historyContainer.innerHTML =
+historyContainer.innerHTML =
 
-    '<div class="empty">No Transactions Yet</div>';
+'<div class="empty">No Transactions Yet</div>';
 
 }else{
 
-    currentUser.transactions.forEach(
-    (trx,index)=>{
+historyContainer.innerHTML = "";
 
-        historyContainer.innerHTML += `
+// LOOP
+transactions.forEach(transaction => {
 
-        <div class="card"
-            onclick="openReceipt(${index})">
+historyContainer.innerHTML += `
 
-            <div class="type">
-                ${trx.type}
-            </div>
+<div class="transaction">
 
-            <div class="amount">
-                ₦${trx.amount}
-            </div>
+<div class="type">
+${transaction.type}
+</div>
 
-            <div class="date">
-                ${trx.date}
-            </div>
+<div class="details">
 
-        </div>
+${transaction.network ?
+`Network: ${transaction.network}<br>` : ""}
 
-        `;
+${transaction.plan ?
+`Plan: ${transaction.plan}<br>` : ""}
 
-    });
+${transaction.phone ?
+`Phone: ${transaction.phone}<br>` : ""}
 
-}
+Amount: ${transaction.amount}<br>
 
-/* OPEN RECEIPT */
-function openReceipt(index){
+Status: ${transaction.status}<br>
 
-    localStorage.setItem(
-        "receipt",
-        JSON.stringify(
-            currentUser.transactions[index]
-        )
-    );
+${transaction.reference ?
+`Reference: ${transaction.reference}<br>` : ""}
 
-    window.location.href =
-    "receipt.html";
+Date: ${transaction.date}
+
+</div>
+
+</div>
+
+`;
+
+});
+
 }
 
 </script>
