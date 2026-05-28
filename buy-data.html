@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Buy Data</title>
 
 <style>
-
 body{
 margin:0;
 padding:0;
 background:#8B0000;
-font-family:Arial,sans-serif;
+font-family:Arial;
 color:white;
 }
 
@@ -31,57 +31,43 @@ margin-bottom:40px;
 
 .card{
 background:red;
-padding:25px;
+padding:30px;
 border-radius:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
-margin-bottom:30px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.balanceBox{
+background:#cc0000;
+padding:30px;
+border-radius:20px;
+text-align:center;
+margin-bottom:25px;
 }
 
 .balance{
-background:#c40000;
-padding:20px;
-border-radius:20px;
-text-align:center;
-margin-bottom:20px;
+font-size:70px;
+font-weight:bold;
+margin-top:10px;
 }
 
-.balance h2{
-margin:0;
-font-size:22px;
-}
-
-.balance h1{
-font-size:65px;
-margin:15px 0;
-}
-
-select,input{
+select,input,button{
 width:100%;
-padding:18px;
+padding:20px;
+margin-top:20px;
 border:none;
 border-radius:15px;
-margin-bottom:18px;
 font-size:20px;
 box-sizing:border-box;
 }
 
 button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
 background:white;
-font-size:22px;
+color:#5c0000;
 font-weight:bold;
-color:#6b0000;
 cursor:pointer;
 }
 
-button:hover{
-opacity:0.9;
-}
-
-.bottom-nav{
+.bottomNav{
 position:fixed;
 bottom:0;
 left:0;
@@ -92,23 +78,15 @@ justify-content:space-around;
 padding:15px 0;
 }
 
-.nav-btn{
+.navBtn{
 background:white;
-padding:15px 30px;
-border-radius:20px;
+padding:15px 35px;
+border-radius:18px;
 font-size:18px;
 font-weight:bold;
-color:#6b0000;
 text-decoration:none;
+color:#5c0000;
 }
-
-.loading{
-display:none;
-text-align:center;
-font-size:20px;
-margin-top:20px;
-}
-
 </style>
 </head>
 
@@ -120,9 +98,9 @@ margin-top:20px;
 
 <div class="card">
 
-<div class="balance">
+<div class="balanceBox">
 <h2>Wallet Balance 👁️</h2>
-<h1 id="balance">₦0</h1>
+<div class="balance" id="balance">₦0</div>
 </div>
 
 <select id="network">
@@ -133,97 +111,50 @@ margin-top:20px;
 </select>
 
 <select id="plan">
-
-<option value="85">MTN 500MB - ₦100</option>
-<option value="86">MTN 1GB - ₦480</option>
-<option value="87">MTN 2GB - ₦1500</option>
-<option value="88">MTN 3.5GB - ₦2500</option>
-<option value="89">MTN 7GB - ₦3500</option>
-<option value="91">MTN 10GB - ₦4500</option>
-
-<option value="103">GLO 200MB - ₦200</option>
-<option value="108">GLO 500MB - ₦250</option>
-<option value="109">GLO 1GB - ₦450</option>
-<option value="110">GLO 2GB - ₦900</option>
-<option value="111">GLO 3GB - ₦1350</option>
-
+<option value="85" data-price="100">
+MTN 500MB - ₦100
+</option>
 </select>
 
 <input type="number" id="phone" placeholder="Enter Phone Number">
 
 <button onclick="buyData()">Buy Data</button>
 
-<div class="loading" id="loading">
-Processing Purchase...
-</div>
+<p id="status"></p>
 
 </div>
 
 </div>
 
-<div class="bottom-nav">
-<a href="dashboard.html" class="nav-btn">🏠 Home</a>
-<a href="profile.html" class="nav-btn">👤 Profile</a>
+<div class="bottomNav">
+<a href="dashboard.html" class="navBtn">🏠 Home</a>
+<a href="profile.html" class="navBtn">👤 Profile</a>
 </div>
 
 <script>
 
-const API_KEY = "geCAbvc3prhCyC5dtB05wi11q4C9n4zsCHC79DoxFG366xAA3C3aAJ2bBBAf1757076980";
+let balance = localStorage.getItem("walletBalance") || 0;
 
-let balance = localStorage.getItem("walletBalance");
-
-if(balance === null){
-balance = 0;
-localStorage.setItem("walletBalance", balance);
-}
-
-document.getElementById("balance").innerText =
-"₦" + Number(balance).toLocaleString();
-
-function getPlanPrice(plan){
-
-const prices = {
-
-85:100,
-86:480,
-87:1500,
-88:2500,
-89:3500,
-91:4500,
-
-103:200,
-108:250,
-109:450,
-110:900,
-111:1350
-
-};
-
-return prices[plan] || 0;
-
-}
+document.getElementById("balance").innerHTML = "₦" + balance;
 
 async function buyData(){
 
-const network = document.getElementById("network").value;
-const plan = document.getElementById("plan").value;
-const phone = document.getElementById("phone").value;
+let phone = document.getElementById("phone").value;
+let network = document.getElementById("network").value;
+let plan = document.getElementById("plan").value;
 
-const amount = getPlanPrice(plan);
+let price = parseInt(
+document.getElementById("plan")
+.options[document.getElementById("plan").selectedIndex]
+.getAttribute("data-price")
+);
 
-if(phone.length < 11){
-alert("Enter valid phone number");
+if(balance < price){
+alert("Insufficient Balance");
 return;
 }
 
-if(Number(balance) < amount){
-alert("Insufficient wallet balance");
-return;
-}
-
-document.getElementById("loading").style.display = "block";
-
-const ref = "DATA" + Date.now();
+document.getElementById("status").innerHTML = "Processing Purchase...";
 
 try{
 
@@ -233,69 +164,68 @@ method:"POST",
 
 headers:{
 "Content-Type":"application/json",
-"Authorization":"Token " + API_KEY
+"Authorization":"Token geCAbvc3prhCyC5dtB05wi11q4C9n4zsCHC79DoxFG366xAA3C3aAJ2bBBAf1757076980"
 },
 
 body:JSON.stringify({
-
 network:network,
 phone:phone,
-ref:ref,
+ref:"DATA"+Date.now(),
 data_plan:plan,
 ported_number:true
-
 })
 
 });
 
 const data = await response.json();
 
-document.getElementById("loading").style.display = "none";
+console.log(data);
 
 if(data.status === "success"){
 
-balance = Number(balance) - Number(amount);
+balance = balance - price;
 
 localStorage.setItem("walletBalance", balance);
 
-document.getElementById("balance").innerText =
-"₦" + balance.toLocaleString();
+document.getElementById("balance").innerHTML = "₦" + balance;
 
-let transactions =
+let history =
 JSON.parse(localStorage.getItem("transactions")) || [];
 
-transactions.unshift({
-
+history.unshift({
 type:"Data Purchase",
+amount:price,
 phone:phone,
-amount:amount,
-plan:plan,
-date:new Date().toLocaleString(),
-status:"Successful",
-reference:ref
-
+date:new Date().toLocaleString()
 });
 
 localStorage.setItem(
 "transactions",
-JSON.stringify(transactions)
+JSON.stringify(history)
 );
 
-alert("Data Purchase Successful ✅");
+alert("Data Purchase Successful");
 
-window.location.href = "history.html";
+document.getElementById("status").innerHTML =
+"Purchase Successful";
 
 }else{
 
-alert("Purchase Failed ❌");
+alert("Purchase Failed");
+
+document.getElementById("status").innerHTML =
+"Purchase Failed";
 
 }
 
 }catch(error){
 
-document.getElementById("loading").style.display = "none";
+console.log(error);
 
 alert("Network Error");
+
+document.getElementById("status").innerHTML =
+"Network Error";
 
 }
 
