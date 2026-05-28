@@ -1,49 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Signup - FadaqData</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Signup</title>
 
 <style>
 
 body{
 margin:0;
-padding:20px;
-font-family:Arial;
+padding:0;
 background:#8B0000;
+font-family:Arial,sans-serif;
 color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+width:90%;
+max-width:400px;
 }
 
 .logo{
-text-align:center;
 font-size:55px;
 font-weight:bold;
-margin-top:60px;
+text-align:center;
 margin-bottom:40px;
 }
 
-.box{
-background:#cc0000;
+.card{
+background:#c00000;
 padding:25px;
-border-radius:20px;
-max-width:400px;
-margin:auto;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+border-radius:25px;
 }
 
-h2{
+.title{
+font-size:30px;
+font-weight:bold;
 text-align:center;
 margin-bottom:30px;
-font-size:32px;
 }
 
 input{
 width:100%;
 padding:18px;
-margin-bottom:18px;
 border:none;
-border-radius:12px;
+border-radius:15px;
+margin-bottom:20px;
 font-size:18px;
 box-sizing:border-box;
 outline:none;
@@ -53,16 +63,12 @@ button{
 width:100%;
 padding:18px;
 border:none;
-border-radius:12px;
+border-radius:18px;
 background:white;
-color:#8B0000;
-font-size:20px;
+color:#7a0000;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
 }
 
 .link{
@@ -77,21 +83,46 @@ font-weight:bold;
 text-decoration:none;
 }
 
+.toast{
+position:fixed;
+top:30px;
+left:50%;
+transform:translateX(-50%);
+background:white;
+color:#7a0000;
+padding:18px 25px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+display:none;
+z-index:99999;
+}
+
 </style>
+
 </head>
 
 <body>
+
+<div class="toast"
+id="toast">
+Account Created ✅
+</div>
+
+<div class="container">
 
 <div class="logo">
 FadaqData
 </div>
 
-<div class="box">
+<div class="card">
 
-<h2>Create Account</h2>
+<div class="title">
+Create Account
+</div>
 
 <input type="text"
-id="fullname"
+id="name"
 placeholder="Full Name">
 
 <input type="email"
@@ -107,41 +138,106 @@ Create Account
 </button>
 
 <div class="link">
+
 Already have account?
-<a href="login.html">Login</a>
+
+<a href="login.html">
+Login
+</a>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
+function showToast(message){
+
+let toast =
+document.getElementById(
+"toast"
+);
+
+toast.innerHTML = message;
+
+toast.style.display =
+"block";
+
+setTimeout(function(){
+
+toast.style.display =
+"none";
+
+},3000);
+
+}
+
 function signup(){
 
-let fullname =
-document.getElementById("fullname").value;
+let name =
+document.getElementById(
+"name"
+).value;
 
 let email =
-document.getElementById("email").value;
+document.getElementById(
+"email"
+).value;
 
 let password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
-if(fullname === "" ||
+if(
+name === "" ||
 email === "" ||
-password === ""){
+password === ""
+){
 
-alert("Fill all fields");
+showToast(
+"Fill all fields"
+);
+
 return;
 
 }
 
-localStorage.setItem("userName", fullname);
-localStorage.setItem("userEmail", email);
-localStorage.setItem("userPassword", password);
+let user = {
 
-alert("Account created successfully");
+name:name,
+email:email,
+password:password
 
-window.location.href = "login.html";
+};
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+localStorage.setItem(
+"walletBalance",
+"0"
+);
+
+localStorage.setItem(
+"transactions",
+JSON.stringify([])
+);
+
+showToast(
+"Account Created ✅"
+);
+
+setTimeout(function(){
+
+window.location.href =
+"login.html";
+
+},1500);
 
 }
 
