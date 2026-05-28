@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const fetch = require("node-fetch");
 
 const app = express();
 
@@ -18,13 +17,11 @@ app.post("/buy-data", async (req, res) => {
 
   try {
 
-    const network = req.body.network;
-    const phone = req.body.phone;
-    const data_plan = req.body.data_plan;
+    const { network, phone, data_plan } = req.body;
 
     if (!network || !phone || !data_plan) {
 
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "Missing fields"
       });
@@ -41,13 +38,13 @@ app.post("/buy-data", async (req, res) => {
 
       ref: "DATA" + Date.now(),
 
-      ported_number: "true"
+      ported_number: true
 
     };
 
-    console.log(payload);
+    console.log("PAYLOAD:", payload);
 
-    const apiResponse = await fetch(
+    const response = await fetch(
       "https://fadaqdata.com/api/data/",
       {
 
@@ -66,25 +63,9 @@ app.post("/buy-data", async (req, res) => {
       }
     );
 
-    const raw = await apiResponse.text();
+    const data = await response.json();
 
-    console.log("RAW RESPONSE:");
-    console.log(raw);
-
-    let data;
-
-    try {
-
-      data = JSON.parse(raw);
-
-    } catch (e) {
-
-      return res.json({
-        success: false,
-        message: raw
-      });
-
-    }
+    console.log("API RESPONSE:", data);
 
     if (
       data.status === "success" ||
@@ -92,30 +73,41 @@ app.post("/buy-data", async (req, res) => {
     ) {
 
       return res.json({
+
         success: true,
+
         message: "Transaction successful",
-        data: data
+
+        data
+
       });
 
     } else {
 
       return res.json({
+
         success: false,
+
         message:
           data.message ||
           data.error ||
-          JSON.stringify(data)
+          "Transaction failed"
+
       });
 
     }
 
-  } catch (err) {
+  } catch (error) {
 
-    console.log(err);
+    console.log("SERVER ERROR:");
+    console.log(error);
 
-    return res.json({
+    return res.status(500).json({
+
       success: false,
+
       message: "Server Error"
+
     });
 
   }
