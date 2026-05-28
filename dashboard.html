@@ -32,11 +32,26 @@ border:none;
 border-radius:10px;
 font-size:18px;
 font-weight:bold;
+cursor:pointer;
 }
 
 .balance{
 font-size:50px;
 text-align:center;
+font-weight:bold;
+margin-top:20px;
+}
+
+.eye{
+text-align:center;
+font-size:25px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.title{
+text-align:center;
+font-size:30px;
 font-weight:bold;
 }
 
@@ -48,11 +63,21 @@ font-weight:bold;
 
 <div class="card">
 
-<h2 style="text-align:center;">
-Wallet Balance
-</h2>
+<div class="title">
+FadaqData Dashboard
+</div>
 
-<div class="balance">
+<div
+class="eye"
+onclick="toggleBalance()"
+>
+👁️
+</div>
+
+<div
+class="balance"
+id="balance"
+>
 ₦100
 </div>
 
@@ -74,7 +99,42 @@ Logout
 
 if(localStorage.getItem("loggedIn") !== "true"){
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
+
+}
+
+// CREATE DEFAULT BALANCE
+if(!localStorage.getItem("walletBalance")){
+
+localStorage.setItem(
+"walletBalance",
+"100"
+);
+
+}
+
+let hidden = false;
+
+function loadBalance(){
+
+const balance =
+localStorage.getItem("walletBalance");
+
+document.getElementById("balance")
+.innerHTML = hidden
+? "******"
+: "₦" + balance;
+
+}
+
+loadBalance();
+
+function toggleBalance(){
+
+hidden = !hidden;
+
+loadBalance();
 
 }
 
@@ -82,7 +142,8 @@ function logout(){
 
 localStorage.removeItem("loggedIn");
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
