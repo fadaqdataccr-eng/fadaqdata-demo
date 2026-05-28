@@ -83,31 +83,11 @@ font-weight:bold;
 text-decoration:none;
 }
 
-.toast{
-position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:#7a0000;
-padding:18px 25px;
-border-radius:15px;
-font-size:18px;
-font-weight:bold;
-display:none;
-z-index:99999;
-}
-
 </style>
 
 </head>
 
 <body>
-
-<div class="toast"
-id="toast">
-Account Created ✅
-</div>
 
 <div class="container">
 
@@ -151,30 +131,53 @@ Login
 
 </div>
 
-<script>
+<script type="module">
 
-function showToast(message){
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-let toast =
-document.getElementById(
-"toast"
-);
+import {
+getAuth,
+createUserWithEmailAndPassword
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-toast.innerHTML = message;
+import {
+getFirestore,
+doc,
+setDoc
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-toast.style.display =
-"block";
+const firebaseConfig = {
 
-setTimeout(function(){
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
 
-toast.style.display =
-"none";
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
-},3000);
+projectId: "fadaqdata-3bd14",
 
-}
+storageBucket: "fadaqdata-3bd14.appspot.com",
 
-function signup(){
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+window.signup =
+async function(){
 
 let name =
 document.getElementById(
@@ -197,7 +200,7 @@ email === "" ||
 password === ""
 ){
 
-showToast(
+alert(
 "Fill all fields"
 );
 
@@ -205,41 +208,46 @@ return;
 
 }
 
-let user = {
+try{
 
+const userCredential =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+const user =
+userCredential.user;
+
+await setDoc(
+doc(db,"users",user.uid),
+{
 name:name,
 email:email,
-password:password
-
-};
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
+wallet:0,
+transactions:[]
+}
 );
 
-localStorage.setItem(
-"walletBalance",
-"0"
+alert(
+"Account Created Successfully ✅"
 );
-
-localStorage.setItem(
-"transactions",
-JSON.stringify([])
-);
-
-showToast(
-"Account Created ✅"
-);
-
-setTimeout(function(){
 
 window.location.href =
 "login.html";
 
-},1500);
+}
+
+catch(error){
+
+alert(
+error.message
+);
 
 }
+
+};
 
 </script>
 
