@@ -1,42 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>FadaqData</title>
 
 <style>
+
 body{
-background:#2b160d;
+
+background:#5b0000;
+font-family:Arial;
+margin:0;
+padding:0;
 color:white;
-text-align:center;
-font-family:Arial,sans-serif;
-padding-top:120px;
+
 }
 
-h1{
-font-size:40px;
-margin-bottom:10px;
+.container{
+
+width:90%;
+margin:auto;
+margin-top:80px;
+
 }
 
-p{
+.card{
+
+background:#7a0000;
+padding:20px;
+border-radius:20px;
+
+}
+
+input{
+
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:10px;
 font-size:18px;
-margin-bottom:30px;
+
 }
 
 button{
-padding:12px 25px;
+
+width:100%;
+padding:15px;
+margin-top:20px;
 border:none;
-border-radius:8px;
-font-size:16px;
-margin:8px;
-cursor:pointer;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+
 }
 
-.login{
-background:white;
-}
+h1{
 
-.register{
-background:gold;
+text-align:center;
+font-size:60px;
+
 }
 
 </style>
@@ -45,16 +69,64 @@ background:gold;
 
 <body>
 
+<div class="container">
+
 <h1>FadaqData</h1>
 
-<p>Your Data, Your Way — Anytime, Anywhere.</p>
+<div class="card">
 
-<a href="login.html">
-<button class="login">Login</button>
-</a>
+<h2 style="text-align:center;">
+Login
+</h2>
 
-<a href="register.html">
-<button class="register">Register</button>
-</a>
+<input
+type="email"
+id="email"
+placeholder="Email"
+/>
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+/>
+
+<button onclick="login()">
+Login
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function login(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+if(
+email === "fadaqdataccr@gmail.com" &&
+password === "1234"
+){
+
+window.location.href =
+"dashboard.html";
+
+}else{
+
+alert("Invalid Email or Password");
+
+}
+
+}
+
+</script>
+
 </body>
+
 </html>
