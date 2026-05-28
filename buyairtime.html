@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -18,7 +20,7 @@ color:white;
 }
 
 .container{
-padding:20px;
+padding:25px;
 padding-bottom:120px;
 }
 
@@ -26,7 +28,7 @@ padding-bottom:120px;
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:40px;
+margin-top:30px;
 margin-bottom:40px;
 }
 
@@ -35,14 +37,13 @@ background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 .title{
-font-size:35px;
+font-size:45px;
 font-weight:bold;
-margin-bottom:25px;
 text-align:center;
+margin-bottom:30px;
 }
 
 .balance-box{
@@ -52,14 +53,14 @@ border-radius:18px;
 font-size:28px;
 font-weight:bold;
 text-align:center;
-margin-bottom:25px;
+margin-bottom:30px;
 }
 
 label{
 display:block;
 font-size:20px;
-margin-bottom:10px;
 font-weight:bold;
+margin-bottom:10px;
 }
 
 input,select{
@@ -73,25 +74,32 @@ box-sizing:border-box;
 outline:none;
 }
 
-.amount-box{
+.amount-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:25px;
+}
+
+.amount-btn{
+padding:20px;
+border:none;
+border-radius:18px;
 background:#a00000;
-padding:18px;
-border-radius:15px;
-margin-bottom:15px;
-cursor:pointer;
-font-size:20px;
+color:white;
+font-size:24px;
 font-weight:bold;
-border:3px solid transparent;
-text-align:center;
+cursor:pointer;
 }
 
 .active-amount{
-border:3px solid white;
+background:white;
+color:#7a0000;
 }
 
 .buy-btn{
 width:100%;
-padding:22px;
+padding:20px;
 border:none;
 border-radius:18px;
 background:white;
@@ -124,62 +132,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
-
-.spinner{
-width:70px;
-height:70px;
-border:8px solid white;
-border-top:8px solid transparent;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-.loading-text{
-margin-top:20px;
-font-size:24px;
-font-weight:bold;
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-.toast{
-position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:#7a0000;
-padding:18px 25px;
-border-radius:15px;
-font-size:20px;
-font-weight:bold;
-display:none;
-z-index:99999;
-}
-
 .receipt-modal{
 position:fixed;
 top:0;
@@ -204,15 +156,15 @@ max-width:400px;
 }
 
 .receipt-title{
-font-size:30px;
+font-size:32px;
 font-weight:bold;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 .receipt-item{
-font-size:18px;
-margin-bottom:15px;
+font-size:20px;
+margin-bottom:18px;
 line-height:1.5;
 }
 
@@ -221,49 +173,35 @@ color:green;
 font-weight:bold;
 }
 
-.close-btn{
+.done-btn{
 width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
 background:#7a0000;
 color:white;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
 margin-top:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <script>
 
-if(localStorage.getItem("isLoggedIn") != "true"){
+if(localStorage.getItem("loggedIn") !== "true"){
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
 </script>
-
-<div class="toast"
-id="toast">
-Airtime Purchase Successful ✅
-</div>
-
-<div class="loader"
-id="loader">
-
-<div class="spinner"></div>
-
-<div class="loading-text">
-Processing...
-</div>
-
-</div>
 
 <div class="container">
 
@@ -301,34 +239,39 @@ placeholder="Enter phone number">
 
 <label>Select Airtime Amount</label>
 
-<div class="amount-box"
-onclick="selectAmount(this,100)">
+<div class="amount-grid">
+
+<button class="amount-btn"
+onclick="selectAmount(100,this)">
 ₦100
-</div>
+</button>
 
-<div class="amount-box"
-onclick="selectAmount(this,200)">
+<button class="amount-btn"
+onclick="selectAmount(200,this)">
 ₦200
-</div>
+</button>
 
-<div class="amount-box"
-onclick="selectAmount(this,500)">
+<button class="amount-btn"
+onclick="selectAmount(500,this)">
 ₦500
-</div>
+</button>
 
-<div class="amount-box"
-onclick="selectAmount(this,1000)">
+<button class="amount-btn"
+onclick="selectAmount(1000,this)">
 ₦1000
-</div>
+</button>
 
-<div class="amount-box"
-onclick="selectAmount(this,2000)">
+<button class="amount-btn"
+onclick="selectAmount(2000,this)">
 ₦2000
-</div>
+</button>
 
-<input type="number"
-id="customAmount"
-placeholder="Or enter custom amount">
+<button class="amount-btn"
+onclick="selectAmount(5000,this)">
+₦5000
+</button>
+
+</div>
 
 <button class="buy-btn"
 onclick="buyAirtime()">
@@ -359,7 +302,7 @@ id="receiptModal">
 <div class="receipt-card">
 
 <div class="receipt-title">
-✅ Transaction Receipt
+✅ Airtime Receipt
 </div>
 
 <div class="receipt-item"
@@ -381,7 +324,7 @@ id="receiptDate"></div>
 Status: Successful
 </div>
 
-<button class="close-btn"
+<button class="done-btn"
 onclick="closeReceipt()">
 Done
 </button>
@@ -393,9 +336,11 @@ Done
 <script>
 
 let wallet =
-parseFloat(localStorage.getItem(
+parseFloat(
+localStorage.getItem(
 "walletBalance"
-)) || 0;
+)
+) || 0;
 
 document.getElementById(
 "walletBalance"
@@ -405,62 +350,26 @@ wallet.toFixed(2);
 
 let selectedAmount = 0;
 
-function selectAmount(element,amount){
+function selectAmount(amount,button){
 
+selectedAmount = amount;
+
+let buttons =
 document.querySelectorAll(
-".amount-box"
-).forEach(function(box){
+".amount-btn"
+);
 
-box.classList.remove(
+buttons.forEach(function(btn){
+
+btn.classList.remove(
 "active-amount"
 );
 
 });
 
-element.classList.add(
+button.classList.add(
 "active-amount"
 );
-
-selectedAmount = amount;
-
-document.getElementById(
-"customAmount"
-).value = "";
-
-}
-
-function showLoader(){
-
-document.getElementById(
-"loader"
-).style.display = "flex";
-
-}
-
-function hideLoader(){
-
-document.getElementById(
-"loader"
-).style.display = "none";
-
-}
-
-function showToast(message){
-
-let toast =
-document.getElementById(
-"toast"
-);
-
-toast.innerHTML = message;
-
-toast.style.display = "block";
-
-setTimeout(function(){
-
-toast.style.display = "none";
-
-},3000);
 
 }
 
@@ -476,50 +385,37 @@ document.getElementById(
 "phone"
 ).value;
 
-let customAmount =
-document.getElementById(
-"customAmount"
-).value;
-
-let amount =
-selectedAmount;
-
-if(customAmount !== ""){
-
-amount =
-parseFloat(customAmount);
-
-}
-
 if(phone === ""){
 
-showToast("Enter phone number");
+alert(
+"Enter phone number"
+);
 
 return;
 
 }
 
-if(amount <= 0 || isNaN(amount)){
+if(selectedAmount <= 0){
 
-showToast("Enter valid amount");
-
-return;
-
-}
-
-if(wallet < amount){
-
-showToast("Insufficient balance");
+alert(
+"Select airtime amount"
+);
 
 return;
 
 }
 
-showLoader();
+if(wallet < selectedAmount){
 
-setTimeout(function(){
+alert(
+"Insufficient balance"
+);
 
-wallet -= amount;
+return;
+
+}
+
+wallet -= selectedAmount;
 
 localStorage.setItem(
 "walletBalance",
@@ -527,39 +423,46 @@ wallet
 );
 
 let transactions =
-JSON.parse(localStorage.getItem(
+JSON.parse(
+localStorage.getItem(
 "transactions"
-)) || [];
+)
+) || [];
 
-let date =
+let transactionID =
+"FD" +
+Math.floor(
+Math.random()*100000000
+);
+
+let transactionDate =
 new Date().toLocaleString();
 
 transactions.push({
+
 text:
-"📞 " +
-network +
-" Airtime for " +
+"📞 Airtime purchased for " +
 phone +
 " - ₦" +
-amount,
-date:date
+selectedAmount,
+
+date:
+transactionDate,
+
+amount:selectedAmount,
+
+type:"Airtime Purchase",
+
+status:"Successful",
+
+id:transactionID
+
 });
 
 localStorage.setItem(
 "transactions",
 JSON.stringify(transactions)
 );
-
-hideLoader();
-
-showToast(
-network +
-" Airtime Purchase Successful"
-);
-
-let transactionID =
-"AT" +
-Math.floor(Math.random()*100000000);
 
 document.getElementById(
 "receiptNetwork"
@@ -574,7 +477,7 @@ document.getElementById(
 document.getElementById(
 "receiptAmount"
 ).innerHTML =
-"Amount: ₦" + amount;
+"Amount: ₦" + selectedAmount;
 
 document.getElementById(
 "receiptID"
@@ -585,18 +488,13 @@ transactionID;
 document.getElementById(
 "receiptDate"
 ).innerHTML =
-"Date: " + date;
-
-setTimeout(function(){
+"Date: " +
+transactionDate;
 
 document.getElementById(
 "receiptModal"
 ).style.display =
 "flex";
-
-},1500);
-
-},2000);
 
 }
 
