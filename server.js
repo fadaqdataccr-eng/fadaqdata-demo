@@ -18,13 +18,15 @@ app.post("/buy-data", async (req, res) => {
 
   try {
 
-    const { network, phone, data_plan } = req.body;
+    const network = req.body.network;
+    const phone = req.body.phone;
+    const data_plan = req.body.data_plan;
 
     if (!network || !phone || !data_plan) {
 
       return res.json({
         success: false,
-        message: "All fields required"
+        message: "Missing fields"
       });
 
     }
@@ -39,13 +41,13 @@ app.post("/buy-data", async (req, res) => {
 
       ref: "DATA" + Date.now(),
 
-      ported_number: true
+      ported_number: "true"
 
     };
 
-    console.log("PAYLOAD:", payload);
+    console.log(payload);
 
-    const response = await fetch(
+    const apiResponse = await fetch(
       "https://fadaqdata.com/api/data/",
       {
 
@@ -64,9 +66,10 @@ app.post("/buy-data", async (req, res) => {
       }
     );
 
-    const raw = await response.text();
+    const raw = await apiResponse.text();
 
-    console.log("RAW RESPONSE:", raw);
+    console.log("RAW RESPONSE:");
+    console.log(raw);
 
     let data;
 
@@ -74,11 +77,11 @@ app.post("/buy-data", async (req, res) => {
 
       data = JSON.parse(raw);
 
-    } catch {
+    } catch (e) {
 
       return res.json({
         success: false,
-        message: "Invalid API response"
+        message: raw
       });
 
     }
@@ -89,36 +92,19 @@ app.post("/buy-data", async (req, res) => {
     ) {
 
       return res.json({
-
         success: true,
-
         message: "Transaction successful",
-
-        receipt: {
-
-          network,
-
-          phone,
-
-          data_plan,
-
-          response: data.true_response || ""
-
-        }
-
+        data: data
       });
 
     } else {
 
       return res.json({
-
         success: false,
-
         message:
           data.message ||
           data.error ||
-          "Transaction failed"
-
+          JSON.stringify(data)
       });
 
     }
