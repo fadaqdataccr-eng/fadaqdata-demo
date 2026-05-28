@@ -9,6 +9,8 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Fund Wallet</title>
 
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
 
 body{
@@ -23,7 +25,7 @@ color:white;
 width:90%;
 max-width:450px;
 margin:auto;
-padding:20px 0;
+padding:40px 0 120px;
 }
 
 .logo{
@@ -35,24 +37,33 @@ margin:30px 0;
 
 .card{
 background:#c00000;
-padding:25px;
+padding:30px;
 border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.title{
+font-size:40px;
+font-weight:bold;
+text-align:center;
+margin-bottom:30px;
 }
 
 .balance{
-font-size:45px;
+font-size:55px;
 font-weight:bold;
 text-align:center;
-margin:20px 0;
+margin-bottom:30px;
 }
 
 input{
 width:100%;
 padding:18px;
+margin-bottom:20px;
 border:none;
 border-radius:15px;
-margin-top:20px;
 font-size:18px;
+outline:none;
 box-sizing:border-box;
 }
 
@@ -63,10 +74,30 @@ border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
-margin-top:20px;
+}
+
+.bottomnav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
+display:flex;
+justify-content:space-around;
+}
+
+.navbtn{
+background:white;
+padding:15px 30px;
+border-radius:18px;
+color:#7a0000;
+font-weight:bold;
+text-decoration:none;
+font-size:20px;
 }
 
 </style>
@@ -83,24 +114,39 @@ FadaqData
 
 <div class="card">
 
-<h2>
-Wallet Balance
-</h2>
-
-<div class="balance"
-id="wallet">
-₦0.00
+<div class="title">
+💳 Fund Wallet
 </div>
 
-<input type="number"
-id="amount"
-placeholder="Enter amount">
+<div class="balance"
+id="balance">
+₦0
+</div>
 
-<button onclick="fundWallet()">
+<input
+type="number"
+id="amount"
+placeholder="Enter Amount">
+
+<button onclick="payNow()">
 Fund Wallet
 </button>
 
 </div>
+
+</div>
+
+<div class="bottomnav">
+
+<a href="dashboard.html"
+class="navbtn">
+🏠 Home
+</a>
+
+<a href="profile.html"
+class="navbtn">
+👤 Profile
+</a>
 
 </div>
 
@@ -151,6 +197,7 @@ const db =
 getFirestore(app);
 
 let currentUser;
+let wallet = 0;
 
 onAuthStateChanged(auth,
 async(user)=>{
@@ -167,13 +214,13 @@ await getDoc(docRef);
 
 if(docSnap.exists()){
 
-const data =
-docSnap.data();
+wallet =
+docSnap.data().wallet || 0;
 
 document.getElementById(
-"wallet"
-).innerHTML =
-"₦" + data.wallet;
+"balance"
+).innerText =
+"₦" + wallet;
 
 }
 
@@ -186,25 +233,45 @@ window.location.href =
 
 });
 
-window.fundWallet =
-async function(){
+window.payNow =
+function(){
 
-let amount =
-parseFloat(
+const amount =
 document.getElementById(
 "amount"
-).value
-);
+).value;
 
-if(!amount || amount <= 0){
+if(amount < 100){
 
 alert(
-"Enter valid amount"
+"Minimum funding is ₦100"
 );
 
 return;
 
 }
+
+let handler =
+PaystackPop.setup({
+
+key:
+"pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
+
+email:
+currentUser.email,
+
+amount:
+amount * 100,
+
+currency:
+"NGN",
+
+callback:
+async function(response){
+
+wallet =
+parseInt(wallet) +
+parseInt(amount);
 
 const docRef =
 doc(db,"users",currentUser.uid);
@@ -212,21 +279,58 @@ doc(db,"users",currentUser.uid);
 const docSnap =
 await getDoc(docRef);
 
-let currentBalance =
-docSnap.data().wallet || 0;
+let transactions =
+docSnap.data().transactions || [];
 
-let newBalance =
-currentBalance + amount;
+transactions.push({
 
-await updateDoc(docRef,{
-wallet:newBalance
+type:"Wallet Funding",
+
+network:"Paystack",
+
+phone:"Wallet",
+
+amount:amount,
+
+date:new Date().toLocaleString()
+
 });
 
-alert(
-"Wallet Funded Successfully ✅"
+await updateDoc(docRef,{
+
+wallet:wallet,
+
+transactions:transactions
+
+});
+
+localStorage.setItem(
+"receipt",
+JSON.stringify({
+type:"Wallet Funding",
+network:"Paystack",
+phone:"Wallet",
+amount:amount,
+date:new Date().toLocaleString()
+})
 );
 
-location.reload();
+window.location.href =
+"receipt.html";
+
+},
+
+onClose:function(){
+
+alert(
+"Transaction Cancelled"
+);
+
+}
+
+});
+
+handler.openIframe();
 
 };
 
