@@ -1,192 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Login</title>
-
-<style>
-
-body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
-}
-
-.container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding-top:80px;
-}
-
-.logo{
-text-align:center;
-font-size:55px;
-font-weight:bold;
-margin-bottom:50px;
-}
-
-.card{
-background:red;
-padding:35px 25px;
-border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-.title{
-text-align:center;
-font-size:32px;
-font-weight:bold;
-margin-bottom:30px;
-}
-
-input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:18px;
-margin-bottom:20px;
-box-sizing:border-box;
-}
-
-button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-background:white;
-color:#660000;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.bottom-text{
-text-align:center;
-margin-top:25px;
-font-size:18px;
-}
-
-.bottom-text a{
-color:white;
-font-weight:bold;
-text-decoration:none;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="logo">
-FadaqData
-</div>
-
-<div class="card">
-
-<div class="title">
-Login
-</div>
-
-<input
-type="email"
-id="email"
-placeholder="Email Address"
->
-
-<input
-type="password"
-id="password"
-placeholder="Password"
->
-
-<button id="loginBtn">
-Login
-</button>
-
-<div class="bottom-text">
-Don't have an account?
-<a href="signup.html">
-Signup
-</a>
-</div>
-
-</div>
-
-</div>
-
 <script>
 
-// LOGIN BUTTON
-document.getElementById("loginBtn")
-.addEventListener("click", loginUser);
-
-// LOGIN FUNCTION
-function loginUser(){
+function login(){
 
 const email =
-document.getElementById("email").value.trim();
+document.getElementById("email").value;
 
 const password =
-document.getElementById("password").value.trim();
+document.getElementById("password").value;
 
-// CHECK EMPTY
-if(!email || !password){
-
-alert("Please fill all fields");
-return;
-
-}
-
-// GET USERS
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
-
-// FIND USER
-const foundUser =
-users.find(user =>
-
-user.email === email &&
-user.password === password
-
-);
-
-// USER FOUND
-if(foundUser){
-
-// SAVE LOGIN SESSION
-localStorage.setItem(
-"loggedInUser",
-JSON.stringify(foundUser)
-);
-
-// CREATE WALLET IF NULL
 if(
-localStorage.getItem("walletBalance")
-=== null
+email === "fadaqdataccr@gmail.com" &&
+password === "1234"
 ){
 
-localStorage.setItem(
-"walletBalance",
-100
-);
+localStorage.setItem("loggedIn","true");
 
-}
-
-// SUCCESS
-alert("Login Successful");
-
-// REDIRECT
-window.location.href =
-"dashboard.html";
+window.location.href = "dashboard.html";
 
 }else{
 
@@ -197,6 +26,3 @@ alert("Invalid Email or Password");
 }
 
 </script>
-
-</body>
-</html>
