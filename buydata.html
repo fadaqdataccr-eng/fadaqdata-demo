@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -18,7 +20,7 @@ color:white;
 }
 
 .container{
-padding:20px;
+padding:25px;
 padding-bottom:120px;
 }
 
@@ -26,7 +28,7 @@ padding-bottom:120px;
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:40px;
+margin-top:30px;
 margin-bottom:40px;
 }
 
@@ -35,14 +37,13 @@ background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 .title{
-font-size:35px;
+font-size:40px;
 font-weight:bold;
-margin-bottom:25px;
 text-align:center;
+margin-bottom:30px;
 }
 
 .balance-box{
@@ -52,14 +53,14 @@ border-radius:18px;
 font-size:28px;
 font-weight:bold;
 text-align:center;
-margin-bottom:25px;
+margin-bottom:30px;
 }
 
 label{
 display:block;
 font-size:20px;
-margin-bottom:10px;
 font-weight:bold;
+margin-bottom:10px;
 }
 
 input,select{
@@ -75,7 +76,7 @@ outline:none;
 
 .buy-btn{
 width:100%;
-padding:22px;
+padding:20px;
 border:none;
 border-radius:18px;
 background:white;
@@ -108,62 +109,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
-
-.spinner{
-width:70px;
-height:70px;
-border:8px solid white;
-border-top:8px solid transparent;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-.loading-text{
-margin-top:20px;
-font-size:24px;
-font-weight:bold;
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-.toast{
-position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:#7a0000;
-padding:18px 25px;
-border-radius:15px;
-font-size:20px;
-font-weight:bold;
-display:none;
-z-index:99999;
-}
-
 .receipt-modal{
 position:fixed;
 top:0;
@@ -188,15 +133,15 @@ max-width:400px;
 }
 
 .receipt-title{
-font-size:30px;
+font-size:32px;
 font-weight:bold;
 text-align:center;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 .receipt-item{
-font-size:18px;
-margin-bottom:15px;
+font-size:20px;
+margin-bottom:18px;
 line-height:1.5;
 }
 
@@ -205,39 +150,24 @@ color:green;
 font-weight:bold;
 }
 
-.close-btn{
+.done-btn{
 width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
 background:#7a0000;
 color:white;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
 margin-top:20px;
 }
 
 </style>
+
 </head>
 
 <body>
-
-<div class="toast"
-id="toast">
-Data Purchase Successful ✅
-</div>
-
-<div class="loader"
-id="loader">
-
-<div class="spinner"></div>
-
-<div class="loading-text">
-Processing...
-</div>
-
-</div>
 
 <div class="container">
 
@@ -293,8 +223,7 @@ readonly
 style="
 background:#eee;
 font-weight:bold;
-"
-placeholder="Amount auto selected">
+">
 
 <button class="buy-btn"
 onclick="buyData()">
@@ -325,7 +254,7 @@ id="receiptModal">
 <div class="receipt-card">
 
 <div class="receipt-title">
-✅ Transaction Receipt
+✅ Data Receipt
 </div>
 
 <div class="receipt-item"
@@ -350,7 +279,7 @@ id="receiptDate"></div>
 Status: Successful
 </div>
 
-<button class="close-btn"
+<button class="done-btn"
 onclick="closeReceipt()">
 Done
 </button>
@@ -359,22 +288,96 @@ Done
 
 </div>
 
-<script>
+<script type="module">
 
-let wallet =
-parseFloat(
-localStorage.getItem(
-"walletBalance"
-)
-) || 0;
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+updateDoc,
+arrayUnion
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
+projectId: "fadaqdata-3bd14",
+
+storageBucket: "fadaqdata-3bd14.appspot.com",
+
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+let currentUser = null;
+let currentWallet = 0;
+
+onAuthStateChanged(auth,
+async(user)=>{
+
+if(!user){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+currentUser = user;
+
+const docRef =
+doc(db,"users",user.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data =
+docSnap.data();
+
+currentWallet =
+data.wallet || 0;
 
 document.getElementById(
 "walletBalance"
 ).innerHTML =
 "Wallet: ₦" +
-wallet.toFixed(2);
+currentWallet.toFixed(2);
 
-function updateAmount(){
+}
+
+});
+
+window.updateAmount =
+function(){
 
 let plan =
 document.getElementById(
@@ -387,67 +390,25 @@ document.getElementById(
 );
 
 if(plan === "500MB"){
-
 amountField.value = 100;
-
 }
 
 else if(plan === "1GB"){
-
 amountField.value = 300;
-
 }
 
 else if(plan === "2GB"){
-
 amountField.value = 500;
-
 }
 
 else if(plan === "5GB"){
-
 amountField.value = 1200;
-
 }
 
-}
+};
 
-function showLoader(){
-
-document.getElementById(
-"loader"
-).style.display = "flex";
-
-}
-
-function hideLoader(){
-
-document.getElementById(
-"loader"
-).style.display = "none";
-
-}
-
-function showToast(message){
-
-let toast =
-document.getElementById(
-"toast"
-);
-
-toast.innerHTML = message;
-
-toast.style.display = "block";
-
-setTimeout(function(){
-
-toast.style.display = "none";
-
-},3000);
-
-}
-
-function buyData(){
+window.buyData =
+async function(){
 
 let network =
 document.getElementById(
@@ -473,7 +434,7 @@ document.getElementById(
 
 if(phone === ""){
 
-showToast(
+alert(
 "Enter phone number"
 );
 
@@ -481,9 +442,9 @@ return;
 
 }
 
-if(wallet < amount){
+if(currentWallet < amount){
 
-showToast(
+alert(
 "Insufficient balance"
 );
 
@@ -491,23 +452,8 @@ return;
 
 }
 
-showLoader();
-
-setTimeout(function(){
-
-wallet -= amount;
-
-localStorage.setItem(
-"walletBalance",
-wallet
-);
-
-let transactions =
-JSON.parse(
-localStorage.getItem(
-"transactions"
-)
-) || [];
+let newWallet =
+currentWallet - amount;
 
 let transactionID =
 "FD" +
@@ -518,7 +464,7 @@ Math.random()*100000000
 let transactionDate =
 new Date().toLocaleString();
 
-transactions.push({
+let transaction = {
 
 text:
 "📶 " +
@@ -539,17 +485,19 @@ status:"Successful",
 
 id:transactionID
 
-});
+};
 
-localStorage.setItem(
-"transactions",
-JSON.stringify(transactions)
-);
+await updateDoc(
+doc(db,"users",currentUser.uid),
+{
 
-hideLoader();
+wallet:newWallet,
 
-showToast(
-"Data Purchase Successful ✅"
+transactions:
+arrayUnion(transaction)
+
+}
+
 );
 
 document.getElementById(
@@ -584,29 +532,24 @@ document.getElementById(
 "Date: " +
 transactionDate;
 
-setTimeout(function(){
-
 document.getElementById(
 "receiptModal"
 ).style.display =
 "flex";
 
-},1500);
+};
 
-},2000);
-
-}
-
-function closeReceipt(){
+window.closeReceipt =
+function(){
 
 window.location.href =
 "dashboard.html";
 
-}
+};
 
 updateAmount();
 
 </script>
 
 </body>
-</html>
+  </html>
