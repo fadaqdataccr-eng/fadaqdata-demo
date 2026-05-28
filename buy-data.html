@@ -1,56 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Data</title>
+
+<style>
+
+body{
+    background:#6b0000;
+    font-family:Arial;
+    color:white;
+    padding:20px;
+}
+
+.container{
+    background:#8b0000;
+    padding:20px;
+    border-radius:20px;
+    margin-top:40px;
+}
+
+h1{
+    text-align:center;
+}
+
+input, select, button{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+}
+
+button{
+    background:white;
+    font-weight:bold;
+}
+
+.balance{
+    text-align:center;
+    font-size:45px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="balance" id="balance">₦100</div>
+
+<h1>Buy Data</h1>
+
+<select id="network">
+<option value="1">MTN</option>
+<option value="2">GLO</option>
+<option value="3">AIRTEL</option>
+<option value="4">9MOBILE</option>
+</select>
+
+<input type="number" id="phone" placeholder="Enter Phone Number">
+
+<select id="plan">
+<option value="85">MTN 500MB SME - ₦100</option>
+</select>
+
+<button onclick="buyData()">Buy Data</button>
+
+</div>
+
 <script>
-const API_URL = "https://fadaqdata-server.onrender.com";
 
-async function buyData() {
+const API_URL =
+"https://fadaqdata-server.onrender.com";
 
-    const network = document.getElementById("network").value;
-    const phone = document.getElementById("phone").value;
-    const plan = document.getElementById("plan").value;
+function loadBalance(){
 
-    if (!phone || phone.length < 11) {
+    let balance =
+    localStorage.getItem("walletBalance") || 100;
+
+    document.getElementById("balance").innerText =
+    "₦" + balance;
+}
+
+loadBalance();
+
+async function buyData(){
+
+    const network =
+    document.getElementById("network").value;
+
+    const phone =
+    document.getElementById("phone").value;
+
+    const plan =
+    document.getElementById("plan").value;
+
+    if(phone.length < 11){
+
         alert("Enter valid phone number");
         return;
     }
 
-    try {
+    try{
 
-        const response = await fetch(`${API_URL}/buy-data`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                network: network,
-                phone: phone,
-                plan: plan
-            })
-        });
+        const response = await fetch(
+            API_URL + "/buy-data",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    network:network,
+                    phone:phone,
+                    plan:plan
+                })
+            }
+        );
 
         const data = await response.json();
 
         console.log(data);
 
-        if (data.success) {
+        if(data.success){
 
             let wallet =
-                Number(localStorage.getItem("walletBalance")) || 0;
+            Number(localStorage.getItem("walletBalance")) || 100;
 
             wallet -= 100;
 
-            localStorage.setItem("walletBalance", wallet);
-
-            document.getElementById("balance").innerText =
-                "₦" + wallet;
+            localStorage.setItem(
+                "walletBalance",
+                wallet
+            );
 
             let history =
-                JSON.parse(localStorage.getItem("transactions")) || [];
+            JSON.parse(localStorage.getItem("transactions")) || [];
 
             history.unshift({
-                network: network,
-                phone: phone,
-                plan: plan,
-                amount: 100,
-                date: new Date().toLocaleString()
+                network:"MTN",
+                phone:phone,
+                plan:"500MB SME",
+                amount:100,
+                date:new Date().toLocaleString()
             });
 
             localStorage.setItem(
@@ -58,17 +155,18 @@ async function buyData() {
                 JSON.stringify(history)
             );
 
-            alert("Data purchased successfully");
+            alert("Data Purchase Successful");
 
-            window.location.href = "history.html";
+            window.location.href =
+            "history.html";
 
-        } else {
+        }else{
 
-            alert(data.message || "Transaction failed");
+            alert(data.message || "Transaction Failed");
 
         }
 
-    } catch (error) {
+    }catch(error){
 
         console.log(error);
 
@@ -77,4 +175,8 @@ async function buyData() {
     }
 
 }
+
 </script>
+
+</body>
+</html>
