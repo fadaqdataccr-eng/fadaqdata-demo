@@ -1,391 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Data</title>
 
-<title>Buy Data</title>
+  <style>
 
-<style>
+    body{
+      margin:0;
+      padding:0;
+      background:darkred;
+      font-family:Arial;
+      color:white;
+    }
 
-body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
-}
+    .container{
+      width:90%;
+      margin:30px auto;
+      background:#990000;
+      padding:20px;
+      border-radius:20px;
+    }
 
-.container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:40px 0 120px;
-}
+    h1{
+      text-align:center;
+      margin-bottom:30px;
+    }
 
-.logo{
-text-align:center;
-font-size:55px;
-font-weight:bold;
-margin-bottom:40px;
-}
+    select,input,button{
+      width:100%;
+      padding:15px;
+      margin-top:15px;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
+    }
 
-.card{
-background:red;
-padding:25px;
-border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
+    button{
+      background:white;
+      color:darkred;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.balance-box{
-background:#cc0000;
-padding:25px;
-border-radius:20px;
-text-align:center;
-margin-bottom:25px;
-}
-
-.balance-title{
-font-size:22px;
-margin-bottom:10px;
-}
-
-.balance{
-font-size:65px;
-font-weight:bold;
-}
-
-select,input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:18px;
-margin-top:20px;
-box-sizing:border-box;
-}
-
-button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-background:white;
-color:#660000;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#8B0000;
-display:flex;
-justify-content:space-around;
-padding:15px 0;
-}
-
-.nav-btn{
-background:white;
-padding:15px 30px;
-border-radius:20px;
-font-size:18px;
-font-weight:bold;
-color:#660000;
-text-decoration:none;
-}
-
-</style>
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <h1>Buy Data</h1>
 
-<div class="card">
+    <select id="network">
 
-<div class="balance-box">
+      <option value="">Select Network</option>
 
-<div class="balance-title">
-Wallet Balance 👁️
-</div>
+      <option value="1">MTN</option>
 
-<div
-class="balance"
-id="walletBalance"
->
-₦0
-</div>
+      <option value="2">Airtel</option>
 
-</div>
+      <option value="3">Glo</option>
 
-<select id="network">
+      <option value="4">9mobile</option>
 
-<option value="1">
-MTN
-</option>
+    </select>
 
-<option value="2">
-AIRTEL
-</option>
+    <input
+      type="number"
+      id="phone"
+      placeholder="Enter Phone Number"
+    >
 
-<option value="3">
-GLO
-</option>
+    <select id="data_plan">
 
-<option value="4">
-9MOBILE
-</option>
+      <option value="">Select Data Plan</option>
 
-</select>
+      <option value="1">500MB</option>
 
-<select id="plan">
+      <option value="2">1GB</option>
 
-<option value="1">
-MTN 500MB - ₦100
-</option>
+      <option value="3">2GB</option>
 
-<option value="2">
-MTN 1GB - ₦300
-</option>
+    </select>
 
-<option value="3">
-MTN 2GB - ₦500
-</option>
+    <button id="buyBtn" onclick="buyData()">
+      Buy Data
+    </button>
 
-</select>
+  </div>
 
-<input
-type="number"
-id="phone"
-placeholder="Enter Phone Number"
->
+  <script>
 
-<button onclick="buyData()">
-Buy Data
-</button>
+    async function buyData() {
 
-</div>
+      const network =
+        document.getElementById("network").value;
 
-</div>
+      const phone =
+        document.getElementById("phone").value;
 
-<div class="bottom-nav">
+      const data_plan =
+        document.getElementById("data_plan").value;
 
-<a
-href="dashboard.html"
-class="nav-btn"
->
-🏠 Home
-</a>
+      if (!network || !phone || !data_plan) {
 
-<a
-href="profile.html"
-class="nav-btn"
->
-👤 Profile
-</a>
+        alert("All fields required");
+        return;
 
-</div>
+      }
 
-<script>
+      const button =
+        document.getElementById("buyBtn");
 
-// LOGIN CHECK
-const user =
-JSON.parse(
-localStorage.getItem("loggedInUser")
-);
+      button.innerHTML = "Processing Purchase...";
+      button.disabled = true;
 
-if(!user){
+      try {
 
-window.location.href =
-"login.html";
+        const response = await fetch(
+          "https://fadaqdata-server.onrender.com/buy-data",
+          {
+            method: "POST",
 
-}
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-// WALLET
-let balance =
-parseInt(
-localStorage.getItem("walletBalance")
-) || 100;
+            body: JSON.stringify({
+              network: network,
+              phone: phone,
+              data_plan: data_plan
+            })
 
-document.getElementById(
-"walletBalance"
-).innerText =
-"₦" + balance.toLocaleString();
+          }
+        );
 
-// BUY DATA
-async function buyData(){
+        const data = await response.json();
 
-const network =
-document.getElementById("network").value;
+        console.log(data);
 
-const data_plan =
-document.getElementById("plan").value;
+        if (data.success) {
 
-const phone =
-document.getElementById("phone").value;
+          alert("Data purchase successful");
 
-// VALIDATION
-if(!network || !data_plan || !phone){
+          localStorage.setItem(
+            "receipt",
+            JSON.stringify(data.receipt)
+          );
 
-alert("All fields required");
-return;
+          window.location.href =
+            "receipt.html";
 
-}
+        } else {
 
-// PLAN PRICE
-let amount = 100;
+          alert(data.message || "Transaction failed");
 
-if(data_plan == "2"){
-amount = 300;
-}
+        }
 
-if(data_plan == "3"){
-amount = 500;
-}
+      } catch (error) {
 
-// CHECK BALANCE
-if(balance < amount){
+        console.log(error);
 
-alert("Insufficient balance");
-return;
+        alert("Network Error");
 
-}
+      }
 
-// LOADING
-document.querySelector("button").innerText =
-"Processing Purchase...";
+      button.innerHTML = "Buy Data";
+      button.disabled = false;
 
-try{
+    }
 
-const response =
-await fetch(
-"https://fadaqdata.com/api/data/",
-{
-
-method:"POST",
-
-headers:{
-
-"Content-Type":"application/json",
-
-"Authorization":
-"Token 952x342vA24B7c6CG8CC93BdaACyiICEcBF5CtCqDHlgz3oCwAA16J1xBeh01779957867"
-
-},
-
-body:JSON.stringify({
-
-network:network,
-phone:phone,
-ref:"DATA" + Date.now(),
-data_plan:data_plan,
-ported_number:true
-
-})
-
-}
-
-);
-
-const data =
-await response.json();
-
-console.log(data);
-
-// SUCCESS
-if(
-data.status === "success"
-){
-
-balance -= amount;
-
-localStorage.setItem(
-"walletBalance",
-balance
-);
-
-// SAVE TRANSACTION
-let transaction = {
-
-id:"TRX" + Date.now(),
-
-type:"Data Purchase",
-
-network:network,
-
-phone:phone,
-
-amount:"₦" + amount,
-
-status:"Successful",
-
-reference:"DATA" + Date.now(),
-
-date:new Date().toLocaleString()
-
-};
-
-let transactions =
-JSON.parse(
-localStorage.getItem("transactions")
-) || [];
-
-transactions.unshift(transaction);
-
-localStorage.setItem(
-"transactions",
-JSON.stringify(transactions)
-);
-
-// SAVE RECEIPT
-localStorage.setItem(
-"lastReceipt",
-JSON.stringify(transaction)
-);
-
-alert(
-"Data Purchase Successful"
-);
-
-window.location.href =
-"receipt.html";
-
-}else{
-
-alert(
-data.message ||
-"Transaction failed"
-);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-alert(
-"Network Error"
-);
-
-}
-
-// RESET BUTTON
-document.querySelector("button").innerText =
-"Buy Data";
-
-}
-
-</script>
+  </script>
 
 </body>
 </html>
