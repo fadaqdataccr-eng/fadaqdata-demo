@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,10 @@ border-radius:20px;
 margin-top:40px;
 }
 
+h2{
+text-align:center;
+}
+
 select,input,button{
 width:100%;
 padding:15px;
@@ -33,6 +38,10 @@ font-size:16px;
 box-sizing:border-box;
 }
 
+button{
+font-weight:bold;
+}
+
 </style>
 
 </head>
@@ -41,9 +50,7 @@ box-sizing:border-box;
 
 <div class="card">
 
-<h2 style="text-align:center;">
-Buy Data
-</h2>
+<h2>Buy Data</h2>
 
 <select id="network">
 
@@ -94,11 +101,36 @@ return;
 
 }
 
-alert("Backend connected successfully");
+const transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
+
+transactions.push({
+
+network:"MTN",
+
+phone:phone,
+
+plan:"500MB SME",
+
+amount:"100",
+
+date:new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+alert("Purchase Successful");
 
 }
 
 </script>
 
 </body>
+
 </html>
