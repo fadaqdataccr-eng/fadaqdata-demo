@@ -9,6 +9,8 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Fund Wallet</title>
 
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
 
 body{
@@ -21,13 +23,14 @@ color:white;
 
 .container{
 padding:25px;
+padding-bottom:100px;
 }
 
 .logo{
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:40px;
+margin-top:30px;
 margin-bottom:40px;
 }
 
@@ -38,13 +41,13 @@ border-radius:25px;
 }
 
 .title{
-font-size:35px;
+font-size:40px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
 }
 
-.balance{
+.balance-box{
 background:#a00000;
 padding:20px;
 border-radius:18px;
@@ -57,8 +60,8 @@ margin-bottom:30px;
 label{
 display:block;
 font-size:20px;
-margin-bottom:10px;
 font-weight:bold;
+margin-bottom:10px;
 }
 
 input{
@@ -84,19 +87,27 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.toast{
+.bottom-nav{
 position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%);
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
+display:flex;
+gap:15px;
+}
+
+.nav-btn{
+flex:1;
+padding:18px;
+border:none;
+border-radius:18px;
 background:white;
 color:#7a0000;
-padding:18px 25px;
-border-radius:15px;
-font-size:18px;
+font-size:22px;
 font-weight:bold;
-display:none;
-z-index:99999;
+cursor:pointer;
 }
 
 </style>
@@ -116,11 +127,6 @@ window.location.href =
 
 </script>
 
-<div class="toast"
-id="toast">
-Wallet Funded Successfully ✅
-</div>
-
 <div class="container">
 
 <div class="logo">
@@ -133,7 +139,7 @@ FadaqData
 💳 Fund Wallet
 </div>
 
-<div class="balance"
+<div class="balance-box"
 id="walletBalance">
 Wallet: ₦0.00
 </div>
@@ -144,11 +150,25 @@ Wallet: ₦0.00
 id="amount"
 placeholder="Enter amount">
 
-<button onclick="fundWallet()">
+<button onclick="payWithPaystack()">
 Fund Wallet
 </button>
 
 </div>
+
+</div>
+
+<div class="bottom-nav">
+
+<button class="nav-btn"
+onclick="window.location.href='dashboard.html'">
+🏠 Home
+</button>
+
+<button class="nav-btn"
+onclick="window.location.href='profile.html'">
+👤 Profile
+</button>
 
 </div>
 
@@ -167,51 +187,66 @@ document.getElementById(
 "Wallet: ₦" +
 wallet.toFixed(2);
 
-function showToast(message){
-
-let toast =
-document.getElementById(
-"toast"
-);
-
-toast.innerHTML = message;
-
-toast.style.display =
-"block";
-
-setTimeout(function(){
-
-toast.style.display =
-"none";
-
-},3000);
-
-}
-
-function fundWallet(){
+function payWithPaystack(){
 
 let amount =
-parseFloat(
 document.getElementById(
 "amount"
-).value
-);
+).value;
 
-if(isNaN(amount) || amount <= 0){
+if(amount === ""){
 
-showToast(
-"Enter valid amount"
+alert(
+"Enter amount"
 );
 
 return;
 
 }
 
-wallet += amount;
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+let handler =
+PaystackPop.setup({
+
+key:
+'pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c',
+
+email:
+user.email,
+
+amount:
+amount * 100,
+
+currency:
+'NGN',
+
+ref:
+'FD' +
+Math.floor(
+(Math.random() * 1000000000) + 1
+),
+
+callback: function(response){
+
+let currentWallet =
+parseFloat(
+localStorage.getItem(
+"walletBalance"
+)
+) || 0;
+
+currentWallet +=
+parseFloat(amount);
 
 localStorage.setItem(
 "walletBalance",
-wallet
+currentWallet
 );
 
 let transactions =
@@ -236,9 +271,7 @@ type:"Wallet Funding",
 
 status:"Successful",
 
-id:
-"FD" +
-Math.floor(Math.random()*100000000)
+id:response.reference
 
 });
 
@@ -247,16 +280,26 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-showToast(
-"Wallet Funded Successfully ✅"
+alert(
+"Payment Successful ✅"
 );
-
-setTimeout(function(){
 
 window.location.href =
 "dashboard.html";
 
-},1500);
+},
+
+onClose: function(){
+
+alert(
+"Transaction Cancelled"
+);
+
+}
+
+});
+
+handler.openIframe();
 
 }
 
