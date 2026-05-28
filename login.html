@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Login</title>
 
 <style>
@@ -23,9 +25,9 @@ padding-top:80px;
 }
 
 .logo{
+text-align:center;
 font-size:55px;
 font-weight:bold;
-text-align:center;
 margin-bottom:50px;
 }
 
@@ -33,21 +35,23 @@ margin-bottom:50px;
 background:red;
 padding:35px 25px;
 border-radius:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-.card h1{
+.title{
 text-align:center;
-margin-bottom:35px;
+font-size:32px;
+font-weight:bold;
+margin-bottom:30px;
 }
 
 input{
 width:100%;
 padding:18px;
-margin-bottom:20px;
 border:none;
 border-radius:15px;
-font-size:20px;
+font-size:18px;
+margin-bottom:20px;
 box-sizing:border-box;
 }
 
@@ -57,19 +61,19 @@ padding:18px;
 border:none;
 border-radius:15px;
 background:white;
+color:#660000;
 font-size:22px;
 font-weight:bold;
-color:#6b0000;
 cursor:pointer;
 }
 
-.signup{
+.bottom-text{
 text-align:center;
 margin-top:25px;
 font-size:18px;
 }
 
-.signup a{
+.bottom-text a{
 color:white;
 font-weight:bold;
 text-decoration:none;
@@ -82,23 +86,37 @@ text-decoration:none;
 
 <div class="container">
 
-<div class="logo">FadaqData</div>
+<div class="logo">
+FadaqData
+</div>
 
 <div class="card">
 
-<h1>Login</h1>
+<div class="title">
+Login
+</div>
 
-<input type="email" id="email" placeholder="Email Address">
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+>
 
-<input type="password" id="password" placeholder="Password">
+<input
+type="password"
+id="password"
+placeholder="Password"
+>
 
 <button onclick="loginUser()">
 Login
 </button>
 
-<div class="signup">
-Don't have account?
-<a href="signup.html">Signup</a>
+<div class="bottom-text">
+Don't have an account?
+<a href="signup.html">
+Signup
+</a>
 </div>
 
 </div>
@@ -110,15 +128,18 @@ Don't have account?
 function loginUser(){
 
 const email =
-document.getElementById("email").value;
+document.getElementById("email").value.trim();
 
 const password =
-document.getElementById("password").value;
+document.getElementById("password").value.trim();
 
+// GET USERS
 let users =
 JSON.parse(localStorage.getItem("users")) || [];
 
-const foundUser = users.find(user =>
+// FIND USER
+const foundUser =
+users.find(user =>
 
 user.email === email &&
 user.password === password
@@ -127,31 +148,16 @@ user.password === password
 
 if(foundUser){
 
+// SAVE LOGIN SESSION
 localStorage.setItem(
 "loggedInUser",
 JSON.stringify(foundUser)
 );
 
-if(localStorage.getItem("walletBalance") === null){
+// CREATE BALANCE IF NOT EXIST
+if(
+localStorage.getItem("walletBalance")
+=== null
+){
 
-localStorage.setItem(
-"walletBalance",
-0
-);
-
-}
-
-window.location.href = "dashboard.html";
-
-}else{
-
-alert("Invalid Email or Password");
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
+local
