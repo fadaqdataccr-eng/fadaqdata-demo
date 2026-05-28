@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fund Wallet</title>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<style>
+
+body{
+background:#5b0000;
+font-family:Arial;
+margin:0;
+padding:20px;
+color:white;
+}
+
+.card{
+background:#7a0000;
+padding:20px;
+border-radius:20px;
+margin-top:40px;
+}
+
+h2{
+text-align:center;
+}
+
+.balance{
+text-align:center;
+font-size:40px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+input,button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div
+class="balance"
+id="balance"
+>
+₦100
+</div>
+
+<h2>Fund Wallet</h2>
+
+<input
+type="number"
+id="amount"
+placeholder="Enter Amount"
+/>
+
+<button onclick="payWithPaystack()">
+Fund Wallet
+</button>
+
+</div>
+
+<script>
+
+if(localStorage.getItem("loggedIn") !== "true"){
+
+window.location.href =
+"login.html";
+
+}
+
+if(!localStorage.getItem("walletBalance")){
+
+localStorage.setItem(
+"walletBalance",
+"100"
+);
+
+}
+
+function loadBalance(){
+
+document.getElementById("balance")
+.innerHTML =
+"₦" +
+localStorage.getItem("walletBalance");
+
+}
+
+loadBalance();
+
+function payWithPaystack(){
+
+const amount =
+document.getElementById("amount").value;
+
+if(!amount || amount < 100){
+
+alert("Minimum funding is ₦100");
+
+return;
+
+}
+
+let handler =
+PaystackPop.setup({
+
+key:
+"pk_test_xxxxxxxxxxxxxxxxx",
+
+email:
+"customer@email.com",
+
+amount:
+amount * 100,
+
+currency:
+"NGN",
+
+callback:function(response){
+
+let wallet =
+parseInt(
+localStorage.getItem("walletBalance")
+);
+
+wallet += parseInt(amount);
+
+localStorage.setItem(
+"walletBalance",
+wallet
+);
+
+// SAVE TRANSACTION
+const transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
+
+transactions.push({
+
+network:"Wallet Funding",
+
+phone:"----",
+
+plan:"Wallet Topup",
+
+amount:amount,
+
+date:new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
+
+alert(
+"Wallet Funded Successfully"
+);
+
+window.location.href =
+"dashboard.html";
+
+},
+
+onClose:function(){
+
+alert(
+"Transaction Cancelled"
+);
+
+}
+
+});
+
+handler.openIframe();
+
+}
+
+</script>
+
+</body>
+
+</html>
