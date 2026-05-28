@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -12,349 +10,291 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:40px 0 120px;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding:40px 0 120px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
-text-align:center;
-margin:30px 0;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
 .card{
-background:#c00000;
-padding:30px;
-border-radius:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.25);
+    background:#e60000;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .title{
-font-size:35px;
-font-weight:bold;
-margin-bottom:25px;
+    font-size:30px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .balance{
-font-size:60px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
 select,
 input{
-width:100%;
-padding:18px;
-margin-bottom:20px;
-border:none;
-border-radius:15px;
-font-size:18px;
-outline:none;
-box-sizing:border-box;
+    width:100%;
+    padding:20px;
+    border:none;
+    border-radius:18px;
+    font-size:18px;
+    margin-bottom:22px;
+    box-sizing:border-box;
 }
 
 button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:24px;
-font-weight:bold;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.bottomnav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#8B0000;
-padding:15px;
-display:flex;
-justify-content:space-around;
+.bottom-nav{
+    position:fixed;
+    bottom:20px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
 }
 
-.navbtn{
-background:white;
-padding:15px 30px;
-border-radius:18px;
-color:#7a0000;
-font-weight:bold;
-text-decoration:none;
-font-size:20px;
+.nav-btn{
+    background:white;
+    color:#6b0000;
+    padding:18px 35px;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">
+        FadaqData
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<div class="title">
-📶 Buy Data
-</div>
+        <div class="title">
+            📶 Buy Data
+        </div>
 
-<div class="balance"
-id="balance">
-₦0
-</div>
+        <div class="balance"
+            id="walletBalance">
+            ₦0
+        </div>
 
-<select id="network">
+        <form id="buyForm">
 
-<option value="MTN">
-MTN
-</option>
+            <select id="network">
 
-<option value="Airtel">
-Airtel
-</option>
+                <option value="MTN">
+                    MTN
+                </option>
 
-<option value="Glo">
-Glo
-</option>
+                <option value="Airtel">
+                    Airtel
+                </option>
 
-<option value="9mobile">
-9mobile
-</option>
+                <option value="Glo">
+                    Glo
+                </option>
 
-</select>
+                <option value="9mobile">
+                    9mobile
+                </option>
 
-<select id="plan">
+            </select>
 
-<option value="1200">
-1GB - ₦1200
-</option>
+            <select id="plan">
 
-<option value="2500">
-2GB - ₦2500
-</option>
+                <option value="500">
+                    500MB - ₦500
+                </option>
 
-<option value="5000">
-5GB - ₦5000
-</option>
+                <option value="1000">
+                    1GB - ₦1000
+                </option>
 
-</select>
+                <option value="2500">
+                    2GB - ₦2500
+                </option>
 
-<input
-type="number"
-id="phone"
-placeholder="Enter Phone Number">
+            </select>
 
-<button onclick="buyData()">
-Buy Data
-</button>
+            <input type="number"
+                id="phone"
+                placeholder="Phone Number">
 
-</div>
+            <button type="submit">
+                Buy Data
+            </button>
 
-</div>
+        </form>
 
-<div class="bottomnav">
-
-<a href="dashboard.html"
-class="navbtn">
-🏠 Home
-</a>
-
-<a href="profile.html"
-class="navbtn">
-👤 Profile
-</a>
+    </div>
 
 </div>
 
-<script type="module">
+<div class="bottom-nav">
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    <a href="dashboard.html"
+        class="nav-btn">
+        🏠 Home
+    </a>
 
-import {
-getAuth,
-onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    <a href="profile.html"
+        class="nav-btn">
+        👤 Profile
+    </a>
 
-import {
-getFirestore,
-doc,
-getDoc,
-updateDoc
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+</div>
 
-const firebaseConfig = {
+<script>
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+/* LOGIN CHECK */
+const loggedInUser =
+JSON.parse(localStorage.getItem("currentUser"));
 
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
-
-projectId: "fadaqdata-3bd14",
-
-storageBucket: "fadaqdata-3bd14.appspot.com",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-const db =
-getFirestore(app);
-
-let currentUser;
-let wallet = 0;
-
-onAuthStateChanged(auth,
-async(user)=>{
-
-if(user){
-
-currentUser = user;
-
-const docRef =
-doc(db,"users",user.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-if(docSnap.exists()){
-
-wallet =
-docSnap.data().wallet || 0;
-
-document.getElementById(
-"balance"
-).innerText =
-"₦" + wallet;
-
+if(!loggedInUser){
+    window.location.href = "login.html";
 }
 
-}else{
+/* USERS */
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
 
-window.location.href =
-"login.html";
+/* FIND USER */
+let userIndex = users.findIndex(
+    user => user.email === loggedInUser.email
+);
 
+if(userIndex === -1){
+    window.location.href = "login.html";
 }
+
+let currentUser = users[userIndex];
+
+/* SHOW BALANCE */
+const walletBalance =
+document.getElementById("walletBalance");
+
+function updateBalance(){
+
+    walletBalance.innerText =
+    "₦" + (currentUser.balance || 0);
+}
+
+updateBalance();
+
+/* BUY DATA */
+document.getElementById("buyForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const network =
+    document.getElementById("network").value;
+
+    const amount =
+    parseInt(document.getElementById("plan").value);
+
+    const phone =
+    document.getElementById("phone").value;
+
+    if(phone.length < 11){
+        alert("Enter valid phone number");
+        return;
+    }
+
+    if(currentUser.balance < amount){
+        alert("Insufficient Balance");
+        return;
+    }
+
+    /* DEDUCT */
+    currentUser.balance -= amount;
+
+    /* TRANSACTION */
+    if(!currentUser.transactions){
+        currentUser.transactions = [];
+    }
+
+    currentUser.transactions.unshift({
+
+        type:"Data Purchase",
+
+        network:network,
+
+        phone:phone,
+
+        amount:amount,
+
+        reference:"TRX" + Date.now(),
+
+        date:new Date().toLocaleString()
+
+    });
+
+    /* UPDATE USERS */
+    users[userIndex] = currentUser;
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(currentUser)
+    );
+
+    /* RECEIPT */
+    localStorage.setItem(
+        "receipt",
+        JSON.stringify(
+            currentUser.transactions[0]
+        )
+    );
+
+    updateBalance();
+
+    window.location.href =
+    "receipt.html";
 
 });
-
-window.buyData =
-async function(){
-
-const network =
-document.getElementById(
-"network"
-).value;
-
-const amount =
-parseInt(
-document.getElementById(
-"plan"
-).value
-);
-
-const phone =
-document.getElementById(
-"phone"
-).value;
-
-if(phone.length < 11){
-
-alert(
-"Enter Valid Phone Number"
-);
-
-return;
-
-}
-
-if(wallet < amount){
-
-alert(
-"Insufficient Balance"
-);
-
-return;
-
-}
-
-wallet -= amount;
-
-const docRef =
-doc(db,"users",currentUser.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-let transactions =
-docSnap.data().transactions || [];
-
-transactions.push({
-
-type:"Data Purchase",
-
-network:network,
-
-phone:phone,
-
-amount:amount,
-
-date:new Date().toLocaleString()
-
-});
-
-await updateDoc(docRef,{
-
-wallet:wallet,
-
-transactions:transactions
-
-});
-
-localStorage.setItem(
-"receipt",
-JSON.stringify({
-type:"Data Purchase",
-network:network,
-phone:phone,
-amount:amount,
-date:new Date().toLocaleString()
-})
-);
-
-window.location.href =
-"receipt.html";
-
-};
 
 </script>
 
