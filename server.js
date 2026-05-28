@@ -4,9 +4,13 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-/* LOGIN PAGE */
+
+
+// LOGIN PAGE
 app.get("/", (req, res) => {
+
 res.send(`
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,69 +33,70 @@ min-height:100vh;
 }
 
 .top{
-background:linear-gradient(to right,#3b0000,#7a0000,#ff0000);
-padding:40px 25px 90px;
+background:linear-gradient(to right,#3b0000,#d40000);
+padding:40px 25px 120px;
 color:white;
 border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
 }
 
 .logo{
-font-size:38px;
+font-size:60px;
 font-weight:bold;
-margin-bottom:20px;
 }
 
 .subtitle{
-font-size:18px;
-line-height:1.6;
+font-size:24px;
+margin-top:20px;
+line-height:1.5;
 }
 
 .card{
-background:white;
 width:90%;
-max-width:500px;
-margin:-50px auto 30px;
-padding:30px 25px;
-border-radius:35px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
-text-align:center;
+max-width:650px;
+margin:auto;
+background:#f7f7f7;
+margin-top:-70px;
+border-radius:40px;
+padding:35px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 .welcome{
-font-size:42px;
+font-size:70px;
 font-weight:bold;
-margin-bottom:10px;
+text-align:center;
 }
 
 .wave{
-font-size:50px;
-margin-bottom:20px;
+font-size:60px;
+text-align:center;
 }
 
-.desc{
+.small{
+text-align:center;
+font-size:22px;
 color:gray;
-font-size:18px;
-margin-bottom:30px;
+margin-top:15px;
+margin-bottom:35px;
 }
 
 .input{
 width:100%;
-padding:20px;
-margin-bottom:20px;
+padding:25px;
 border:none;
-border-radius:18px;
-background:#f0ecb8;
-font-size:18px;
-outline:none;
+border-radius:20px;
+background:#ece8b5;
+margin-bottom:25px;
+font-size:22px;
 }
 
 .row{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
-font-size:16px;
+margin-bottom:30px;
+font-size:18px;
 }
 
 .forgot{
@@ -102,38 +107,39 @@ cursor:pointer;
 
 .btn{
 width:100%;
-padding:20px;
+padding:25px;
 border:none;
 border-radius:20px;
 background:linear-gradient(to right,#7a0000,#ff0000);
 color:white;
-font-size:22px;
+font-size:30px;
 font-weight:bold;
 cursor:pointer;
-margin-bottom:25px;
 }
 
 .or{
-font-size:28px;
+text-align:center;
+font-size:30px;
 font-weight:bold;
 color:gray;
-margin-bottom:25px;
+margin:35px 0;
 }
 
 .google{
 width:100%;
-padding:20px;
-border:2px solid #eee;
+padding:25px;
 border-radius:20px;
+border:2px solid #ddd;
 background:white;
-font-size:20px;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
-margin-bottom:30px;
 }
 
 .bottom{
-font-size:18px;
+text-align:center;
+margin-top:35px;
+font-size:20px;
 }
 
 .register{
@@ -145,23 +151,30 @@ cursor:pointer;
 </style>
 
 </head>
+
 <body>
 
 <div class="top">
-<div class="logo">FadaqData</div>
+
+<div class="logo">
+FadaqData
+</div>
 
 <div class="subtitle">
 Fadaqdata Your Data, Your Way – Anytime, Anywhere.
 </div>
+
 </div>
 
 <div class="card">
 
-<div class="welcome">Welcome Back!</div>
+<div class="welcome">
+Welcome Back!
+</div>
 
 <div class="wave">👋</div>
 
-<div class="desc">
+<div class="small">
 Login to continue to your account
 </div>
 
@@ -170,21 +183,24 @@ Login to continue to your account
 <input type="password" class="input" placeholder="Password">
 
 <div class="row">
-<label>
-<input type="checkbox">
-Remember Me
-</label>
+
+<div>
+<input type="checkbox"> Remember Me
+</div>
 
 <div class="forgot" onclick="window.location.href='/forgot-password'">
 Forgot Password?
 </div>
+
 </div>
 
 <button class="btn" onclick="window.location.href='/dashboard'">
 Login
 </button>
 
-<div class="or">OR</div>
+<div class="or">
+OR
+</div>
 
 <button class="google" onclick="window.location.href='/register'">
 Continue with Google
@@ -201,12 +217,18 @@ Register
 
 </body>
 </html>
+
 `);
+
 });
 
-/* REGISTER PAGE */
+
+
+// REGISTER PAGE
 app.get("/register", (req, res) => {
+
 res.send(`
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -227,61 +249,59 @@ body{
 background:#f5f5f5;
 }
 
-.top{
-background:linear-gradient(to right,#2b0000,#5c0000);
-padding:30px 20px 80px;
+.header{
+background:linear-gradient(to right,#2b0000,#7a0000);
+padding:35px;
 color:white;
-border-bottom-left-radius:35px;
-border-bottom-right-radius:35px;
-position:relative;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
 }
 
 .back{
 font-size:35px;
-margin-bottom:30px;
 cursor:pointer;
 }
 
 .title{
-text-align:center;
-font-size:40px;
+font-size:55px;
 font-weight:bold;
-margin-bottom:10px;
+text-align:center;
+margin-top:20px;
 }
 
 .sub{
 text-align:center;
-font-size:18px;
+font-size:22px;
+margin-top:10px;
 }
 
 .card{
-background:white;
 width:90%;
-max-width:500px;
-margin:-40px auto 30px;
-padding:25px;
-border-radius:30px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+max-width:650px;
+margin:auto;
+margin-top:-20px;
+background:white;
+padding:30px;
+border-radius:35px;
 }
 
 .input{
 width:100%;
-padding:18px;
-margin-bottom:18px;
+padding:22px;
+margin-bottom:20px;
+border-radius:18px;
 border:2px solid #eee;
-border-radius:15px;
-font-size:18px;
-outline:none;
+font-size:20px;
 }
 
 .btn{
 width:100%;
-padding:18px;
+padding:22px;
 border:none;
-border-radius:15px;
-background:linear-gradient(to right,#3b0000,#7a0000);
+border-radius:18px;
+background:linear-gradient(to right,#2b0000,#7a0000);
 color:white;
-font-size:24px;
+font-size:28px;
 font-weight:bold;
 cursor:pointer;
 margin-top:10px;
@@ -289,8 +309,8 @@ margin-top:10px;
 
 .bottom{
 text-align:center;
-margin-top:25px;
-font-size:18px;
+margin-top:30px;
+font-size:20px;
 }
 
 .login{
@@ -302,15 +322,18 @@ cursor:pointer;
 </style>
 
 </head>
+
 <body>
 
-<div class="top">
+<div class="header">
 
 <div class="back" onclick="window.location.href='/'">
 ←
 </div>
 
-<div class="title">Create Account</div>
+<div class="title">
+Create Account
+</div>
 
 <div class="sub">
 Fill in the details below to get started
@@ -349,12 +372,19 @@ Login
 
 </body>
 </html>
+
 `);
+
 });
 
-/* FORGOT PASSWORD PAGE */
+
+
+
+// FORGOT PASSWORD PAGE
 app.get("/forgot-password", (req, res) => {
+
 res.send(`
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -365,50 +395,42 @@ res.send(`
 body{
 font-family:Arial;
 background:#f5f5f5;
-padding:30px;
+padding:40px;
 }
 
-.card{
+.box{
 background:white;
-padding:30px;
+padding:40px;
 border-radius:20px;
 max-width:500px;
 margin:auto;
 margin-top:100px;
-text-align:center;
 }
 
 h1{
-margin-bottom:20px;
 color:#7a0000;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:18px;
-margin-top:20px;
-border-radius:15px;
+border-radius:10px;
 border:1px solid #ddd;
 font-size:18px;
+margin-top:20px;
 }
 
 button{
 width:100%;
 padding:18px;
-margin-top:20px;
-border:none;
-border-radius:15px;
+margin-top:25px;
 background:#7a0000;
 color:white;
+border:none;
+border-radius:10px;
 font-size:20px;
 font-weight:bold;
-}
-
-.back{
-margin-top:20px;
-color:#7a0000;
-font-weight:bold;
-cursor:pointer;
 }
 
 </style>
@@ -417,30 +439,35 @@ cursor:pointer;
 
 <body>
 
-<div class="card">
+<div class="box">
 
 <h1>Forgot Password</h1>
 
-<p>Enter your email address to reset your password</p>
+<p>Enter your email to reset your password.</p>
 
-<input type="email" placeholder="Email Address">
+<input type="email" placeholder="Enter Email">
 
-<button>Reset Password</button>
-
-<div class="back" onclick="window.location.href='/'">
-Back to Login
-</div>
+<button onclick="alert('Reset link sent successfully')">
+Send Reset Link
+</button>
 
 </div>
 
 </body>
 </html>
+
 `);
+
 });
 
-/* DASHBOARD PAGE */
+
+
+
+// DASHBOARD PAGE
 app.get("/dashboard", (req, res) => {
+
 res.send(`
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -450,291 +477,44 @@ res.send(`
 
 <style>
 
-body{
+*{
 margin:0;
-font-family:Arial;
-background:#f5f5f5;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
-
-.header{
-background:#980000;
-padding:20px;
-color:white;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-}
-
-.notify{
-font-size:30px;
-}
-
-.balance{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:20px;
-}
-
-.amount{
-font-size:50px;
-font-weight:bold;
-color:#980000;
-margin:20px 0;
-}
-
-.btns{
-display:flex;
-gap:15px;
-}
-
-.btn{
-flex:1;
-padding:15px;
-border:none;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.red{
-background:#980000;
-color:white;
-}
-
-.white{
-background:white;
-border:2px solid #980000;
-color:#980000;
-}
-
-.section{
-padding:0 20px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-margin-top:15px;
-}
-
-.box{
-background:white;
-padding:20px 10px;
-border-radius:18px;
-text-align:center;
-font-weight:bold;
-}
-
-.bottomnav{
-position:fixed;
-bottom:0;
-width:100%;
-background:#980000;
-display:flex;
-justify-content:space-around;
-padding:12px 0;
-color:white;
-}
-
-.navitem{
-text-align:center;
-font-size:14px;
-}
-
-.navicon{
-font-size:24px;
-}
-
-</style>
-
-</head>
-<body>
-
-<div class="header">
-<div class="logo">FadaqData</div>
-<div class="notify">🔔</div>
-</div>
-
-<div class="balance">
-
-<h2>Wallet Balance 👁️</h2>
-
-<div class="amount">₦0</div>
-
-<div class="btns">
-
-<button class="btn red" onclick="window.location.href='/fund-wallet'">
-Fund Wallet
-</button>
-
-<button class="btn white">
-Transfer
-</button>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<h1>Quick Services</h1>
-
-<div class="grid">
-
-<div class="box">📱<br><br>Airtime</div>
-
-<div class="box">📶<br><br>Data</div>
-
-<div class="box">💸<br><br>Airtime2Cash</div>
-
-<div class="box">📺<br><br>Cable TV</div>
-
-<div class="box">⚡<br><br>Electricity</div>
-
-<div class="box">🎓<br><br>Exam PIN</div>
-
-</div>
-
-</div>
-
-<div class="bottomnav">
-
-<div class="navitem">
-<div class="navicon">🏠</div>
-Home
-</div>
-
-<div class="navitem">
-<div class="navicon">💼</div>
-Wallet
-</div>
-
-<div class="navitem">
-<div class="navicon">📋</div>
-Services
-</div>
-
-<div class="navitem">
-<div class="navicon">🧾</div>
-Transactions
-</div>
-
-<div class="navitem">
-<div class="navicon">👤</div>
-Profile
-</div>
-
-</div>
-
-</body>
-</html>
-`);
-});
-
-/* FUND WALLET PAGE */
-app.get("/fund-wallet", (req, res) => {
-res.send(`
-<!DOCTYPE html>
-<html>
-<head>
-<title>Fund Wallet</title>
-
-<style>
 
 body{
-margin:0;
-font-family:Arial;
 background:#f5f5f5;
+padding:25px;
 }
 
-.header{
-background:linear-gradient(to right,#2b0000,#5c0000);
-padding:20px;
-color:white;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-size:24px;
+.title{
+font-size:55px;
 font-weight:bold;
-}
-
-.container{
-padding:20px;
-}
-
-.tabs{
-display:flex;
-background:white;
-border-radius:15px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.tab{
-flex:1;
-padding:15px;
-text-align:center;
-font-weight:bold;
-border-bottom:3px solid #7a0000;
+color:#7a0000;
+margin-top:40px;
 }
 
 .card{
-background:#fff8ef;
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
-}
-
-.label{
-font-size:18px;
-color:gray;
-margin-top:15px;
-}
-
-.value{
-font-size:30px;
-font-weight:bold;
-margin-top:5px;
-}
-
-.input{
-width:100%;
-padding:20px;
-border-radius:15px;
-border:1px solid #ddd;
-font-size:18px;
-margin-bottom:20px;
+background:white;
+padding:35px;
+border-radius:25px;
+margin-top:30px;
+font-size:24px;
 }
 
 .btn{
 width:100%;
-padding:20px;
+padding:22px;
+margin-top:30px;
 border:none;
-border-radius:15px;
-background:linear-gradient(to right,#3b0000,#7a0000);
+border-radius:18px;
+background:linear-gradient(to right,#2b0000,#7a0000);
 color:white;
 font-size:24px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.secure{
-text-align:center;
-margin-top:25px;
-color:gray;
-font-size:18px;
 }
 
 </style>
@@ -743,21 +523,29 @@ font-size:18px;
 
 <body>
 
-<div class="header">
-
-<div onclick="window.location.href='/dashboard'" style="cursor:pointer">
-←
+<div class="title">
+FadaqData Dashboard
 </div>
 
-<div>Fund Wallet</div>
-
-<div>❔</div>
-
+<div class="card">
+Welcome to your dashboard.
 </div>
 
-<div class="container">
+<button class="btn" onclick="window.location.href='/fund-wallet'">
+Fund Wallet
+</button>
 
-<div class="tab// FUND WALLET PAGE
+</body>
+</html>
+
+`);
+
+});
+
+
+
+
+// FUND WALLET PAGE
 app.get("/fund-wallet", (req, res) => {
 
 res.send(`
@@ -767,7 +555,6 @@ res.send(`
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fund Wallet</title>
 
 <style>
@@ -784,9 +571,9 @@ background:#f5f5f5;
 min-height:100vh;
 }
 
-.top{
+.header{
 background:linear-gradient(to right,#2b0000,#7a0000);
-padding:22px;
+padding:25px;
 color:white;
 display:flex;
 justify-content:space-between;
@@ -796,120 +583,111 @@ border-bottom-right-radius:30px;
 }
 
 .back{
-font-size:32px;
+font-size:35px;
 cursor:pointer;
 }
 
 .title{
-font-size:28px;
+font-size:32px;
 font-weight:bold;
 }
 
 .help{
-font-size:28px;
+font-size:32px;
 }
 
 .container{
-width:92%;
-max-width:500px;
+width:90%;
+max-width:650px;
 margin:auto;
-margin-top:-10px;
+margin-top:20px;
 background:white;
 border-radius:30px;
-padding:20px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
+padding:25px;
 }
 
 .tabs{
 display:flex;
 justify-content:space-between;
-border-bottom:1px solid #ddd;
-margin-bottom:25px;
+font-size:20px;
+font-weight:bold;
+margin-bottom:30px;
+border-bottom:2px solid #eee;
 }
 
 .tab{
+padding-bottom:15px;
 width:50%;
 text-align:center;
-padding-bottom:15px;
-font-weight:bold;
-font-size:17px;
 }
 
 .active{
+border-bottom:4px solid #7a0000;
 color:#7a0000;
-border-bottom:3px solid #7a0000;
 }
 
-.bank-box{
-background:#fff8ef;
-padding:20px;
-border-radius:18px;
+.bank-card{
+background:#fff9ef;
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
 position:relative;
-margin-bottom:20px;
 }
 
 .label{
-font-size:16px;
+font-size:18px;
 color:#555;
-margin-top:12px;
+margin-top:15px;
 }
 
 .value{
 font-size:20px;
 font-weight:bold;
-margin-top:5px;
+margin-top:8px;
 }
 
 .copy{
 position:absolute;
-right:18px;
+right:20px;
 bottom:20px;
-font-size:28px;
-cursor:pointer;
-color:#7a0000;
+font-size:35px;
 }
 
 .input-box{
 background:white;
 border:2px solid #eee;
-border-radius:18px;
-padding:18px;
-margin-top:18px;
-}
-
-.input-title{
-font-size:18px;
-color:#555;
-margin-bottom:10px;
+border-radius:20px;
+padding:22px;
+margin-top:20px;
+font-size:20px;
 }
 
 .input{
-width:100%;
 border:none;
 outline:none;
-font-size:18px;
-background:none;
+font-size:20px;
+width:100%;
+margin-top:10px;
 }
 
 .btn{
 width:100%;
-margin-top:25px;
-padding:20px;
+padding:22px;
+margin-top:30px;
 border:none;
 border-radius:18px;
 background:linear-gradient(to right,#2b0000,#7a0000);
 color:white;
-font-size:24px;
+font-size:25px;
 font-weight:bold;
 cursor:pointer;
 }
 
 .secure{
-margin-top:25px;
 text-align:center;
-color:#666;
-font-size:17px;
-padding-bottom:20px;
+margin-top:25px;
+font-size:18px;
+color:#555;
 }
 
 </style>
@@ -918,7 +696,7 @@ padding-bottom:20px;
 
 <body>
 
-<div class="top">
+<div class="header">
 
 <div class="back" onclick="window.location.href='/dashboard'">
 ←
@@ -948,7 +726,7 @@ Manual Funding
 
 </div>
 
-<div class="bank-box">
+<div class="bank-card">
 
 <div class="label">
 Bank Name
@@ -982,19 +760,15 @@ Account Number
 
 <div class="input-box">
 
-<div class="input-title">
-₦ Enter amount
-</div>
+<div>₦ Enter amount</div>
 
-<input type="number" class="input" placeholder="Enter amount">
+<input type="number" class="input">
 
 </div>
 
 <div class="input-box">
 
-<div class="input-title">
-Reference ID / Description (Optional)
-</div>
+<div>Reference ID / Description (Optional)</div>
 
 <input type="text" class="input" placeholder="Enter reference or description">
 
@@ -1016,6 +790,8 @@ Proceed to Pay
 `);
 
 });
+
+
 
 app.listen(PORT, () => {
 console.log("Server running on port " + PORT);
