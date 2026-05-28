@@ -1,50 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Transaction History</title>
+
+<title>History</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0"/>
 
 <style>
 
-body{
-background:#5c0000;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
+}
+
+body{
+
+background:#5b0000;
+padding:20px;
 color:white;
-padding:20px;
+
 }
 
-h1{
+.title{
+
 text-align:center;
+font-size:35px;
+font-weight:bold;
+margin-top:20px;
+margin-bottom:30px;
+
 }
 
-.card{
+.historyCard{
+
 background:#7a0000;
-padding:20px;
-border-radius:15px;
-margin-top:20px;
-cursor:pointer;
+padding:22px;
+border-radius:20px;
+margin-bottom:20px;
+
+box-shadow:
+0 0 20px rgba(0,0,0,0.25);
+
+}
+
+.top{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+.network{
+
+font-size:25px;
+font-weight:bold;
+
+}
+
+.amount{
+
+font-size:30px;
+font-weight:bold;
+
+}
+
+.line{
+
+margin-top:10px;
+opacity:0.9;
+font-size:16px;
+
 }
 
 button{
+
 width:100%;
-padding:15px;
-margin-top:20px;
+padding:18px;
 border:none;
-border-radius:10px;
-font-size:20px;
+border-radius:15px;
+background:white;
+font-size:18px;
 font-weight:bold;
+color:#7a0000;
+margin-top:20px;
+
+}
+
+.empty{
+
+text-align:center;
+margin-top:100px;
+opacity:0.7;
+font-size:20px;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<h1>Transaction History</h1>
+<div class="title">
+Transaction History
+</div>
 
 <div id="history"></div>
 
-<button onclick="window.location.href='dashboard.html'">
+<button
+onclick="window.location.href='dashboard.html'">
+
 Back To Dashboard
+
 </button>
 
 <script>
@@ -58,26 +130,46 @@ document.getElementById("history");
 if(history.length === 0){
 
 container.innerHTML =
-"<h2>No Transactions Yet</h2>";
 
-}else{
+`<div class="empty">
+No Transactions Yet
+</div>`;
+
+}
+
+else{
 
 history.reverse().forEach((item,index)=>{
 
 container.innerHTML += `
 
-<div class="card"
+<div class="historyCard"
+
 onclick="viewReceipt(${index})">
 
-<h2>${item.network}</h2>
+<div class="top">
 
-<h1>₦${item.amount}</h1>
+<div class="network">
+${item.network}
+</div>
 
-<p>Phone: ${item.phone}</p>
+<div class="amount">
+₦${item.amount}
+</div>
 
-<p>Plan: ${item.plan}</p>
+</div>
 
-<p>${item.date}</p>
+<div class="line">
+📱 ${item.phone}
+</div>
+
+<div class="line">
+📦 ${item.plan}
+</div>
+
+<div class="line">
+🕒 ${item.date}
+</div>
 
 </div>
 
