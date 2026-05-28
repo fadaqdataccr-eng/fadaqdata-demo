@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const app = express();
 
@@ -10,9 +8,9 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// ======================
+// ==============================
 // HOME ROUTE
-// ======================
+// ==============================
 app.get("/", (req, res) => {
   res.json({
     status: "success",
@@ -20,18 +18,16 @@ app.get("/", (req, res) => {
   });
 });
 
-// ======================
+// ==============================
 // BUY DATA ROUTE
-// ======================
+// ==============================
 app.post("/buy-data", async (req, res) => {
 
   try {
 
     const { network, phone, data_plan } = req.body;
 
-    // ======================
     // VALIDATION
-    // ======================
     if (!network || !phone || !data_plan) {
 
       return res.status(400).json({
@@ -41,9 +37,7 @@ app.post("/buy-data", async (req, res) => {
 
     }
 
-    // ======================
     // GENERATE REFERENCE
-    // ======================
     const ref = "DATA" + Date.now();
 
     console.log("Incoming Request:", {
@@ -52,10 +46,10 @@ app.post("/buy-data", async (req, res) => {
       data_plan
     });
 
-    // ======================
-    // API REQUEST
-    // ======================
-    const apiResponse = await fetch(
+    // ==============================
+    // SEND REQUEST TO FADAQDATA API
+    // ==============================
+    const response = await fetch(
       "https://fadaqdata.com/api/data/",
       {
         method: "POST",
@@ -63,9 +57,8 @@ app.post("/buy-data", async (req, res) => {
         headers: {
           "Content-Type": "application/json",
 
-          // PUT YOUR NEW API KEY HERE
           "Authorization":
-            "Token PASTE_YOUR_NEW_API_KEY_HERE"
+          "Token 952x342vA24B7c6CG8CC93BdaACyiICEcBF5CtCqDHlgz3oCwAA16J1xBeh01779957867"
         },
 
         body: JSON.stringify({
@@ -79,16 +72,14 @@ app.post("/buy-data", async (req, res) => {
       }
     );
 
-    // ======================
-    // API RESPONSE
-    // ======================
-    const result = await apiResponse.json();
+    // GET RESPONSE
+    const result = await response.json();
 
     console.log("FadaqData API Response:", result);
 
-    // ======================
-    // SUCCESS
-    // ======================
+    // ==============================
+    // SUCCESS RESPONSE
+    // ==============================
     if (
       result.status === "success" ||
       result.Status === "successful"
@@ -105,9 +96,9 @@ app.post("/buy-data", async (req, res) => {
 
     }
 
-    // ======================
-    // FAILED
-    // ======================
+    // ==============================
+    // FAILED RESPONSE
+    // ==============================
     return res.status(400).json({
       status: "error",
       message:
@@ -130,9 +121,9 @@ app.post("/buy-data", async (req, res) => {
 
 });
 
-// ======================
+// ==============================
 // START SERVER
-// ======================
+// ==============================
 app.listen(PORT, () => {
 
   console.log(
