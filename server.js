@@ -6,21 +6,14 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-
   res.sendFile(__dirname + "/index.html");
-
 });
 
-app.post("/buy-data", async (req, res) => {
-
-  console.log("BUY DATA HIT");
+app.post("/buy-data", (req, res) => {
 
   return res.json({
-
     success: true,
-
     message: "Backend working"
-
   });
 
 });
@@ -28,7 +21,5 @@ app.post("/buy-data", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-
-  console.log("Server running on port " + PORT);
-
+  console.log("Server running");
 });
