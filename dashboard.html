@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dashboard</title>
 
 <style>
@@ -23,9 +24,9 @@ padding:40px 0 120px;
 }
 
 .logo{
+text-align:center;
 font-size:55px;
 font-weight:bold;
-text-align:center;
 margin-bottom:40px;
 }
 
@@ -33,26 +34,28 @@ margin-bottom:40px;
 background:red;
 padding:25px;
 border-radius:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
-margin-bottom:30px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+margin-bottom:25px;
 }
 
 .balance-card{
-background:#c40000;
+background:#cc0000;
 padding:25px;
 border-radius:20px;
 text-align:center;
 margin-top:20px;
 }
 
-.balance-card h2{
+.balance-title{
 font-size:22px;
-margin:0;
+font-weight:bold;
+margin-bottom:10px;
 }
 
-.balance-card h1{
-font-size:70px;
-margin:15px 0;
+.balance{
+font-size:65px;
+font-weight:bold;
+margin-bottom:20px;
 }
 
 .btn{
@@ -62,18 +65,24 @@ padding:18px;
 border:none;
 border-radius:15px;
 background:white;
+color:#660000;
 font-size:22px;
 font-weight:bold;
-color:#6b0000;
+cursor:pointer;
 text-decoration:none;
 text-align:center;
 box-sizing:border-box;
-margin-top:20px;
+margin-top:15px;
 }
 
-.desc{
+.card-title{
+font-size:30px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.card-text{
 font-size:18px;
-margin-top:10px;
 line-height:1.5;
 }
 
@@ -94,7 +103,7 @@ padding:15px 30px;
 border-radius:20px;
 font-size:18px;
 font-weight:bold;
-color:#6b0000;
+color:#660000;
 text-decoration:none;
 }
 
@@ -105,17 +114,27 @@ text-decoration:none;
 
 <div class="container">
 
-<div class="logo">FadaqData</div>
+<div class="logo">
+FadaqData
+</div>
+
+<!-- WELCOME CARD -->
 
 <div class="card">
 
-<h1 id="welcomeText">Welcome</h1>
+<h1 id="welcomeText">
+Welcome
+</h1>
 
 <div class="balance-card">
 
-<h2>Wallet Balance 👁️</h2>
+<div class="balance-title">
+Wallet Balance 👁️
+</div>
 
-<h1 id="balance">₦0</h1>
+<div class="balance" id="walletBalance">
+₦0
+</div>
 
 <a href="fund-wallet.html" class="btn">
 💳 Fund Wallet
@@ -125,27 +144,35 @@ text-decoration:none;
 
 </div>
 
+<!-- BUY DATA -->
+
 <div class="card">
 
-<h1>📶 Buy Data</h1>
+<div class="card-title">
+📶 Buy Data
+</div>
 
-<p class="desc">
+<div class="card-text">
 Purchase affordable data bundles instantly
-</p>
+</div>
 
 <a href="buy-data.html" class="btn">
-Buy Now
+Buy Data
 </a>
 
 </div>
 
+<!-- BUY AIRTIME -->
+
 <div class="card">
 
-<h1>📞 Buy Airtime</h1>
+<div class="card-title">
+📞 Buy Airtime
+</div>
 
-<p class="desc">
+<div class="card-text">
 Recharge airtime instantly
-</p>
+</div>
 
 <a href="buy-airtime.html" class="btn">
 Buy Airtime
@@ -153,13 +180,17 @@ Buy Airtime
 
 </div>
 
+<!-- TRANSACTION HISTORY -->
+
 <div class="card">
 
-<h1>📜 Transaction History</h1>
+<div class="card-title">
+📜 Transaction History
+</div>
 
-<p class="desc">
+<div class="card-text">
 View all your recent transactions
-</p>
+</div>
 
 <a href="history.html" class="btn">
 View History
@@ -168,6 +199,8 @@ View History
 </div>
 
 </div>
+
+<!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
 
@@ -183,6 +216,7 @@ View History
 
 <script>
 
+// LOGIN CHECK
 const user =
 JSON.parse(localStorage.getItem("loggedInUser"));
 
@@ -192,9 +226,11 @@ window.location.href = "login.html";
 
 }
 
+// SHOW USER NAME
 document.getElementById("welcomeText").innerText =
 "Welcome, " + user.name;
 
+// WALLET BALANCE
 let balance =
 localStorage.getItem("walletBalance");
 
@@ -209,7 +245,7 @@ localStorage.setItem(
 
 }
 
-document.getElementById("balance").innerText =
+document.getElementById("walletBalance").innerText =
 "₦" + Number(balance).toLocaleString();
 
 </script>
