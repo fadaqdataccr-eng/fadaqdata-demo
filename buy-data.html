@@ -1,178 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buy Data</title>
 
 <style>
-
 body{
-    background:#6b0000;
-    font-family:Arial;
-    color:white;
-    padding:20px;
+background:#5c0000;
+font-family:Arial;
+color:white;
+padding:20px;
 }
 
 .container{
-    background:#8b0000;
-    padding:20px;
-    border-radius:20px;
-    margin-top:40px;
+background:#7a0000;
+padding:20px;
+border-radius:15px;
+max-width:400px;
+margin:auto;
+margin-top:40px;
 }
 
-h1{
-    text-align:center;
-}
-
-input, select, button{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    font-size:18px;
+input,select,button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:18px;
 }
 
 button{
-    background:white;
-    font-weight:bold;
+background:white;
+font-weight:bold;
 }
 
-.balance{
-    text-align:center;
-    font-size:45px;
-    font-weight:bold;
-    margin-bottom:20px;
+h1{
+text-align:center;
 }
-
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-<div class="balance" id="balance">₦100</div>
-
 <h1>Buy Data</h1>
 
 <select id="network">
-<option value="1">MTN</option>
-<option value="2">GLO</option>
-<option value="3">AIRTEL</option>
-<option value="4">9MOBILE</option>
+<option value="MTN">MTN</option>
+<option value="GLO">GLO</option>
+<option value="AIRTEL">AIRTEL</option>
+<option value="9MOBILE">9MOBILE</option>
 </select>
 
-<input type="number" id="phone" placeholder="Enter Phone Number">
+<input type="text" id="phone" placeholder="Phone Number">
 
 <select id="plan">
-<option value="85">MTN 500MB SME - ₦100</option>
+<option value="500MB SME">MTN 500MB SME - ₦100</option>
 </select>
 
-<button onclick="buyData()">Buy Data</button>
+<button onclick="buyData()">
+Buy Data
+</button>
 
 </div>
 
 <script>
 
-const API_URL =
-"https://fadaqdata-server.onrender.com";
-
-function loadBalance(){
-
-    let balance =
-    localStorage.getItem("walletBalance") || 100;
-
-    document.getElementById("balance").innerText =
-    "₦" + balance;
-}
-
-loadBalance();
-
 async function buyData(){
 
-    const network =
-    document.getElementById("network").value;
+const network =
+document.getElementById("network").value;
 
-    const phone =
-    document.getElementById("phone").value;
+const phone =
+document.getElementById("phone").value;
 
-    const plan =
-    document.getElementById("plan").value;
+const plan =
+document.getElementById("plan").value;
 
-    if(phone.length < 11){
+try{
 
-        alert("Enter valid phone number");
-        return;
-    }
+const response = await fetch(
+"https://fadaqdata-server.onrender.com/buydata",
+{
+method:"POST",
 
-    try{
+headers:{
+"Content-Type":"application/json"
+},
 
-        const response = await fetch(
-            API_URL + "/buy-data",
-            {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    network:network,
-                    phone:phone,
-                    plan:plan
-                })
-            }
-        );
+body:JSON.stringify({
+network,
+phone,
+plan,
+amount:100
+})
+}
+);
 
-        const data = await response.json();
+const data = await response.json();
 
-        console.log(data);
+alert(data.message);
 
-        if(data.success){
+if(data.status === "success"){
 
-            let wallet =
-            Number(localStorage.getItem("walletBalance")) || 100;
+let wallet =
+localStorage.getItem("walletBalance") || 0;
 
-            wallet -= 100;
+wallet = Number(wallet) - 100;
 
-            localStorage.setItem(
-                "walletBalance",
-                wallet
-            );
+localStorage.setItem(
+"walletBalance",
+wallet
+);
 
-            let history =
-            JSON.parse(localStorage.getItem("transactions")) || [];
+let history =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
 
-            history.unshift({
-                network:"MTN",
-                phone:phone,
-                plan:"500MB SME",
-                amount:100,
-                date:new Date().toLocaleString()
-            });
+history.push({
+network,
+phone,
+plan,
+amount:100,
+date:new Date().toLocaleString()
+});
 
-            localStorage.setItem(
-                "transactions",
-                JSON.stringify(history)
-            );
+localStorage.setItem(
+"transactions",
+JSON.stringify(history)
+);
 
-            alert("Data Purchase Successful");
+window.location.href =
+"dashboard.html";
 
-            window.location.href =
-            "history.html";
+}
 
-        }else{
+}catch(error){
 
-            alert(data.message || "Transaction Failed");
+alert("Network Error");
 
-        }
+console.log(error);
 
-    }catch(error){
-
-        console.log(error);
-
-        alert("Network Error");
-
-    }
+}
 
 }
 
