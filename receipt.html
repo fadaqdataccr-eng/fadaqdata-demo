@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Receipt</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0"/>
 
 <style>
 
@@ -15,9 +17,11 @@ font-family:Arial;
 }
 
 body{
+
 background:#5c0000;
 padding:20px;
 color:white;
+
 }
 
 .receipt-card{
@@ -45,14 +49,32 @@ margin-bottom:20px;
 text-align:center;
 font-size:28px;
 font-weight:bold;
-margin-bottom:30px;
+margin-bottom:25px;
+
+}
+
+.networkLogo{
+
+text-align:center;
+margin-bottom:20px;
+
+}
+
+.networkLogo img{
+
+width:90px;
+height:90px;
+background:white;
+padding:10px;
+border-radius:50%;
+object-fit:contain;
 
 }
 
 .amount{
 
 text-align:center;
-font-size:50px;
+font-size:55px;
 font-weight:bold;
 margin-bottom:20px;
 
@@ -61,11 +83,12 @@ margin-bottom:20px;
 .status{
 
 background:green;
-padding:10px;
+padding:12px;
 border-radius:30px;
 text-align:center;
 font-weight:bold;
-margin-bottom:25px;
+margin-bottom:30px;
+font-size:18px;
 
 }
 
@@ -73,18 +96,22 @@ margin-bottom:25px;
 
 display:flex;
 justify-content:space-between;
-margin-top:18px;
-padding-bottom:10px;
+padding:15px 0;
 border-bottom:1px solid rgba(255,255,255,0.1);
 
 }
 
 .label{
+
 opacity:0.7;
+
 }
 
 .value{
+
 font-weight:bold;
+text-align:right;
+
 }
 
 button{
@@ -101,6 +128,7 @@ background:white;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -115,6 +143,12 @@ FadaqData
 Transaction Receipt
 </div>
 
+<div class="networkLogo">
+
+<img id="networkLogo" src="">
+
+</div>
+
 <div class="amount" id="amount">
 ₦0
 </div>
@@ -125,8 +159,11 @@ SUCCESSFUL
 
 <div id="details"></div>
 
-<button onclick="window.location.href='history.html'">
+<button
+onclick="window.location.href='history.html'">
+
 Back To History
+
 </button>
 
 </div>
@@ -141,10 +178,48 @@ let transactionId =
 
 let reference =
 Math.random().toString(36)
-.substring(2,12).toUpperCase();
+.substring(2,12)
+.toUpperCase();
 
 document.getElementById("amount").innerHTML =
 "₦" + data.amount;
+
+// NETWORK LOGOS
+
+let logo = "";
+
+if(data.network === "MTN"){
+
+logo =
+"https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg";
+
+}
+
+else if(data.network === "GLO"){
+
+logo =
+"https://upload.wikimedia.org/wikipedia/commons/8/8d/Glo_logo.png";
+
+}
+
+else if(data.network === "AIRTEL"){
+
+logo =
+"https://upload.wikimedia.org/wikipedia/commons/7/7b/Airtel_logo.png";
+
+}
+
+else if(data.network === "9MOBILE"){
+
+logo =
+"https://upload.wikimedia.org/wikipedia/en/5/5d/9mobile_logo.svg";
+
+}
+
+document.getElementById("networkLogo").src =
+logo;
+
+// RECEIPT DETAILS
 
 document.getElementById("details").innerHTML = `
 
