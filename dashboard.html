@@ -37,14 +37,13 @@ background:#c00000;
 padding:25px;
 border-radius:25px;
 margin-bottom:25px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 .welcome{
 font-size:28px;
 font-weight:bold;
-line-height:1.5;
 margin-bottom:25px;
+line-height:1.5;
 }
 
 .stats{
@@ -56,18 +55,18 @@ gap:15px;
 flex:1;
 background:#b00000;
 padding:20px;
-border-radius:20px;
+border-radius:18px;
 text-align:center;
 }
 
 .stat-title{
 font-size:18px;
 font-weight:bold;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .stat-value{
-font-size:30px;
+font-size:28px;
 font-weight:bold;
 }
 
@@ -79,11 +78,10 @@ margin-bottom:20px;
 }
 
 .wallet-balance{
-font-size:65px;
+font-size:60px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
-word-break:break-word;
 }
 
 .eye{
@@ -131,7 +129,7 @@ cursor:pointer;
 .transaction-text{
 font-size:18px;
 font-weight:bold;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .transaction-date{
@@ -168,17 +166,6 @@ cursor:pointer;
 
 <body>
 
-<script>
-
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href =
-"login.html";
-
-}
-
-</script>
-
 <div class="container">
 
 <div class="logo">
@@ -192,7 +179,7 @@ FadaqData
 Welcome,<br>
 
 <span id="username">
-User
+Loading...
 </span>
 
 </div>
@@ -320,14 +307,121 @@ onclick="window.location.href='profile.html'">
 
 </div>
 
-<script>
+<script type="module">
+
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
+projectId: "fadaqdata-3bd14",
+
+storageBucket: "fadaqdata-3bd14.appspot.com",
+
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+let walletVisible = true;
+
+window.toggleBalance =
+function(){
+
+let walletText =
+document.getElementById(
+"walletAmount"
+);
+
+let eye =
+document.getElementById(
+"eyeIcon"
+);
+
+if(walletVisible){
+
+walletText.innerHTML =
+"******";
+
+eye.innerHTML = "🙈";
+
+walletVisible = false;
+
+}
+
+else{
+
+walletText.innerHTML =
+walletText.dataset.real;
+
+eye.innerHTML = "👁";
+
+walletVisible = true;
+
+}
+
+};
+
+onAuthStateChanged(auth,
+async(user)=>{
+
+if(!user){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+const docRef =
+doc(db,"users",user.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data =
+docSnap.data();
+
+document.getElementById(
+"username"
+).innerHTML =
+data.name;
 
 let wallet =
-parseFloat(
-localStorage.getItem(
-"walletBalance"
-)
-) || 0;
+data.wallet || 0;
 
 document.getElementById(
 "walletAmount"
@@ -335,32 +429,17 @@ document.getElementById(
 "₦" + wallet.toFixed(2);
 
 document.getElementById(
+"walletAmount"
+).dataset.real =
+"₦" + wallet.toFixed(2);
+
+document.getElementById(
 "walletTop"
 ).innerHTML =
 "₦" + wallet.toFixed(2);
 
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-if(user){
-
-document.getElementById(
-"username"
-).innerHTML =
-user.name;
-
-}
-
 let transactions =
-JSON.parse(
-localStorage.getItem(
-"transactions"
-)
-) || [];
+data.transactions || [];
 
 document.getElementById(
 "transactionCount"
@@ -420,57 +499,19 @@ transactionList.appendChild(div);
 
 }
 
-let walletVisible = true;
-
-function toggleBalance(){
-
-let balanceText =
-document.getElementById(
-"walletAmount"
-);
-
-let eyeIcon =
-document.getElementById(
-"eyeIcon"
-);
-
-if(walletVisible){
-
-balanceText.innerHTML =
-"******";
-
-eyeIcon.innerHTML =
-"🙈";
-
-walletVisible = false;
-
 }
 
-else{
+});
 
-balanceText.innerHTML =
-"₦" +
-wallet.toFixed(2);
+window.logout =
+async function(){
 
-eyeIcon.innerHTML =
-"👁";
-
-walletVisible = true;
-
-}
-
-}
-
-function logout(){
-
-localStorage.removeItem(
-"loggedIn"
-);
+await signOut(auth);
 
 window.location.href =
 "login.html";
 
-}
+};
 
 </script>
 
