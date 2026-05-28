@@ -2,111 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title>
 
 <style>
 
 body{
-    margin:0;
-    padding:0;
-    background:#8B0000;
-    font-family:Arial,sans-serif;
-    color:white;
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
 }
 
 .container{
-    width:90%;
-    max-width:450px;
-    margin:auto;
-    padding:40px 0 120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:40px 0 120px;
 }
 
 .logo{
-    text-align:center;
-    font-size:55px;
-    font-weight:bold;
-    margin-bottom:40px;
-}
-
-.welcome{
-    background:#e60000;
-    padding:25px;
-    border-radius:25px;
-    margin-bottom:30px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-.balance-box{
-    background:#d10000;
-    padding:25px;
-    border-radius:22px;
-    text-align:center;
-    margin-top:20px;
-}
-
-.balance-title{
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.balance{
-    font-size:70px;
-    font-weight:bold;
-    margin-bottom:25px;
-}
-
-.btn{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:18px;
-    background:white;
-    color:#6b0000;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
+font-size:55px;
+font-weight:bold;
+text-align:center;
+margin-bottom:40px;
 }
 
 .card{
-    background:#e60000;
-    padding:30px;
-    border-radius:25px;
-    margin-bottom:30px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+background:red;
+padding:25px;
+border-radius:25px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+margin-bottom:30px;
 }
 
-.card h2{
-    font-size:32px;
-    margin-bottom:15px;
+.balance-card{
+background:#c40000;
+padding:25px;
+border-radius:20px;
+text-align:center;
+margin-top:20px;
 }
 
-.card p{
-    font-size:18px;
-    margin-bottom:25px;
-    line-height:1.5;
+.balance-card h2{
+font-size:22px;
+margin:0;
+}
+
+.balance-card h1{
+font-size:70px;
+margin:15px 0;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:white;
+font-size:22px;
+font-weight:bold;
+color:#6b0000;
+text-decoration:none;
+text-align:center;
+box-sizing:border-box;
+margin-top:20px;
+}
+
+.desc{
+font-size:18px;
+margin-top:10px;
+line-height:1.5;
 }
 
 .bottom-nav{
-    position:fixed;
-    bottom:20px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-around;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8B0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
 }
 
 .nav-btn{
-    background:white;
-    color:#6b0000;
-    padding:18px 35px;
-    border-radius:18px;
-    font-size:20px;
-    font-weight:bold;
-    text-decoration:none;
+background:white;
+padding:15px 30px;
+border-radius:20px;
+font-size:18px;
+font-weight:bold;
+color:#6b0000;
+text-decoration:none;
 }
 
 </style>
@@ -116,173 +105,112 @@ body{
 
 <div class="container">
 
-    <div class="logo">
-        FadaqData
-    </div>
+<div class="logo">FadaqData</div>
 
-    <div class="welcome">
+<div class="card">
 
-        <h1 id="welcomeText">
-            Welcome
-        </h1>
+<h1 id="welcomeText">Welcome</h1>
 
-        <div class="balance-box">
+<div class="balance-card">
 
-            <div class="balance-title">
-                Wallet Balance 👁️
-            </div>
+<h2>Wallet Balance 👁️</h2>
 
-            <div class="balance"
-                id="walletBalance">
-                ₦0
-            </div>
+<h1 id="balance">₦0</h1>
 
-            <button class="btn"
-                onclick="window.location.href='fund-wallet.html'">
-
-                💳 Fund Wallet
-
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- BUY DATA -->
-
-    <div class="card">
-
-        <h2>
-            📶 Buy Data
-        </h2>
-
-        <p>
-            Purchase affordable data bundles instantly
-        </p>
-
-        <button class="btn"
-            onclick="window.location.href='buy-data.html'">
-
-            Buy Now
-
-        </button>
-
-    </div>
-
-    <!-- BUY AIRTIME -->
-
-    <div class="card">
-
-        <h2>
-            📞 Buy Airtime
-        </h2>
-
-        <p>
-            Recharge airtime instantly
-        </p>
-
-        <button class="btn"
-            onclick="window.location.href='buy-airtime.html'">
-
-            Buy Airtime
-
-        </button>
-
-    </div>
-
-    <!-- TRANSACTION HISTORY -->
-
-    <div class="card">
-
-        <h2>
-            📜 Transaction History
-        </h2>
-
-        <p>
-            View all your recent transactions
-        </p>
-
-        <button class="btn"
-            onclick="window.location.href='history.html'">
-
-            View History
-
-        </button>
-
-    </div>
+<a href="fund-wallet.html" class="btn">
+💳 Fund Wallet
+</a>
 
 </div>
 
-<!-- BOTTOM NAV -->
+</div>
+
+<div class="card">
+
+<h1>📶 Buy Data</h1>
+
+<p class="desc">
+Purchase affordable data bundles instantly
+</p>
+
+<a href="buy-data.html" class="btn">
+Buy Now
+</a>
+
+</div>
+
+<div class="card">
+
+<h1>📞 Buy Airtime</h1>
+
+<p class="desc">
+Recharge airtime instantly
+</p>
+
+<a href="buy-airtime.html" class="btn">
+Buy Airtime
+</a>
+
+</div>
+
+<div class="card">
+
+<h1>📜 Transaction History</h1>
+
+<p class="desc">
+View all your recent transactions
+</p>
+
+<a href="history.html" class="btn">
+View History
+</a>
+
+</div>
+
+</div>
 
 <div class="bottom-nav">
 
-    <a href="dashboard.html"
-        class="nav-btn">
+<a href="dashboard.html" class="nav-btn">
+🏠 Home
+</a>
 
-        🏠 Home
-
-    </a>
-
-    <a href="profile.html"
-        class="nav-btn">
-
-        👤 Profile
-
-    </a>
+<a href="profile.html" class="nav-btn">
+👤 Profile
+</a>
 
 </div>
 
 <script>
 
-/* LOGIN CHECK */
+const user =
+JSON.parse(localStorage.getItem("loggedInUser"));
 
-const currentUser =
-JSON.parse(localStorage.getItem("currentUser"));
+if(!user){
 
-if(!currentUser){
-
-    window.location.href = "login.html";
+window.location.href = "login.html";
 
 }
 
-/* LOAD USERS */
+document.getElementById("welcomeText").innerText =
+"Welcome, " + user.name;
 
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
+let balance =
+localStorage.getItem("walletBalance");
 
-/* FIND CURRENT USER */
+if(balance === null){
 
-const userIndex = users.findIndex(
-    user => user.email === currentUser.email
-);
-
-if(userIndex === -1){
-
-    window.location.href = "login.html";
-
-}
-
-const latestUser = users[userIndex];
-
-/* UPDATE CURRENT USER */
+balance = 0;
 
 localStorage.setItem(
-    "currentUser",
-    JSON.stringify(latestUser)
+"walletBalance",
+0
 );
 
-/* SHOW NAME */
+}
 
-document.getElementById("welcomeText")
-.innerText =
-"Welcome, " + latestUser.name;
-
-/* SHOW BALANCE */
-
-document.getElementById("walletBalance")
-.innerText =
-"₦" + (latestUser.balance || 0);
+document.getElementById("balance").innerText =
+"₦" + Number(balance).toLocaleString();
 
 </script>
 
