@@ -134,18 +134,18 @@ margin-top:20px;
 
 <select id="plan">
 
-<option value="85">MTN 500MB - ₦400</option>
-<option value="86">MTN 1GB - ₦400</option>
-<option value="87">MTN 2GB - ₦1455</option>
-<option value="88">MTN 3.5GB - ₦2425</option>
-<option value="89">MTN 7GB - ₦3395</option>
-<option value="91">MTN 10GB - ₦4365</option>
+<option value="85">MTN 500MB - ₦100</option>
+<option value="86">MTN 1GB - ₦480</option>
+<option value="87">MTN 2GB - ₦1500</option>
+<option value="88">MTN 3.5GB - ₦2500</option>
+<option value="89">MTN 7GB - ₦3500</option>
+<option value="91">MTN 10GB - ₦4500</option>
 
-<option value="103">GLO 200MB - ₦150</option>
-<option value="108">GLO 500MB - ₦220</option>
-<option value="109">GLO 1GB - ₦430</option>
-<option value="110">GLO 2GB - ₦860</option>
-<option value="111">GLO 3GB - ₦1300</option>
+<option value="103">GLO 200MB - ₦200</option>
+<option value="108">GLO 500MB - ₦250</option>
+<option value="109">GLO 1GB - ₦450</option>
+<option value="110">GLO 2GB - ₦900</option>
+<option value="111">GLO 3GB - ₦1350</option>
 
 </select>
 
@@ -177,28 +177,30 @@ balance = 0;
 localStorage.setItem("walletBalance", balance);
 }
 
-document.getElementById("balance").innerText = "₦" + Number(balance).toLocaleString();
+document.getElementById("balance").innerText =
+"₦" + Number(balance).toLocaleString();
 
 function getPlanPrice(plan){
 
 const prices = {
 
-85:400,
-86:400,
-87:1455,
-88:2425,
-89:3395,
-91:4365,
+85:100,
+86:480,
+87:1500,
+88:2500,
+89:3500,
+91:4500,
 
-103:150,
-108:220,
-109:430,
-110:860,
-111:1300
+103:200,
+108:250,
+109:450,
+110:900,
+111:1350
 
 };
 
 return prices[plan] || 0;
+
 }
 
 async function buyData(){
