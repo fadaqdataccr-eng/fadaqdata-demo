@@ -26,7 +26,7 @@ app.post("/buy-data", async (req, res) => {
             {
                 method: "POST",
                 headers: {
-                    "Authorization": `Token ${process.env.API_KEY}`,
+                    Authorization: `Token ${process.env.API_KEY}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -80,5 +80,5 @@ app.post("/buy-data", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
+    console.log(`Server running on port ${PORT}`);
 });
