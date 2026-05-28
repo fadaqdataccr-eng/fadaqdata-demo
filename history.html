@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Transaction History</title>
+
+<style>
+
+body{
+background:#5b0000;
+font-family:Arial;
+margin:0;
+padding:20px;
+color:white;
+}
+
+h1{
+text-align:center;
+}
+
+.card{
+background:#7a0000;
+padding:15px;
+border-radius:15px;
+margin-top:15px;
+}
+
+.amount{
+font-size:25px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.small{
+opacity:0.8;
+margin-top:5px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+}
+
+.empty{
+text-align:center;
+margin-top:50px;
+font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Transaction History</h1>
+
+<div id="history"></div>
+
+<button onclick="window.location.href='dashboard.html'">
+Back To Dashboard
+</button>
+
+<script>
+
+const historyContainer =
+document.getElementById("history");
+
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
+
+if(transactions.length === 0){
+
+historyContainer.innerHTML =
+
+'<div class="empty">No Transactions Yet</div>';
+
+}else{
+
+transactions.reverse().forEach((item)=>{
+
+historyContainer.innerHTML += `
+
+<div class="card">
+
+<h2>${item.network}</h2>
+
+<div class="amount">
+₦${item.amount}
+</div>
+
+<div class="small">
+Phone: ${item.phone}
+</div>
+
+<div class="small">
+Plan: ${item.plan}
+</div>
+
+<div class="small">
+${item.date}
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
