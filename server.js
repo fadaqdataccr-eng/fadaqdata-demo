@@ -721,8 +721,8 @@ app.get("/airtime", (req, res) => {
       }
       
       .network img{
-      width:40px;
-      height:40px;
+      max-width:80%;
+      max-height:80%;
       object-fit:contain;
       }
       
@@ -829,8 +829,7 @@ app.get("/airtime", (req, res) => {
 </div>
 
 <div class="network airtel">
-<img src="/images/Airtel_Logo-01.png" alt="Airtel">
-</div>
+<img src="/images/Airtel_logo-01.png" alt="Airtel">
 
 <div class="network glo">
 <img src="/images/recharge_com_glo_product_card.png" alt="Glo">
