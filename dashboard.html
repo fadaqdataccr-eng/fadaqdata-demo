@@ -20,16 +20,17 @@ color:white;
 }
 
 .container{
-padding:25px;
-padding-bottom:120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:20px 0 120px;
 }
 
 .logo{
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:30px;
-margin-bottom:40px;
+margin:30px 0;
 }
 
 .card{
@@ -39,105 +40,34 @@ border-radius:25px;
 margin-bottom:25px;
 }
 
-.welcome{
-font-size:28px;
-font-weight:bold;
-margin-bottom:25px;
-line-height:1.5;
-}
-
-.stats{
-display:flex;
-gap:15px;
-}
-
-.stat-box{
-flex:1;
-background:#b00000;
-padding:20px;
-border-radius:18px;
-text-align:center;
-}
-
-.stat-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.stat-value{
-font-size:28px;
-font-weight:bold;
-}
-
-.wallet-title{
-font-size:26px;
+.balance{
+font-size:50px;
 font-weight:bold;
 text-align:center;
-margin-bottom:20px;
-}
-
-.wallet-balance{
-font-size:60px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
-}
-
-.eye{
-cursor:pointer;
-font-size:35px;
+margin:20px 0;
 }
 
 .btn{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
+margin-top:20px;
+}
+
+.box{
+background:#b00000;
+padding:20px;
+border-radius:20px;
 margin-top:15px;
 }
 
-.logout-btn{
-background:#ff1a1a;
-color:white;
-}
-
-.service-title{
-font-size:22px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.service-text{
-font-size:18px;
-margin-bottom:25px;
-}
-
-.transaction-item{
-background:#b00000;
-padding:18px;
-border-radius:18px;
-margin-bottom:15px;
-cursor:pointer;
-}
-
-.transaction-text{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.transaction-date{
-font-size:15px;
-opacity:0.9;
-}
-
-.bottom-nav{
+.bottomnav{
 position:fixed;
 bottom:0;
 left:0;
@@ -145,19 +75,17 @@ right:0;
 background:#8B0000;
 padding:15px;
 display:flex;
-gap:15px;
+justify-content:space-around;
 }
 
-.nav-btn{
-flex:1;
-padding:18px;
-border:none;
-border-radius:18px;
+.navbtn{
 background:white;
+padding:15px 30px;
+border-radius:18px;
 color:#7a0000;
-font-size:22px;
 font-weight:bold;
-cursor:pointer;
+text-decoration:none;
+font-size:20px;
 }
 
 </style>
@@ -174,64 +102,18 @@ FadaqData
 
 <div class="card">
 
-<div class="welcome">
+<h2 id="welcome">
+Welcome
+</h2>
 
-Welcome,<br>
+<div class="box">
 
-<span id="username">
-Loading...
-</span>
+<h3>
+Wallet Balance 👁
+</h3>
 
-</div>
-
-<div class="stats">
-
-<div class="stat-box">
-
-<div class="stat-title">
-Wallet Balance
-</div>
-
-<div class="stat-value"
-id="walletTop">
-₦0.00
-</div>
-
-</div>
-
-<div class="stat-box">
-
-<div class="stat-title">
-Transactions
-</div>
-
-<div class="stat-value"
-id="transactionCount">
-0
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="wallet-title">
-
-Wallet Balance
-
-<span class="eye"
-id="eyeIcon"
-onclick="toggleBalance()">
-👁
-</span>
-
-</div>
-
-<div class="wallet-balance"
-id="walletAmount">
+<div class="balance"
+id="wallet">
 ₦0.00
 </div>
 
@@ -242,15 +124,17 @@ onclick="window.location.href='fundwallet.html'">
 
 </div>
 
+</div>
+
 <div class="card">
 
-<div class="service-title">
+<h2>
 📶 Buy Data
-</div>
+</h2>
 
-<div class="service-text">
+<p>
 Purchase affordable data bundles instantly
-</div>
+</p>
 
 <button class="btn"
 onclick="window.location.href='buydata.html'">
@@ -261,49 +145,34 @@ Buy Now
 
 <div class="card">
 
-<div class="service-title">
+<h2>
 📞 Buy Airtime
-</div>
+</h2>
 
-<div class="service-text">
+<p>
 Recharge airtime instantly
-</div>
+</p>
 
 <button class="btn"
 onclick="window.location.href='buyairtime.html'">
-Buy Now
+Buy Airtime
 </button>
 
 </div>
 
-<div class="card">
-
-<div class="service-title">
-🧾 Transactions
 </div>
 
-<div id="transactionList">
-</div>
+<div class="bottomnav">
 
-</div>
-
-<button class="btn logout-btn"
-onclick="logout()">
-Logout
-</button>
-
-</div>
-
-<div class="bottom-nav">
-
-<button class="nav-btn">
+<a href="dashboard.html"
+class="navbtn">
 🏠 Home
-</button>
+</a>
 
-<button class="nav-btn"
-onclick="window.location.href='profile.html'">
+<a href="profile.html"
+class="navbtn">
 👤 Profile
-</button>
+</a>
 
 </div>
 
@@ -316,8 +185,7 @@ initializeApp
 
 import {
 getAuth,
-onAuthStateChanged,
-signOut
+onAuthStateChanged
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -330,7 +198,7 @@ getDoc
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
 
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
@@ -353,56 +221,10 @@ getAuth(app);
 const db =
 getFirestore(app);
 
-let walletVisible = true;
-
-window.toggleBalance =
-function(){
-
-let walletText =
-document.getElementById(
-"walletAmount"
-);
-
-let eye =
-document.getElementById(
-"eyeIcon"
-);
-
-if(walletVisible){
-
-walletText.innerHTML =
-"******";
-
-eye.innerHTML = "🙈";
-
-walletVisible = false;
-
-}
-
-else{
-
-walletText.innerHTML =
-walletText.dataset.real;
-
-eye.innerHTML = "👁";
-
-walletVisible = true;
-
-}
-
-};
-
 onAuthStateChanged(auth,
 async(user)=>{
 
-if(!user){
-
-window.location.href =
-"login.html";
-
-return;
-
-}
+if(user){
 
 const docRef =
 doc(db,"users",user.uid);
@@ -416,102 +238,25 @@ const data =
 docSnap.data();
 
 document.getElementById(
-"username"
+"welcome"
 ).innerHTML =
-data.name;
-
-let wallet =
-data.wallet || 0;
+"Welcome, " + data.name;
 
 document.getElementById(
-"walletAmount"
+"wallet"
 ).innerHTML =
-"₦" + wallet.toFixed(2);
-
-document.getElementById(
-"walletAmount"
-).dataset.real =
-"₦" + wallet.toFixed(2);
-
-document.getElementById(
-"walletTop"
-).innerHTML =
-"₦" + wallet.toFixed(2);
-
-let transactions =
-data.transactions || [];
-
-document.getElementById(
-"transactionCount"
-).innerHTML =
-transactions.length;
-
-let transactionList =
-document.getElementById(
-"transactionList"
-);
-
-if(transactions.length === 0){
-
-transactionList.innerHTML =
-"No transactions yet";
+"₦" + data.wallet;
 
 }
 
-else{
-
-transactions
-.slice()
-.reverse()
-.forEach(function(transaction){
-
-let div =
-document.createElement("div");
-
-div.className =
-"transaction-item";
-
-div.innerHTML =
-
-'<div class="transaction-text">' +
-(transaction.text || "Transaction") +
-'</div>' +
-
-'<div class="transaction-date">' +
-(transaction.date || "") +
-'</div>';
-
-div.onclick = function(){
-
-localStorage.setItem(
-"selectedTransaction",
-JSON.stringify(transaction)
-);
-
-window.location.href =
-"receipt.html";
-
-};
-
-transactionList.appendChild(div);
-
-});
-
-}
-
-}
-
-});
-
-window.logout =
-async function(){
-
-await signOut(auth);
+}else{
 
 window.location.href =
 "login.html";
 
-};
+}
+
+});
 
 </script>
 
