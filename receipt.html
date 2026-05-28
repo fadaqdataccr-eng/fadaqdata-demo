@@ -16,41 +16,42 @@ margin:0;
 padding:0;
 background:#8B0000;
 font-family:Arial,sans-serif;
-color:white;
+color:#7a0000;
 }
 
 .container{
 width:90%;
 max-width:450px;
 margin:auto;
-padding:30px 0;
+padding:40px 0;
 }
 
 .logo{
-font-size:50px;
+font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-bottom:30px;
+margin:30px 0;
+color:white;
 }
 
 .card{
 background:white;
-color:#7a0000;
-padding:25px;
+padding:30px;
 border-radius:25px;
+box-shadow:0 6px 15px rgba(0,0,0,0.25);
 }
 
 .title{
-font-size:35px;
+font-size:28px;
 font-weight:bold;
 text-align:center;
-margin-bottom:30px;
+margin-bottom:35px;
 }
 
-.item{
-margin-bottom:20px;
-font-size:20px;
-line-height:1.6;
+.row{
+margin-bottom:22px;
+font-size:18px;
+line-height:1.5;
 }
 
 .label{
@@ -60,24 +61,31 @@ font-weight:bold;
 .status{
 background:green;
 color:white;
-padding:12px;
+padding:15px;
 border-radius:15px;
 text-align:center;
 font-size:20px;
 font-weight:bold;
-margin-top:20px;
+margin-top:25px;
 }
 
-button{
+.donebtn{
 width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
-background:#7a0000;
+background:#8B0000;
 color:white;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
+margin-top:30px;
 cursor:pointer;
+}
+
+.refbox{
+background:#f5f5f5;
+padding:15px;
+border-radius:15px;
 margin-top:25px;
 }
 
@@ -99,63 +107,44 @@ FadaqData
 Transaction Receipt
 </div>
 
-<div class="item">
-
-<span class="label">
-Type:
-</span>
-
-<span id="type">
--
-</span>
-
+<div class="row">
+<span class="label">Type:</span>
+<span id="type"></span>
 </div>
 
-<div class="item">
-
-<span class="label">
-Network:
-</span>
-
-<span id="network">
--
-</span>
-
+<div class="row">
+<span class="label">Network:</span>
+<span id="network"></span>
 </div>
 
-<div class="item">
-
-<span class="label">
-Phone:
-</span>
-
-<span id="phone">
--
-</span>
-
+<div class="row">
+<span class="label">Phone:</span>
+<span id="phone"></span>
 </div>
 
-<div class="item">
-
-<span class="label">
-Amount:
-</span>
-
-<span id="amount">
--
-</span>
-
+<div class="row">
+<span class="label">Amount:</span>
+₦<span id="amount"></span>
 </div>
 
-<div class="item">
+<div class="row">
+<span class="label">Date:</span>
+<span id="date"></span>
+</div>
 
-<span class="label">
-Date:
-</span>
+<div class="refbox">
 
-<span id="date">
--
-</span>
+<div class="row">
+<span class="label">Transaction ID:</span>
+<br>
+<span id="trxid"></span>
+</div>
+
+<div class="row">
+<span class="label">Reference No:</span>
+<br>
+<span id="ref"></span>
+</div>
 
 </div>
 
@@ -163,7 +152,9 @@ Date:
 Successful ✅
 </div>
 
-<button onclick="goBack()">
+<button
+class="donebtn"
+onclick="goHome()">
 Done
 </button>
 
@@ -173,53 +164,64 @@ Done
 
 <script>
 
-let receipt =
+const receipt =
 JSON.parse(
-localStorage.getItem(
-"receipt"
-)
+localStorage.getItem("receipt")
 );
 
-if(!receipt){
+document.getElementById(
+"type"
+).innerText =
+receipt.type || "N/A";
 
-window.location.href =
-"history.html";
+document.getElementById(
+"network"
+).innerText =
+receipt.network || "N/A";
+
+document.getElementById(
+"phone"
+).innerText =
+receipt.phone || "N/A";
+
+document.getElementById(
+"amount"
+).innerText =
+receipt.amount || "0";
+
+document.getElementById(
+"date"
+).innerText =
+receipt.date || "N/A";
+
+function generateID(){
+
+return "FDQ" +
+Math.floor(
+Math.random()*999999999
+);
 
 }
 
 document.getElementById(
-"type"
-).innerHTML =
-receipt.type || "-";
+"trxid"
+).innerText =
+generateID();
 
 document.getElementById(
-"network"
-).innerHTML =
-receipt.network || "-";
+"ref"
+).innerText =
+"REF" +
+Date.now();
 
-document.getElementById(
-"phone"
-).innerHTML =
-receipt.phone || "-";
-
-document.getElementById(
-"amount"
-).innerHTML =
-"₦" + receipt.amount;
-
-document.getElementById(
-"date"
-).innerHTML =
-receipt.date || "-";
-
-function goBack(){
+function goHome(){
 
 window.location.href =
-"history.html";
+"dashboard.html";
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
