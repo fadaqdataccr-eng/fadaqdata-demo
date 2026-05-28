@@ -20,96 +20,67 @@ color:white;
 }
 
 .container{
-padding:25px;
-padding-bottom:120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:20px 0 120px;
 }
 
 .logo{
 font-size:55px;
 font-weight:bold;
 text-align:center;
-margin-top:30px;
-margin-bottom:40px;
+margin:30px 0;
 }
 
 .card{
 background:#c00000;
 padding:25px;
 border-radius:25px;
-margin-bottom:25px;
 }
 
-.title{
-font-size:45px;
+.balance{
+font-size:40px;
 font-weight:bold;
 text-align:center;
-margin-bottom:30px;
+margin:20px 0;
 }
 
-.balance-box{
-background:#a00000;
-padding:20px;
-border-radius:18px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
-}
-
-label{
-display:block;
-font-size:20px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-input,select{
+select,input{
 width:100%;
 padding:18px;
 border:none;
 border-radius:15px;
-margin-bottom:25px;
+margin-top:20px;
 font-size:18px;
 box-sizing:border-box;
-outline:none;
 }
 
-.amount-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:25px;
-}
-
-.amount-btn{
-padding:20px;
-border:none;
-border-radius:18px;
-background:#a00000;
-color:white;
-font-size:24px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.active-amount{
-background:white;
-color:#7a0000;
-}
-
-.buy-btn{
+button{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:24px;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.amountbtn{
+background:#b00000;
+padding:18px;
+border-radius:15px;
+margin-top:15px;
+text-align:center;
+font-size:22px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.bottom-nav{
+.bottomnav{
 position:fixed;
 bottom:0;
 left:0;
@@ -117,73 +88,17 @@ right:0;
 background:#8B0000;
 padding:15px;
 display:flex;
-gap:15px;
+justify-content:space-around;
 }
 
-.nav-btn{
-flex:1;
-padding:18px;
-border:none;
+.navbtn{
+background:white;
+padding:15px 30px;
 border-radius:18px;
-background:white;
 color:#7a0000;
-font-size:22px;
 font-weight:bold;
-cursor:pointer;
-}
-
-.receipt-modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-box-sizing:border-box;
-}
-
-.receipt-card{
-background:white;
-color:#7a0000;
-padding:25px;
-border-radius:25px;
-width:100%;
-max-width:400px;
-}
-
-.receipt-title{
-font-size:32px;
-font-weight:bold;
-text-align:center;
-margin-bottom:25px;
-}
-
-.receipt-item{
+text-decoration:none;
 font-size:20px;
-margin-bottom:18px;
-line-height:1.5;
-}
-
-.success{
-color:green;
-font-weight:bold;
-}
-
-.done-btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:#7a0000;
-color:white;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
 }
 
 </style>
@@ -200,70 +115,65 @@ FadaqData
 
 <div class="card">
 
-<div class="title">
+<h2>
 📞 Buy Airtime
-</div>
+</h2>
 
-<div class="balance-box"
-id="walletBalance">
-Wallet: ₦0.00
+<div class="balance"
+id="wallet">
+₦0.00
 </div>
-
-<label>Select Network</label>
 
 <select id="network">
 
-<option value="MTN">MTN</option>
-<option value="Airtel">Airtel</option>
-<option value="Glo">Glo</option>
-<option value="9mobile">9mobile</option>
+<option value="MTN">
+MTN
+</option>
+
+<option value="Airtel">
+Airtel
+</option>
+
+<option value="Glo">
+Glo
+</option>
+
+<option value="9mobile">
+9mobile
+</option>
 
 </select>
 
-<label>Phone Number</label>
-
-<input type="number"
+<input type="text"
 id="phone"
-placeholder="Enter phone number">
+placeholder="Phone Number">
 
-<label>Select Airtime Amount</label>
-
-<div class="amount-grid">
-
-<button class="amount-btn"
-onclick="selectAmount(100,this)">
+<div class="amountbtn"
+onclick="setAmount(100)">
 ₦100
-</button>
-
-<button class="amount-btn"
-onclick="selectAmount(200,this)">
-₦200
-</button>
-
-<button class="amount-btn"
-onclick="selectAmount(500,this)">
-₦500
-</button>
-
-<button class="amount-btn"
-onclick="selectAmount(1000,this)">
-₦1000
-</button>
-
-<button class="amount-btn"
-onclick="selectAmount(2000,this)">
-₦2000
-</button>
-
-<button class="amount-btn"
-onclick="selectAmount(5000,this)">
-₦5000
-</button>
-
 </div>
 
-<button class="buy-btn"
-onclick="buyAirtime()">
+<div class="amountbtn"
+onclick="setAmount(200)">
+₦200
+</div>
+
+<div class="amountbtn"
+onclick="setAmount(500)">
+₦500
+</div>
+
+<div class="amountbtn"
+onclick="setAmount(1000)">
+₦1000
+</div>
+
+<div class="amountbtn"
+onclick="setAmount(2000)">
+₦2000
+</div>
+
+<button onclick="buyAirtime()">
 Purchase Airtime
 </button>
 
@@ -271,54 +181,17 @@ Purchase Airtime
 
 </div>
 
-<div class="bottom-nav">
+<div class="bottomnav">
 
-<button class="nav-btn"
-onclick="window.location.href='dashboard.html'">
+<a href="dashboard.html"
+class="navbtn">
 🏠 Home
-</button>
+</a>
 
-<button class="nav-btn"
-onclick="window.location.href='profile.html'">
+<a href="profile.html"
+class="navbtn">
 👤 Profile
-</button>
-
-</div>
-
-<div class="receipt-modal"
-id="receiptModal">
-
-<div class="receipt-card">
-
-<div class="receipt-title">
-✅ Airtime Receipt
-</div>
-
-<div class="receipt-item"
-id="receiptNetwork"></div>
-
-<div class="receipt-item"
-id="receiptPhone"></div>
-
-<div class="receipt-item"
-id="receiptAmount"></div>
-
-<div class="receipt-item"
-id="receiptID"></div>
-
-<div class="receipt-item"
-id="receiptDate"></div>
-
-<div class="receipt-item success">
-Status: Successful
-</div>
-
-<button class="done-btn"
-onclick="closeReceipt()">
-Done
-</button>
-
-</div>
+</a>
 
 </div>
 
@@ -346,7 +219,7 @@ arrayUnion
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjT",
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
 
 authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
@@ -369,21 +242,21 @@ getAuth(app);
 const db =
 getFirestore(app);
 
-let currentUser = null;
-let currentWallet = 0;
+let currentUser;
+
 let selectedAmount = 0;
+
+window.setAmount =
+function(amount){
+
+selectedAmount = amount;
+
+};
 
 onAuthStateChanged(auth,
 async(user)=>{
 
-if(!user){
-
-window.location.href =
-"login.html";
-
-return;
-
-}
+if(user){
 
 currentUser = user;
 
@@ -395,45 +268,21 @@ await getDoc(docRef);
 
 if(docSnap.exists()){
 
-const data =
-docSnap.data();
-
-currentWallet =
-data.wallet || 0;
-
 document.getElementById(
-"walletBalance"
+"wallet"
 ).innerHTML =
-"Wallet: ₦" +
-currentWallet.toFixed(2);
+"₦" + docSnap.data().wallet;
+
+}
+
+}else{
+
+window.location.href =
+"login.html";
 
 }
 
 });
-
-window.selectAmount =
-function(amount,button){
-
-selectedAmount = amount;
-
-let buttons =
-document.querySelectorAll(
-".amount-btn"
-);
-
-buttons.forEach(function(btn){
-
-btn.classList.remove(
-"active-amount"
-);
-
-});
-
-button.classList.add(
-"active-amount"
-);
-
-};
 
 window.buyAirtime =
 async function(){
@@ -468,7 +317,16 @@ return;
 
 }
 
-if(currentWallet < selectedAmount){
+const docRef =
+doc(db,"users",currentUser.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+let wallet =
+docSnap.data().wallet || 0;
+
+if(wallet < selectedAmount){
 
 alert(
 "Insufficient balance"
@@ -478,88 +336,32 @@ return;
 
 }
 
-let newWallet =
-currentWallet - selectedAmount;
+let newBalance =
+wallet - selectedAmount;
 
-let transactionID =
-"FD" +
-Math.floor(
-Math.random()*100000000
-);
+await updateDoc(docRef,{
 
-let transactionDate =
-new Date().toLocaleString();
+wallet:newBalance,
 
-let transaction = {
-
-text:
-"📞 Airtime purchased for " +
-phone +
-" - ₦" +
-selectedAmount,
-
-date:
-transactionDate,
-
-amount:selectedAmount,
+transactions:arrayUnion({
 
 type:"Airtime Purchase",
 
-status:"Successful",
+network:network,
 
-id:transactionID
+phone:phone,
 
-};
+amount:selectedAmount,
 
-await updateDoc(
-doc(db,"users",currentUser.uid),
-{
+date:new Date().toLocaleString()
 
-wallet:newWallet,
+})
 
-transactions:
-arrayUnion(transaction)
+});
 
-}
-
+alert(
+"Airtime Purchase Successful ✅"
 );
-
-document.getElementById(
-"receiptNetwork"
-).innerHTML =
-"Network: " + network;
-
-document.getElementById(
-"receiptPhone"
-).innerHTML =
-"Phone: " + phone;
-
-document.getElementById(
-"receiptAmount"
-).innerHTML =
-"Amount: ₦" + selectedAmount;
-
-document.getElementById(
-"receiptID"
-).innerHTML =
-"Transaction ID: " +
-transactionID;
-
-document.getElementById(
-"receiptDate"
-).innerHTML =
-"Date: " +
-transactionDate;
-
-document.getElementById(
-"receiptModal"
-).style.display =
-"flex";
-
-};
-
-window.closeReceipt =
-function(){
 
 window.location.href =
 "dashboard.html";
