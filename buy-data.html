@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Buy Data</title>
+
+<style>
+
+body{
+background:#5b0000;
+font-family:Arial;
+margin:0;
+padding:20px;
+color:white;
+}
+
+.card{
+background:#7a0000;
+padding:20px;
+border-radius:20px;
+margin-top:40px;
+}
+
+select,input,button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 style="text-align:center;">
+Buy Data
+</h2>
+
+<select id="network">
+
+<option value="1">
+MTN
+</option>
+
+</select>
+
+<input
+type="number"
+id="phone"
+placeholder="Phone Number"
+/>
+
+<select id="plan">
+
+<option value="85">
+MTN 500MB SME - ₦100
+</option>
+
+</select>
+
+<button onclick="buyData()">
+Buy Data
+</button>
+
+</div>
+
+<script>
+
+async function buyData(){
+
+const network =
+document.getElementById("network").value;
+
+const phone =
+document.getElementById("phone").value;
+
+const plan =
+document.getElementById("plan").value;
+
+if(!network || !phone || !plan){
+
+alert("All fields required");
+
+return;
+
+}
+
+alert("Backend connected successfully");
+
+}
+
+</script>
+
+</body>
+</html>
