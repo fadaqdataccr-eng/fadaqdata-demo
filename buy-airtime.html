@@ -257,12 +257,7 @@ balance
 );
 
 // SAVE TRANSACTION
-let transactions =
-JSON.parse(
-localStorage.getItem("transactions")
-) || [];
-
-transactions.unshift({
+let transaction = {
 
 id:"TRX" + Date.now(),
 
@@ -280,11 +275,24 @@ reference:"AIR" + Date.now(),
 
 date:new Date().toLocaleString()
 
-});
+};
+
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
+
+transactions.unshift(transaction);
 
 localStorage.setItem(
 "transactions",
 JSON.stringify(transactions)
+);
+
+// SAVE RECEIPT
+localStorage.setItem(
+"lastReceipt",
+JSON.stringify(transaction)
 );
 
 // UPDATE BALANCE
@@ -297,9 +305,9 @@ alert(
 "Airtime Purchase Successful"
 );
 
-// REDIRECT
+// REDIRECT TO RECEIPT
 window.location.href =
-"history.html";
+"receipt.html";
 
 }
 
