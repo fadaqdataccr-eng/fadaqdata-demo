@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Transaction History</title>
+
+<style>
+
+body{
+background:#5c0000;
+font-family:Arial;
+color:white;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.card{
+background:#7a0000;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+cursor:pointer;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:10px;
+font-size:20px;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Transaction History</h1>
+
+<div id="history"></div>
+
+<button onclick="window.location.href='dashboard.html'">
+Back To Dashboard
+</button>
+
+<script>
+
+let history =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+let container =
+document.getElementById("history");
+
+if(history.length === 0){
+
+container.innerHTML =
+"<h2>No Transactions Yet</h2>";
+
+}else{
+
+history.reverse().forEach((item,index)=>{
+
+container.innerHTML += `
+
+<div class="card"
+onclick="viewReceipt(${index})">
+
+<h2>${item.network}</h2>
+
+<h1>₦${item.amount}</h1>
+
+<p>Phone: ${item.phone}</p>
+
+<p>Plan: ${item.plan}</p>
+
+<p>${item.date}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+function viewReceipt(index){
+
+localStorage.setItem(
+"receipt",
+JSON.stringify(history[index])
+);
+
+window.location.href =
+"receipt.html";
+
+}
+
+</script>
+
+</body>
+</html>
