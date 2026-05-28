@@ -3,108 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Profile</title>
 
 <style>
 
 body{
-    margin:0;
-    padding:0;
-    background:#8B0000;
-    font-family:Arial,sans-serif;
-    color:white;
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
 }
 
 .container{
-    width:90%;
-    max-width:450px;
-    margin:auto;
-    padding:40px 0 120px;
+width:90%;
+max-width:450px;
+margin:auto;
+padding:40px 0 120px;
 }
 
 .logo{
-    text-align:center;
-    font-size:55px;
-    font-weight:bold;
-    margin-bottom:40px;
+font-size:55px;
+font-weight:bold;
+text-align:center;
+margin-bottom:40px;
 }
 
-.profile-card{
-    background:#e60000;
-    border-radius:25px;
-    padding:30px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+.card{
+background:red;
+padding:25px;
+border-radius:25px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+text-align:center;
 }
 
 .avatar{
-    font-size:100px;
-    margin-bottom:15px;
+font-size:100px;
 }
 
 .name{
-    font-size:28px;
-    font-weight:bold;
-    margin-bottom:10px;
+font-size:28px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .email{
-    font-size:18px;
-    margin-bottom:30px;
-}
-
-.balance-box{
-    background:#d10000;
-    padding:25px;
-    border-radius:20px;
-    margin-bottom:25px;
-}
-
-.balance-title{
-    font-size:20px;
-    margin-bottom:20px;
+font-size:20px;
+margin-top:10px;
 }
 
 .balance{
-    font-size:60px;
-    font-weight:bold;
+background:#c40000;
+padding:20px;
+border-radius:20px;
+margin-top:25px;
 }
 
-.eye{
-    cursor:pointer;
+.balance h2{
+margin:0;
+font-size:22px;
+}
+
+.balance h1{
+font-size:60px;
+margin:15px 0;
 }
 
 .btn{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:18px;
-    background:white;
-    color:#6b0000;
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:20px;
-    cursor:pointer;
+display:block;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:white;
+font-size:22px;
+font-weight:bold;
+color:#6b0000;
+text-decoration:none;
+text-align:center;
+box-sizing:border-box;
+margin-top:20px;
 }
 
 .bottom-nav{
-    position:fixed;
-    bottom:20px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-around;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8B0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
 }
 
 .nav-btn{
-    background:white;
-    color:#6b0000;
-    padding:18px 35px;
-    border-radius:18px;
-    font-size:20px;
-    font-weight:bold;
-    text-decoration:none;
+background:white;
+padding:15px 30px;
+border-radius:20px;
+font-size:18px;
+font-weight:bold;
+color:#6b0000;
+text-decoration:none;
 }
 
 </style>
@@ -114,153 +113,95 @@ body{
 
 <div class="container">
 
-    <div class="logo">
-        FadaqData
-    </div>
+<div class="logo">FadaqData</div>
 
-    <div class="profile-card">
+<div class="card">
 
-        <div class="avatar">
-            👤
-        </div>
+<div class="avatar">👤</div>
 
-        <div class="name" id="profileName">
-            User Name
-        </div>
+<div class="name" id="name">
+User Name
+</div>
 
-        <div class="email" id="profileEmail">
-            user@email.com
-        </div>
+<div class="email" id="email">
+user@email.com
+</div>
 
-        <div class="balance-box">
+<div class="balance">
 
-            <div class="balance-title">
-                Wallet Balance
-                <span class="eye"
-                    onclick="toggleBalance()">
-                    👁️
-                </span>
-            </div>
+<h2>Wallet Balance 👁️</h2>
 
-            <div class="balance"
-                id="walletBalance">
-                ₦0
-            </div>
+<h1 id="balance">
+₦0
+</h1>
 
-        </div>
+</div>
 
-        <button class="btn"
-            onclick="window.location.href='history.html'">
-            📜 Transaction History
-        </button>
+<a href="history.html" class="btn">
+📜 Transaction History
+</a>
 
-        <button class="btn"
-            onclick="logout()">
-            🚪 Logout
-        </button>
+<button class="btn" onclick="logout()">
+🚪 Logout
+</button>
 
-    </div>
+</div>
 
 </div>
 
 <div class="bottom-nav">
 
-    <a href="dashboard.html"
-        class="nav-btn">
-        🏠 Home
-    </a>
+<a href="dashboard.html" class="nav-btn">
+🏠 Home
+</a>
 
-    <a href="profile.html"
-        class="nav-btn">
-        👤 Profile
-    </a>
+<a href="profile.html" class="nav-btn">
+👤 Profile
+</a>
 
 </div>
 
 <script>
 
-/* CHECK LOGIN */
-const currentUser =
-JSON.parse(localStorage.getItem("currentUser"));
+const user =
+JSON.parse(localStorage.getItem("loggedInUser"));
 
-if(!currentUser){
-    window.location.href = "login.html";
+if(!user){
+
+window.location.href = "login.html";
+
 }
 
-/* GET USERS */
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
+document.getElementById("name").innerText =
+user.name;
 
-/* FIND CURRENT USER */
-let userIndex = users.findIndex(
-    user => user.email === currentUser.email
+document.getElementById("email").innerText =
+user.email;
+
+let balance =
+localStorage.getItem("walletBalance");
+
+if(balance === null){
+
+balance = 0;
+
+localStorage.setItem(
+"walletBalance",
+0
 );
 
-if(userIndex === -1){
-    window.location.href = "login.html";
 }
 
-/* UPDATED USER */
-let updatedUser = users[userIndex];
+document.getElementById("balance").innerText =
+"₦" + Number(balance).toLocaleString();
 
-/* SHOW PROFILE */
-document.getElementById("profileName").innerText =
-updatedUser.name;
-
-document.getElementById("profileEmail").innerText =
-updatedUser.email;
-
-/* BALANCE */
-const balanceElement =
-document.getElementById("walletBalance");
-
-function updateBalance(){
-    balanceElement.innerText =
-    "₦" + (updatedUser.balance || 0);
-}
-
-updateBalance();
-
-/* TOGGLE BALANCE */
-let balanceVisible = true;
-
-function toggleBalance(){
-
-    balanceVisible = !balanceVisible;
-
-    if(balanceVisible){
-        balanceElement.innerText =
-        "₦" + (updatedUser.balance || 0);
-    }else{
-        balanceElement.innerText =
-        "₦******";
-    }
-}
-
-/* LOGOUT */
 function logout(){
 
-    localStorage.removeItem("currentUser");
+localStorage.removeItem("loggedInUser");
 
-    window.location.href = "login.html";
+window.location.href = "login.html";
+
 }
-
-/* AUTO REFRESH */
-window.addEventListener("focus", () => {
-
-    users =
-    JSON.parse(localStorage.getItem("users")) || [];
-
-    userIndex = users.findIndex(
-        user => user.email === currentUser.email
-    );
-
-    updatedUser = users[userIndex];
-
-    if(balanceVisible){
-        updateBalance();
-    }
-});
 
 </script>
 
