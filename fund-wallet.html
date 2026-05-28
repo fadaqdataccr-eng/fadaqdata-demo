@@ -79,10 +79,15 @@ placeholder="Enter Amount"
 Fund Wallet
 </button>
 
+<button onclick="window.location.href='dashboard.html'">
+Back To Dashboard
+</button>
+
 </div>
 
 <script>
 
+// LOGIN CHECK
 if(localStorage.getItem("loggedIn") !== "true"){
 
 window.location.href =
@@ -90,6 +95,7 @@ window.location.href =
 
 }
 
+// DEFAULT BALANCE
 if(!localStorage.getItem("walletBalance")){
 
 localStorage.setItem(
@@ -99,6 +105,7 @@ localStorage.setItem(
 
 }
 
+// LOAD BALANCE
 function loadBalance(){
 
 document.getElementById("balance")
@@ -110,6 +117,7 @@ localStorage.getItem("walletBalance");
 
 loadBalance();
 
+// PAYSTACK PAYMENT
 function payWithPaystack(){
 
 const amount =
@@ -123,11 +131,12 @@ return;
 
 }
 
+// PAYSTACK POPUP
 let handler =
 PaystackPop.setup({
 
 key:
-"pk_test_xxxxxxxxxxxxxxxxx",
+"pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
 
 email:
 "customer@email.com",
@@ -137,6 +146,9 @@ amount * 100,
 
 currency:
 "NGN",
+
+ref:
+"FDQ" + Date.now(),
 
 callback:function(response){
 
@@ -167,6 +179,8 @@ phone:"----",
 plan:"Wallet Topup",
 
 amount:amount,
+
+reference:response.reference,
 
 date:new Date().toLocaleString()
 
