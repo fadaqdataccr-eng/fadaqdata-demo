@@ -8,47 +8,34 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// ==============================
-// HOME ROUTE
-// ==============================
+// HOME
 app.get("/", (req, res) => {
+
   res.json({
     status: "success",
     message: "FadaqData Server Running"
   });
+
 });
 
-// ==============================
-// BUY DATA ROUTE
-// ==============================
+// BUY DATA
 app.post("/buy-data", async (req, res) => {
 
   try {
 
     const { network, phone, data_plan } = req.body;
 
-    // VALIDATION
     if (!network || !phone || !data_plan) {
 
       return res.status(400).json({
         status: "error",
-        message: "All fields are required"
+        message: "All fields required"
       });
 
     }
 
-    // GENERATE REFERENCE
     const ref = "DATA" + Date.now();
 
-    console.log("Incoming Request:", {
-      network,
-      phone,
-      data_plan
-    });
-
-    // ==============================
-    // SEND REQUEST TO FADAQDATA API
-    // ==============================
     const response = await fetch(
       "https://fadaqdata.com/api/data/",
       {
@@ -72,58 +59,67 @@ app.post("/buy-data", async (req, res) => {
       }
     );
 
-    // GET RESPONSE
-    const result = await response.json();
+    // GET RAW RESPONSE
+    const rawText = await response.text();
 
-    console.log("FadaqData API Response:", result);
+    console.log("Raw API Response:", rawText);
 
-    // ==============================
-    // SUCCESS RESPONSE
-    // ==============================
-    if (
+    // CHECK HTML ERROR
+    if(rawText.includes("<html")){
+
+      return res.status(503).json({
+        status: "error",
+        message:
+        "FadaqData server temporarily unavailable. Please try again later."
+      });
+
+    }
+
+    // PARSE JSON
+    const result = JSON.parse(rawText);
+
+    console.log("Parsed Response:", result);
+
+    // SUCCESS
+    if(
       result.status === "success" ||
       result.Status === "successful"
-    ) {
+    ){
 
       return res.json({
         status: "success",
         message:
-          result.true_response ||
-          "Data Purchase Successful",
+        result.true_response ||
+        "Data Purchase Successful",
 
         api_response: result
       });
 
     }
 
-    // ==============================
-    // FAILED RESPONSE
-    // ==============================
+    // FAILED
     return res.status(400).json({
       status: "error",
       message:
-        result.message ||
-        "Transaction failed",
-
-      api_response: result
+      result.message ||
+      "Transaction failed"
     });
 
-  } catch (error) {
+  } catch(error){
 
     console.log("SERVER ERROR:", error);
 
     return res.status(500).json({
       status: "error",
-      message: error.message
+      message:
+      "Internal server error"
     });
 
   }
 
 });
 
-// ==============================
 // START SERVER
-// ==============================
 app.listen(PORT, () => {
 
   console.log(
