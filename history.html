@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -12,302 +10,200 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:40px 0 120px;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding:40px 0 120px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
-text-align:center;
-margin:30px 0;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
 .title{
-font-size:30px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
 .card{
-background:#d10000;
-padding:20px;
-border-radius:20px;
-margin-bottom:18px;
-cursor:pointer;
-box-shadow:0 4px 10px rgba(0,0,0,0.25);
-transition:0.2s;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.card:hover{
-transform:scale(1.01);
-}
-
-.left{
-
-}
-
-.right{
-text-align:right;
+    background:#e60000;
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    cursor:pointer;
 }
 
 .type{
-font-size:22px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.date{
-font-size:15px;
-opacity:0.9;
-}
-
-.icon{
-font-size:30px;
-margin-bottom:10px;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:10px;
 }
 
 .amount{
-font-size:30px;
-font-weight:bold;
-margin-top:5px;
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:10px;
 }
 
-.bottomnav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#8B0000;
-padding:15px;
-display:flex;
-justify-content:space-around;
-}
-
-.navbtn{
-background:white;
-padding:15px 30px;
-border-radius:18px;
-color:#7a0000;
-font-weight:bold;
-text-decoration:none;
-font-size:20px;
+.date{
+    font-size:16px;
 }
 
 .empty{
-text-align:center;
-font-size:22px;
-margin-top:60px;
-opacity:0.8;
+    text-align:center;
+    font-size:22px;
+    margin-top:50px;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:20px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
+}
+
+.nav-btn{
+    background:white;
+    color:#6b0000;
+    padding:18px 35px;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">
+        FadaqData
+    </div>
 
-<div class="title">
-📜 Transaction History
-</div>
+    <div class="title">
+        📜 Transaction History
+    </div>
 
-<div id="history">
+    <div id="historyContainer">
 
-</div>
-
-</div>
-
-<div class="bottomnav">
-
-<a href="dashboard.html"
-class="navbtn">
-🏠 Home
-</a>
-
-<a href="profile.html"
-class="navbtn">
-👤 Profile
-</a>
+    </div>
 
 </div>
 
-<script type="module">
+<div class="bottom-nav">
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    <a href="dashboard.html"
+        class="nav-btn">
+        🏠 Home
+    </a>
 
-import {
-getAuth,
-onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    <a href="profile.html"
+        class="nav-btn">
+        👤 Profile
+    </a>
 
-import {
-getFirestore,
-doc,
-getDoc
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+</div>
 
-const firebaseConfig = {
+<script>
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+/* LOGIN CHECK */
+const loggedInUser =
+JSON.parse(localStorage.getItem("currentUser"));
 
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
+if(!loggedInUser){
+    window.location.href = "login.html";
+}
 
-projectId: "fadaqdata-3bd14",
+/* USERS */
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
 
-storageBucket: "fadaqdata-3bd14.appspot.com",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-const db =
-getFirestore(app);
-
-onAuthStateChanged(auth,
-async(user)=>{
-
-if(user){
-
-const docRef =
-doc(db,"users",user.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-if(docSnap.exists()){
-
-let transactions =
-docSnap.data().transactions || [];
-
-let historyDiv =
-document.getElementById(
-"history"
+/* FIND USER */
+let userIndex = users.findIndex(
+    user => user.email === loggedInUser.email
 );
 
-historyDiv.innerHTML = "";
-
-if(transactions.length === 0){
-
-historyDiv.innerHTML =
-
-'<div class="empty">No Transactions Yet</div>';
-
-return;
-
+if(userIndex === -1){
+    window.location.href = "login.html";
 }
 
-transactions.reverse().forEach((trx,index)=>{
+let currentUser = users[userIndex];
 
-let icon = "💳";
+/* TRANSACTIONS */
+const historyContainer =
+document.getElementById("historyContainer");
 
-if(trx.type === "Data Purchase"){
+if(
+    !currentUser.transactions ||
+    currentUser.transactions.length === 0
+){
 
-icon = "📶";
+    historyContainer.innerHTML =
 
-}
-
-if(trx.type === "Airtime Purchase"){
-
-icon = "📞";
-
-}
-
-historyDiv.innerHTML += `
-
-<div class="card"
-onclick="viewReceipt(${index})">
-
-<div class="left">
-
-<div class="type">
-${trx.type}
-</div>
-
-<div class="date">
-${trx.date}
-</div>
-
-</div>
-
-<div class="right">
-
-<div class="icon">
-${icon}
-</div>
-
-<div class="amount">
-₦${trx.amount}
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-window.transactions =
-transactions;
-
-}
+    '<div class="empty">No Transactions Yet</div>';
 
 }else{
 
-window.location.href =
-"login.html";
+    currentUser.transactions.forEach(
+    (trx,index)=>{
+
+        historyContainer.innerHTML += `
+
+        <div class="card"
+            onclick="openReceipt(${index})">
+
+            <div class="type">
+                ${trx.type}
+            </div>
+
+            <div class="amount">
+                ₦${trx.amount}
+            </div>
+
+            <div class="date">
+                ${trx.date}
+            </div>
+
+        </div>
+
+        `;
+
+    });
 
 }
 
-});
+/* OPEN RECEIPT */
+function openReceipt(index){
 
-window.viewReceipt =
-function(index){
+    localStorage.setItem(
+        "receipt",
+        JSON.stringify(
+            currentUser.transactions[index]
+        )
+    );
 
-localStorage.setItem(
-"receipt",
-JSON.stringify(
-window.transactions[index]
-)
-);
-
-window.location.href =
-"receipt.html";
-
-};
+    window.location.href =
+    "receipt.html";
+}
 
 </script>
 
