@@ -20,43 +20,50 @@ color:white;
 
 .container{
 padding:20px;
+padding-bottom:120px;
 text-align:center;
+}
+
+.logo{
+font-size:70px;
+font-weight:bold;
+margin-top:40px;
 }
 
 .card{
 background:#cc0000;
-padding:20px;
-border-radius:20px;
+padding:25px;
+border-radius:25px;
 margin-top:30px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
 
 .balance{
-font-size:55px;
+font-size:60px;
 font-weight:bold;
 margin:30px 0;
 }
 
 input{
 width:90%;
-padding:18px;
+padding:20px;
 border:none;
 border-radius:15px;
-font-size:22px;
+font-size:25px;
 margin-top:20px;
 outline:none;
 }
 
 button{
-width:95%;
-padding:18px;
+width:90%;
+padding:20px;
 border:none;
 border-radius:15px;
-font-size:22px;
-font-weight:bold;
-margin-top:25px;
 background:white;
 color:#660000;
+font-size:30px;
+font-weight:bold;
+margin-top:25px;
 cursor:pointer;
 }
 
@@ -78,6 +85,7 @@ border-radius:15px;
 font-weight:bold;
 color:#660000;
 text-decoration:none;
+font-size:25px;
 }
 
 </style>
@@ -87,13 +95,19 @@ text-decoration:none;
 
 <div class="container">
 
-<h1 style="font-size:70px;">FadaqData</h1>
+<div class="logo">
+FadaqData
+</div>
 
 <div class="card">
 
-<h2>💳 Fund Wallet</h2>
+<h1>
+💳 Fund Wallet
+</h1>
 
-<div class="balance" id="walletBalance">₦0</div>
+<div class="balance" id="walletBalance">
+₦0
+</div>
 
 <input
 type="number"
@@ -101,7 +115,7 @@ id="amount"
 placeholder="Enter Amount"
 />
 
-<button onclick="payWithPaystack()">
+<button onclick="payNow()">
 Fund Wallet
 </button>
 
@@ -120,8 +134,6 @@ Fund Wallet
 </a>
 
 </div>
-
-<!-- FIREBASE SDK -->
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
@@ -158,27 +170,28 @@ window.location.href = "login.html";
 
 }
 
-const userRef =
-db.collection("users").doc(user.uid);
+const walletBalance =
+document.getElementById("walletBalance");
 
-async function loadBalance(){
+async function loadWallet(){
 
-const snap = await userRef.get();
+const doc = await db
+.collection("users")
+.doc(user.uid)
+.get();
 
-if(snap.exists){
+if(doc.exists){
 
-const data = snap.data();
-
-document.getElementById("walletBalance").innerHTML =
-"₦" + (data.wallet || 0);
+walletBalance.innerHTML =
+"₦" + (doc.data().wallet || 0);
 
 }
 
 }
 
-loadBalance();
+loadWallet();
 
-function payWithPaystack(){
+function payNow(){
 
 const amount =
 document.getElementById("amount").value;
@@ -193,58 +206,67 @@ return;
 
 let handler = PaystackPop.setup({
 
-key:"pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
+key: "pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
 
-email:user.email,
+email: user.email,
 
-amount:amount * 100,
+amount: amount * 100,
 
-currency:"NGN",
+currency: "NGN",
 
-callback:function(response){
+callback: async function(response){
 
-userRef.get().then((snap)=>{
+const userRef = db
+.collection("users")
+.doc(user.uid);
 
-const oldBalance =
+const snap = await userRef.get();
+
+let currentBalance = 0;
+
+if(snap.exists){
+
+currentBalance =
 snap.data().wallet || 0;
 
+}
+
 const newBalance =
-Number(oldBalance) + Number(amount);
+Number(currentBalance) +
+Number(amount);
 
-userRef.update({
+await userRef.set({
 
-wallet:newBalance
+wallet: newBalance
 
-}).then(()=>{
+}, { merge:true });
 
-db.collection("transactions").add({
+await db.collection("transactions").add({
 
-uid:user.uid,
+userId: user.uid,
 
-type:"Wallet Funding",
+type: "Wallet Funding",
 
-amount:Number(amount),
+amount: Number(amount),
 
-reference:response.reference,
+reference: response.reference,
 
-status:"Successful",
+status: "Successful",
 
-date:new Date().toLocaleString()
+date: new Date().toLocaleString()
 
 });
 
 alert("Wallet Funded Successfully ✅");
 
+loadWallet();
+
 window.location.href =
 "dashboard.html";
 
-});
-
-});
-
 },
 
-onClose:function(){
+onClose: function(){
 
 alert("Payment Cancelled");
 
