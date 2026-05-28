@@ -31,7 +31,6 @@ min-height:100vh;
 background:linear-gradient(to right,#8b0000,#ff0000);
 padding:40px 30px 120px;
 color:white;
-position:relative;
 border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
 }
@@ -414,26 +413,252 @@ res.send(`
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title><style>
 
-body{
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
+}
+
+body{
 background:#f5f5f5;
-padding:40px;
+padding-bottom:120px;
 }
 
-h1{
-color:#8b0000;
+.header{
+background:linear-gradient(to right,#8b0000,#cc0000);
+padding:25px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:white;
 }
 
-.card{
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+.right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.notify{
+font-size:28px;
+position:relative;
+}
+
+.badge{
+position:absolute;
+top:-8px;
+right:-8px;
+background:red;
+color:white;
+width:18px;
+height:18px;
+font-size:12px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.profile{
+width:45px;
+height:45px;
+border-radius:50%;
 background:white;
-padding:30px;
-border-radius:20px;
+color:#8b0000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:22px;
+}
+
+.notice{
+background:#f5ece7;
+margin:20px;
+padding:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+font-weight:bold;
+}
+
+.wallet{
+background:white;
+margin:20px;
+padding:25px;
+border-radius:25px;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.balance{
+font-size:18px;
+font-weight:bold;
+}
+
+.amount{
+font-size:55px;
+font-weight:bold;
+color:#8b0000;
+margin-top:15px;
+}
+
+.wallet-flex{
+display:flex;
+justify-content:space-between;
+align-items:center;
 margin-top:20px;
 }
 
-</style></head><body><h1>FadaqData Dashboard</h1><div class="card">
-Welcome to your dashboard.
-</div></body>
+.wallet-icon{
+font-size:90px;
+}
+
+.btns{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.btn1{
+background:#8b0000;
+color:white;
+padding:16px 28px;
+border:none;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+}
+
+.btn2{
+background:white;
+color:#8b0000;
+padding:16px 28px;
+border:2px solid #8b0000;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+}
+
+.title-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:20px;
+}
+
+.title{
+font-size:28px;
+font-weight:bold;
+}
+
+.view{
+color:#8b0000;
+font-weight:bold;
+}
+
+.services{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+padding:0 20px;
+}
+
+.service{
+background:white;
+padding:30px 15px;
+border-radius:20px;
+text-align:center;
+font-weight:bold;
+font-size:18px;
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+
+.icon{
+font-size:45px;
+margin-bottom:10px;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#8b0000;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top-left-radius:20px;
+border-top-right-radius:20px;
+color:white;
+}
+
+.nav-item{
+text-align:center;
+font-size:14px;
+}
+
+.nav-icon{
+font-size:24px;
+margin-bottom:5px;
+}
+
+</style></head><body><div class="header"><div class="logo">FadaqData</div><div class="right"><div class="notify">
+🔔
+<div class="badge">3</div>
+</div><div class="profile">F</div></div></div><div class="notice">
+<div>📢 MTN Share & Sell temporarily unavailable</div>
+<div>View all</div>
+</div><div class="wallet"><div class="balance">
+Wallet Balance 👁️
+</div><div class="wallet-flex"><div><div class="amount">₦0</div><div class="btns"><button class="btn1">
+Fund Wallet
+</button><button class="btn2">
+Transfer
+</button></div></div><div class="wallet-icon">👛</div></div></div><div class="title-row">
+<div class="title">Quick Services</div>
+<div class="view">View all</div>
+</div><div class="services"><div class="service">
+<div class="icon">📱</div>
+Airtime
+</div><div class="service">
+<div class="icon">📶</div>
+Data
+</div><div class="service">
+<div class="icon">💸</div>
+Airtime2Cash
+</div><div class="service">
+<div class="icon">📺</div>
+Cable TV
+</div><div class="service">
+<div class="icon">⚡</div>
+Electricity
+</div><div class="service">
+<div class="icon">🎓</div>
+Exam PIN
+</div></div><div class="bottom-nav"><div class="nav-item">
+<div class="nav-icon">🏠</div>
+Home
+</div><div class="nav-item">
+<div class="nav-icon">💼</div>
+Wallet
+</div><div class="nav-item">
+<div class="nav-icon">📋</div>
+Services
+</div><div class="nav-item">
+<div class="nav-icon">🧾</div>
+Transactions
+</div><div class="nav-item">
+<div class="nav-icon">👤</div>
+Profile
+</div></div></body>
 </html>`);
 
 });
