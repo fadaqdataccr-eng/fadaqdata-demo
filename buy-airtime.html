@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -12,361 +10,284 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:20px 0 120px;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding:40px 0 120px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
-text-align:center;
-margin:30px 0;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
 .card{
-background:#c00000;
-padding:25px;
-border-radius:25px;
+    background:#e60000;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.title{
+    font-size:30px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .balance{
-font-size:40px;
-font-weight:bold;
-text-align:center;
-margin:20px 0;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
-select,input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-margin-top:20px;
-font-size:18px;
-box-sizing:border-box;
+select,
+input{
+    width:100%;
+    padding:20px;
+    border:none;
+    border-radius:18px;
+    font-size:18px;
+    margin-bottom:22px;
+    box-sizing:border-box;
 }
 
 button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.amountbtn{
-background:#b00000;
-padding:18px;
-border-radius:15px;
-margin-top:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
+.bottom-nav{
+    position:fixed;
+    bottom:20px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
 }
 
-.bottomnav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#8B0000;
-padding:15px;
-display:flex;
-justify-content:space-around;
-}
-
-.navbtn{
-background:white;
-padding:15px 30px;
-border-radius:18px;
-color:#7a0000;
-font-weight:bold;
-text-decoration:none;
-font-size:20px;
+.nav-btn{
+    background:white;
+    color:#6b0000;
+    padding:18px 35px;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">
+        FadaqData
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<h2>
-📞 Buy Airtime
-</h2>
+        <div class="title">
+            📞 Buy Airtime
+        </div>
 
-<div class="balance"
-id="wallet">
-₦0.00
-</div>
+        <div class="balance"
+            id="walletBalance">
+            ₦0
+        </div>
 
-<select id="network">
+        <form id="buyForm">
 
-<option value="MTN">
-MTN
-</option>
+            <select id="network">
 
-<option value="Airtel">
-Airtel
-</option>
+                <option value="MTN">
+                    MTN
+                </option>
 
-<option value="Glo">
-Glo
-</option>
+                <option value="Airtel">
+                    Airtel
+                </option>
 
-<option value="9mobile">
-9mobile
-</option>
+                <option value="Glo">
+                    Glo
+                </option>
 
-</select>
+                <option value="9mobile">
+                    9mobile
+                </option>
 
-<input type="text"
-id="phone"
-placeholder="Phone Number">
+            </select>
 
-<div class="amountbtn"
-onclick="setAmount(100)">
-₦100
-</div>
+            <input type="number"
+                id="amount"
+                placeholder="Amount">
 
-<div class="amountbtn"
-onclick="setAmount(200)">
-₦200
-</div>
+            <input type="number"
+                id="phone"
+                placeholder="Phone Number">
 
-<div class="amountbtn"
-onclick="setAmount(500)">
-₦500
-</div>
+            <button type="submit">
+                Buy Airtime
+            </button>
 
-<div class="amountbtn"
-onclick="setAmount(1000)">
-₦1000
-</div>
+        </form>
 
-<div class="amountbtn"
-onclick="setAmount(2000)">
-₦2000
-</div>
-
-<button onclick="buyAirtime()">
-Purchase Airtime
-</button>
+    </div>
 
 </div>
 
-</div>
+<div class="bottom-nav">
 
-<div class="bottomnav">
+    <a href="dashboard.html"
+        class="nav-btn">
+        🏠 Home
+    </a>
 
-<a href="dashboard.html"
-class="navbtn">
-🏠 Home
-</a>
-
-<a href="profile.html"
-class="navbtn">
-👤 Profile
-</a>
+    <a href="profile.html"
+        class="nav-btn">
+        👤 Profile
+    </a>
 
 </div>
 
-<script type="module">
+<script>
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+/* LOGIN CHECK */
+const loggedInUser =
+JSON.parse(localStorage.getItem("currentUser"));
 
-import {
-getAuth,
-onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-getFirestore,
-doc,
-getDoc,
-updateDoc,
-arrayUnion
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
-
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
-
-projectId: "fadaqdata-3bd14",
-
-storageBucket: "fadaqdata-3bd14.appspot.com",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-const db =
-getFirestore(app);
-
-let currentUser;
-
-let selectedAmount = 0;
-
-window.setAmount =
-function(amount){
-
-selectedAmount = amount;
-
-};
-
-onAuthStateChanged(auth,
-async(user)=>{
-
-if(user){
-
-currentUser = user;
-
-const docRef =
-doc(db,"users",user.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-if(docSnap.exists()){
-
-document.getElementById(
-"wallet"
-).innerHTML =
-"₦" + docSnap.data().wallet;
-
+if(!loggedInUser){
+    window.location.href = "login.html";
 }
 
-}else{
+/* USERS */
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
 
-window.location.href =
-"login.html";
+/* FIND USER */
+let userIndex = users.findIndex(
+    user => user.email === loggedInUser.email
+);
 
+if(userIndex === -1){
+    window.location.href = "login.html";
 }
+
+let currentUser = users[userIndex];
+
+/* SHOW BALANCE */
+const walletBalance =
+document.getElementById("walletBalance");
+
+function updateBalance(){
+
+    walletBalance.innerText =
+    "₦" + (currentUser.balance || 0);
+}
+
+updateBalance();
+
+/* BUY AIRTIME */
+document.getElementById("buyForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const network =
+    document.getElementById("network").value;
+
+    const amount =
+    parseInt(document.getElementById("amount").value);
+
+    const phone =
+    document.getElementById("phone").value;
+
+    if(phone.length < 11){
+        alert("Enter valid phone number");
+        return;
+    }
+
+    if(!amount || amount < 50){
+        alert("Minimum airtime is ₦50");
+        return;
+    }
+
+    if(currentUser.balance < amount){
+        alert("Insufficient Balance");
+        return;
+    }
+
+    /* DEDUCT */
+    currentUser.balance -= amount;
+
+    /* TRANSACTION */
+    if(!currentUser.transactions){
+        currentUser.transactions = [];
+    }
+
+    currentUser.transactions.unshift({
+
+        type:"Airtime Purchase",
+
+        network:network,
+
+        phone:phone,
+
+        amount:amount,
+
+        reference:"TRX" + Date.now(),
+
+        date:new Date().toLocaleString()
+
+    });
+
+    /* UPDATE USERS */
+    users[userIndex] = currentUser;
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(currentUser)
+    );
+
+    /* RECEIPT */
+    localStorage.setItem(
+        "receipt",
+        JSON.stringify(
+            currentUser.transactions[0]
+        )
+    );
+
+    updateBalance();
+
+    window.location.href =
+    "receipt.html";
 
 });
-
-window.buyAirtime =
-async function(){
-
-let network =
-document.getElementById(
-"network"
-).value;
-
-let phone =
-document.getElementById(
-"phone"
-).value;
-
-if(phone === ""){
-
-alert(
-"Enter phone number"
-);
-
-return;
-
-}
-
-if(selectedAmount <= 0){
-
-alert(
-"Select airtime amount"
-);
-
-return;
-
-}
-
-const docRef =
-doc(db,"users",currentUser.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-let wallet =
-docSnap.data().wallet || 0;
-
-if(wallet < selectedAmount){
-
-alert(
-"Insufficient balance"
-);
-
-return;
-
-}
-
-let newBalance =
-wallet - selectedAmount;
-
-await updateDoc(docRef,{
-
-wallet:newBalance,
-
-transactions:arrayUnion({
-
-type:"Airtime Purchase",
-
-network:network,
-
-phone:phone,
-
-amount:selectedAmount,
-
-date:new Date().toLocaleString()
-
-})
-
-});
-
-alert(
-"Airtime Purchase Successful ✅"
-);
-
-window.location.href =
-"dashboard.html";
-
-};
 
 </script>
 
