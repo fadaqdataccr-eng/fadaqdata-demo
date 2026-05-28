@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -12,242 +10,172 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-width:90%;
-max-width:400px;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding-top:80px;
+    padding-bottom:80px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
-text-align:center;
-margin-bottom:40px;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
 .card{
-background:#c00000;
-padding:25px;
-border-radius:25px;
+    background:#e60000;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .title{
-font-size:30px;
-font-weight:bold;
-text-align:center;
-margin-bottom:30px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
 input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-margin-bottom:20px;
-font-size:18px;
-box-sizing:border-box;
-outline:none;
+    width:100%;
+    padding:20px;
+    margin-bottom:22px;
+    border:none;
+    border-radius:18px;
+    font-size:18px;
+    box-sizing:border-box;
 }
 
 button{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.link{
-text-align:center;
-margin-top:20px;
-font-size:16px;
+.bottom-text{
+    text-align:center;
+    margin-top:25px;
+    font-size:18px;
 }
 
-.link a{
-color:white;
-font-weight:bold;
-text-decoration:none;
+.bottom-text a{
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">
+        FadaqData
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<div class="title">
-Create Account
-</div>
+        <div class="title">
+            Signup
+        </div>
 
-<input type="text"
-id="name"
-placeholder="Full Name">
+        <input type="text"
+            id="name"
+            placeholder="Full Name">
 
-<input type="email"
-id="email"
-placeholder="Email Address">
+        <input type="email"
+            id="email"
+            placeholder="Email Address">
 
-<input type="password"
-id="password"
-placeholder="Password">
+        <input type="password"
+            id="password"
+            placeholder="Password">
 
-<button onclick="signup()">
-Create Account
-</button>
+        <button onclick="signupUser()">
+            Create Account
+        </button>
 
-<div class="link">
+        <div class="bottom-text">
+            Already have account?
+            <a href="login.html">
+                Login
+            </a>
+        </div>
 
-Already have account?
-
-<a href="login.html">
-Login
-</a>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
-<script type="module">
+<script>
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+function signupUser(){
 
-import {
-getAuth,
-createUserWithEmailAndPassword
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    const name =
+    document.getElementById("name").value.trim();
 
-import {
-getFirestore,
-doc,
-setDoc
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    const email =
+    document.getElementById("email").value.trim();
 
-const firebaseConfig = {
+    const password =
+    document.getElementById("password").value.trim();
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+    if(!name || !email || !password){
+        alert("Fill all fields");
+        return;
+    }
 
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
+    let users =
+    JSON.parse(localStorage.getItem("users")) || [];
 
-projectId: "fadaqdata-3bd14",
+    const existingUser = users.find(
+        user => user.email === email
+    );
 
-storageBucket: "fadaqdata-3bd14.appspot.com",
+    if(existingUser){
+        alert("Account already exists");
+        return;
+    }
 
-messagingSenderId: "609845657857",
+    const newUser = {
+        name:name,
+        email:email,
+        password:password,
+        balance:0,
+        transactions:[]
+    };
 
-appId: "1:609845657857:web:48817ce972c054e203db00"
+    users.push(newUser);
 
-};
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
 
-const app =
-initializeApp(firebaseConfig);
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(newUser)
+    );
 
-const auth =
-getAuth(app);
-
-const db =
-getFirestore(app);
-
-window.signup =
-async function(){
-
-let name =
-document.getElementById(
-"name"
-).value;
-
-let email =
-document.getElementById(
-"email"
-).value;
-
-let password =
-document.getElementById(
-"password"
-).value;
-
-if(
-name === "" ||
-email === "" ||
-password === ""
-){
-
-alert(
-"Fill all fields"
-);
-
-return;
-
+    window.location.href = "dashboard.html";
 }
-
-try{
-
-const userCredential =
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-const user =
-userCredential.user;
-
-await setDoc(
-doc(db,"users",user.uid),
-{
-name:name,
-email:email,
-wallet:0,
-transactions:[]
-}
-);
-
-alert(
-"Account Created Successfully ✅"
-);
-
-window.location.href =
-"login.html";
-
-}
-
-catch(error){
-
-alert(
-error.message
-);
-
-}
-
-};
 
 </script>
 
