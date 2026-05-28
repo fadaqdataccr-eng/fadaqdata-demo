@@ -23,38 +23,91 @@ color:white;
 width:90%;
 max-width:450px;
 margin:auto;
-padding:20px 0 100px;
+padding:20px 0 120px;
 }
 
 .logo{
-font-size:50px;
+font-size:55px;
 font-weight:bold;
 text-align:center;
 margin:30px 0;
 }
 
+.title{
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+text-align:center;
+}
+
 .card{
 background:#c00000;
 padding:20px;
-border-radius:20px;
+border-radius:22px;
 margin-bottom:20px;
 cursor:pointer;
+box-shadow:0 4px 12px rgba(0,0,0,0.3);
+transition:0.3s;
+border-left:8px solid white;
+}
+
+.card:hover{
+transform:scale(1.02);
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .type{
-font-size:22px;
+font-size:24px;
 font-weight:bold;
+}
+
+.icon{
+font-size:30px;
 }
 
 .amount{
-font-size:28px;
+font-size:38px;
 font-weight:bold;
-margin-top:10px;
+margin-top:15px;
 }
 
 .date{
-margin-top:10px;
-font-size:15px;
+margin-top:12px;
+font-size:16px;
+opacity:0.9;
+}
+
+.bottomnav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
+display:flex;
+justify-content:space-around;
+}
+
+.navbtn{
+background:white;
+padding:15px 30px;
+border-radius:18px;
+color:#7a0000;
+font-weight:bold;
+text-decoration:none;
+font-size:20px;
+}
+
+.empty{
+text-align:center;
+font-size:22px;
+margin-top:60px;
+opacity:0.8;
 }
 
 </style>
@@ -69,9 +122,27 @@ font-size:15px;
 FadaqData
 </div>
 
+<div class="title">
+📜 Transaction History
+</div>
+
 <div id="history">
 
 </div>
+
+</div>
+
+<div class="bottomnav">
+
+<a href="dashboard.html"
+class="navbtn">
+🏠 Home
+</a>
+
+<a href="profile.html"
+class="navbtn">
+👤 Profile
+</a>
 
 </div>
 
@@ -143,15 +214,47 @@ document.getElementById(
 
 historyDiv.innerHTML = "";
 
+if(transactions.length === 0){
+
+historyDiv.innerHTML =
+
+'<div class="empty">No Transactions Yet</div>';
+
+return;
+
+}
+
 transactions.reverse().forEach((trx,index)=>{
+
+let icon = "💳";
+
+if(trx.type === "Data Purchase"){
+
+icon = "📶";
+
+}
+
+if(trx.type === "Airtime Purchase"){
+
+icon = "📞";
+
+}
 
 historyDiv.innerHTML += `
 
 <div class="card"
 onclick="viewReceipt(${index})">
 
+<div class="top">
+
 <div class="type">
 ${trx.type}
+</div>
+
+<div class="icon">
+${icon}
+</div>
+
 </div>
 
 <div class="amount">
