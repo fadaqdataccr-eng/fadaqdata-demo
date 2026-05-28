@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Transaction History</title>
+<title>Receipt</title>
 
 <style>
 
@@ -12,16 +12,17 @@ color:white;
 padding:20px;
 }
 
-h1{
-text-align:center;
-}
-
 .card{
 background:#7a0000;
 padding:20px;
 border-radius:15px;
-margin-top:20px;
-cursor:pointer;
+max-width:400px;
+margin:auto;
+margin-top:40px;
+}
+
+h1,h2,p{
+text-align:center;
 }
 
 button{
@@ -39,65 +40,40 @@ font-weight:bold;
 
 <body>
 
-<h1>Transaction History</h1>
+<div class="card">
 
-<div id="history"></div>
+<h1>Transaction Receipt</h1>
 
-<button onclick="window.location.href='dashboard.html'">
-Back To Dashboard
+<div id="receipt"></div>
+
+<button onclick="window.location.href='history.html'">
+Back To History
 </button>
-
-<script>
-
-let history =
-JSON.parse(localStorage.getItem("transactions")) || [];
-
-let container =
-document.getElementById("history");
-
-if(history.length === 0){
-
-container.innerHTML =
-"<h2>No Transactions Yet</h2>";
-
-}else{
-
-history.reverse().forEach((item,index)=>{
-
-container.innerHTML += `
-
-<div class="card"
-onclick="viewReceipt(${index})">
-
-<h2>${item.network}</h2>
-
-<h1>₦${item.amount}</h1>
-
-<p>Phone: ${item.phone}</p>
-
-<p>Plan: ${item.plan}</p>
-
-<p>${item.date}</p>
 
 </div>
 
+<script>
+
+let data =
+JSON.parse(localStorage.getItem("receipt"));
+
+document.getElementById("receipt").innerHTML = `
+
+<h2>${data.network}</h2>
+
+<h1>₦${data.amount}</h1>
+
+<p><b>Phone:</b> ${data.phone}</p>
+
+<p><b>Plan:</b> ${data.plan}</p>
+
+<p><b>Date:</b> ${data.date}</p>
+
+<p style="color:lightgreen;">
+SUCCESSFUL
+</p>
+
 `;
-
-});
-
-}
-
-function viewReceipt(index){
-
-localStorage.setItem(
-"receipt",
-JSON.stringify(history[index])
-);
-
-window.location.href =
-"receipt.html";
-
-}
 
 </script>
 
