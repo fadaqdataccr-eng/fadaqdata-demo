@@ -17,32 +17,31 @@ padding:0;
 background:#8B0000;
 font-family:Arial,sans-serif;
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
 }
 
 .container{
 width:90%;
-max-width:400px;
+max-width:450px;
+margin:auto;
+padding-top:120px;
 }
 
 .logo{
-font-size:55px;
+font-size:60px;
 font-weight:bold;
 text-align:center;
-margin-bottom:40px;
+margin-bottom:50px;
 }
 
 .card{
 background:#c00000;
-padding:25px;
+padding:30px;
 border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .title{
-font-size:30px;
+font-size:45px;
 font-weight:bold;
 text-align:center;
 margin-bottom:30px;
@@ -51,12 +50,12 @@ margin-bottom:30px;
 input{
 width:100%;
 padding:18px;
+margin-bottom:20px;
 border:none;
 border-radius:15px;
-margin-bottom:20px;
 font-size:18px;
-box-sizing:border-box;
 outline:none;
+box-sizing:border-box;
 }
 
 button{
@@ -66,18 +65,18 @@ border:none;
 border-radius:18px;
 background:white;
 color:#7a0000;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.link{
+.bottom{
 text-align:center;
 margin-top:20px;
-font-size:16px;
+font-size:18px;
 }
 
-.link a{
+.bottom a{
 color:white;
 font-weight:bold;
 text-decoration:none;
@@ -101,11 +100,13 @@ FadaqData
 Login
 </div>
 
-<input type="email"
+<input
+type="email"
 id="email"
 placeholder="Email Address">
 
-<input type="password"
+<input
+type="password"
 id="password"
 placeholder="Password">
 
@@ -113,7 +114,7 @@ placeholder="Password">
 Login
 </button>
 
-<div class="link">
+<div class="bottom">
 
 Don't have account?
 
@@ -163,55 +164,36 @@ const auth =
 getAuth(app);
 
 window.login =
-async function(){
+function(){
 
-let email =
+const email =
 document.getElementById(
 "email"
 ).value;
 
-let password =
+const password =
 document.getElementById(
 "password"
 ).value;
 
-if(
-email === "" ||
-password === ""
-){
-
-alert(
-"Fill all fields"
-);
-
-return;
-
-}
-
-try{
-
-await signInWithEmailAndPassword(
+signInWithEmailAndPassword(
 auth,
 email,
 password
-);
+)
 
-alert(
-"Login Successful ✅"
-);
+.then(()=>{
 
 window.location.href =
 "dashboard.html";
 
-}
+})
 
-catch(error){
+.catch((error)=>{
 
-alert(
-error.message
-);
+alert(error.message);
 
-}
+});
 
 };
 
