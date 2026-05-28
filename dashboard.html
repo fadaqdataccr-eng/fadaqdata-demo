@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Dashboard</title>
+<meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0"/>
+content="width=device-width, initial-scale=1.0">
+
+<title>FadaqData Dashboard</title>
 
 <style>
 
@@ -19,80 +22,179 @@ font-family:Arial;
 body{
 
 background:#5b0000;
-padding:20px;
+padding:18px;
 color:white;
 
 }
 
-.card{
+/* TOP */
 
-background:#7a0000;
-padding:30px 25px;
-border-radius:25px;
-margin-top:40px;
+.topBar{
 
-box-shadow:
-0 0 25px rgba(0,0,0,0.3);
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
 
 }
 
 .logo{
 
-text-align:center;
-font-size:38px;
+font-size:32px;
 font-weight:bold;
-margin-bottom:10px;
 
 }
 
-.sub{
+.profile{
 
-text-align:center;
-opacity:0.8;
-margin-bottom:30px;
-font-size:15px;
-
-}
-
-.balanceBox{
-
-text-align:center;
-margin-bottom:35px;
-
-}
-
-.balanceText{
-
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+color:#7a0000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
 font-size:18px;
-opacity:0.8;
-margin-bottom:10px;
+
+}
+
+/* WALLET */
+
+.walletCard{
+
+background:linear-gradient(
+135deg,
+#8b0000,
+#5e0000
+);
+
+padding:25px;
+border-radius:28px;
+
+box-shadow:
+0 0 25px rgba(0,0,0,0.35);
+
+margin-bottom:25px;
+
+}
+
+.walletTop{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+}
+
+.walletText{
+
+font-size:17px;
+opacity:0.9;
+
+}
+
+.eye{
+
+font-size:24px;
 
 }
 
 .balance{
 
-font-size:65px;
+font-size:52px;
 font-weight:bold;
-
-}
-
-.btn{
-
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
 margin-top:18px;
-font-size:20px;
-font-weight:bold;
-background:white;
-color:#7a0000;
 
 }
 
-.btn:active{
+/* SERVICES */
 
-transform:scale(0.98);
+.sectionTitle{
+
+font-size:24px;
+font-weight:bold;
+margin-bottom:18px;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+
+}
+
+/* CARD */
+
+.serviceCard{
+
+background:#7a0000;
+border-radius:22px;
+padding:20px;
+text-align:center;
+
+box-shadow:
+0 0 20px rgba(0,0,0,0.25);
+
+}
+
+.serviceIcon{
+
+font-size:38px;
+margin-bottom:12px;
+
+}
+
+.serviceText{
+
+font-size:18px;
+font-weight:bold;
+
+}
+
+/* NAVIGATION */
+
+.bottomNav{
+
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+
+background:#6a0000;
+
+display:flex;
+justify-content:space-around;
+align-items:center;
+
+padding:16px 10px;
+
+box-shadow:
+0 -5px 20px rgba(0,0,0,0.3);
+
+}
+
+.navItem{
+
+text-align:center;
+font-size:13px;
+font-weight:bold;
+
+}
+
+.navIcon{
+
+font-size:22px;
+margin-bottom:5px;
+
+}
+
+.space{
+
+height:120px;
 
 }
 
@@ -102,20 +204,34 @@ transform:scale(0.98);
 
 <body>
 
-<div class="card">
+<!-- TOP -->
+
+<div class="topBar">
 
 <div class="logo">
 FadaqData
 </div>
 
-<div class="sub">
-Fast & Reliable VTU Services
+<div class="profile">
+F
 </div>
 
-<div class="balanceBox">
+</div>
 
-<div class="balanceText">
+<!-- WALLET -->
+
+<div class="walletCard">
+
+<div class="walletTop">
+
+<div class="walletText">
 Wallet Balance
+</div>
+
+<div class="eye">
+👁️
+</div>
+
 </div>
 
 <div class="balance"
@@ -127,40 +243,124 @@ id="balance">
 
 </div>
 
-<button class="btn"
+<!-- SERVICES -->
+
+<div class="sectionTitle">
+Services
+</div>
+
+<div class="grid">
+
+<!-- FUND -->
+
+<div class="serviceCard"
 onclick="window.location.href='fund.html'">
 
+<div class="serviceIcon">
+💰
+</div>
+
+<div class="serviceText">
 Fund Wallet
+</div>
 
-</button>
+</div>
 
-<button class="btn"
+<!-- DATA -->
+
+<div class="serviceCard"
 onclick="window.location.href='buydata.html'">
 
+<div class="serviceIcon">
+📶
+</div>
+
+<div class="serviceText">
 Buy Data
+</div>
 
-</button>
+</div>
 
-<button class="btn"
+<!-- AIRTIME -->
+
+<div class="serviceCard"
 onclick="window.location.href='buyairtime.html'">
 
+<div class="serviceIcon">
+📱
+</div>
+
+<div class="serviceText">
 Buy Airtime
+</div>
 
-</button>
+</div>
 
-<button class="btn"
+<!-- HISTORY -->
+
+<div class="serviceCard"
 onclick="window.location.href='history.html'">
 
-Transaction History
+<div class="serviceIcon">
+🧾
+</div>
 
-</button>
+<div class="serviceText">
+History
+</div>
 
-<button class="btn"
+</div>
+
+</div>
+
+<div class="space"></div>
+
+<!-- BOTTOM NAV -->
+
+<div class="bottomNav">
+
+<div class="navItem">
+
+<div class="navIcon">
+🏠
+</div>
+
+Home
+
+</div>
+
+<div class="navItem"
+onclick="window.location.href='history.html'">
+
+<div class="navIcon">
+📋
+</div>
+
+Transactions
+
+</div>
+
+<div class="navItem"
+onclick="window.location.href='buydata.html'">
+
+<div class="navIcon">
+📶
+</div>
+
+Services
+
+</div>
+
+<div class="navItem"
 onclick="logout()">
+
+<div class="navIcon">
+🚪
+</div>
 
 Logout
 
-</button>
+</div>
 
 </div>
 
@@ -180,7 +380,8 @@ loadBalance();
 
 function logout(){
 
-window.location.href = "index.html";
+window.location.href =
+"index.html";
 
 }
 
