@@ -15,7 +15,7 @@ res.send(`
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FadaqData</title>
+<title>FadaqData Login</title>
 
 <style>
 
@@ -32,55 +32,64 @@ min-height:100vh;
 }
 
 .top{
-background:linear-gradient(to right,#5b0000,#d10000);
-padding:50px 30px 120px;
+background:linear-gradient(to right,#3b0000,#e00000);
+height:280px;
+padding:40px 30px;
 color:white;
 border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
 }
 
 .logo{
-font-size:58px;
-font-weight:900;
-margin-bottom:20px;
+font-size:70px;
+font-weight:bold;
+margin-top:20px;
 }
 
-.subtitle{
-font-size:22px;
+.slogan{
+font-size:25px;
+margin-top:20px;
 line-height:1.5;
 }
 
 .card{
-background:white;
+background:#f5f5f5;
 width:90%;
-margin:-70px auto 30px;
+margin:-50px auto 30px;
 border-radius:35px;
-padding:40px 25px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+padding:30px;
+box-shadow:0 3px 15px rgba(0,0,0,0.1);
 }
 
 .welcome{
-font-size:55px;
+font-size:65px;
 font-weight:bold;
 text-align:center;
-margin-bottom:10px;
 }
 
-.small{
+.wave{
+text-align:center;
+font-size:60px;
+margin-top:10px;
+}
+
+.sub{
 text-align:center;
 color:gray;
-font-size:20px;
-margin-bottom:35px;
+font-size:22px;
+margin-top:15px;
+margin-bottom:30px;
 }
 
 .input{
 width:100%;
 padding:22px;
+border:none;
+border-radius:20px;
+background:#ece7b8;
+font-size:22px;
 margin-bottom:25px;
-border-radius:18px;
-border:2px solid #eee;
-background:#f7f1c6;
-font-size:18px;
+outline:none;
 }
 
 .row{
@@ -92,21 +101,19 @@ font-size:18px;
 }
 
 .forgot{
-color:#7a0000;
+color:#6b0000;
 font-weight:bold;
 }
 
-.login-btn{
+.btn{
 width:100%;
 padding:22px;
 border:none;
-border-radius:18px;
-background:linear-gradient(to right,#5b0000,#d10000);
+border-radius:22px;
+background:linear-gradient(to right,#7a0000,#ff0000);
 color:white;
-font-size:24px;
+font-size:28px;
 font-weight:bold;
-margin-bottom:30px;
-cursor:pointer;
 }
 
 .or{
@@ -114,23 +121,22 @@ text-align:center;
 font-size:30px;
 font-weight:bold;
 color:gray;
-margin-bottom:30px;
+margin:35px 0;
 }
 
 .google{
 width:100%;
-padding:22px;
-border-radius:18px;
-border:2px solid #eee;
+padding:20px;
+border-radius:20px;
+border:3px solid #ddd;
 background:white;
 font-size:22px;
 font-weight:bold;
-cursor:pointer;
 }
 
 .bottom{
 text-align:center;
-margin-top:40px;
+margin-top:35px;
 font-size:22px;
 }
 
@@ -146,11 +152,9 @@ font-weight:bold;
 
 <div class="top">
 
-<div class="logo">
-FadaqData
-</div>
+<div class="logo">FadaqData</div>
 
-<div class="subtitle">
+<div class="slogan">
 Fadaqdata Your Data, Your Way – Anytime, Anywhere.
 </div>
 
@@ -158,11 +162,11 @@ Fadaqdata Your Data, Your Way – Anytime, Anywhere.
 
 <div class="card">
 
-<div class="welcome">
-Welcome Back! 👋
-</div>
+<div class="welcome">Welcome Back!</div>
 
-<div class="small">
+<div class="wave">👋</div>
+
+<div class="sub">
 Login to continue to your account
 </div>
 
@@ -171,32 +175,223 @@ Login to continue to your account
 <input type="password" class="input" placeholder="Password">
 
 <div class="row">
-
 <div>
-<input type="checkbox"> Remember Me
+☐ Remember Me
 </div>
 
 <div class="forgot">
 Forgot Password?
 </div>
-
 </div>
 
-<button class="login-btn" onclick="window.location.href='/dashboard'">
+<button class="btn" onclick="window.location.href='/dashboard'">
 Login
 </button>
 
-<div class="or">
-OR
-</div>
+<div class="or">OR</div>
 
-<button class="google">
+<button class="google" onclick="window.location.href='/register'">
 Continue with Google
 </button>
 
 <div class="bottom">
 Don’t have an account?
-<span class="register"> Register</span>
+<span class="register" onclick="window.location.href='/register'">
+Register
+</span>
+</div>
+
+</div>
+
+</body>
+</html>
+`);
+
+});
+
+
+
+// REGISTER PAGE
+app.get("/register", (req, res) => {
+
+res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+min-height:100vh;
+}
+
+.top{
+background:linear-gradient(to right,#3b0000,#7a0000);
+height:260px;
+padding:30px;
+color:white;
+position:relative;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
+}
+
+.back{
+font-size:35px;
+cursor:pointer;
+}
+
+.dark{
+position:absolute;
+right:20px;
+top:20px;
+background:#fff3;
+padding:10px 18px;
+border-radius:20px;
+font-weight:bold;
+}
+
+.top h1{
+margin-top:40px;
+font-size:45px;
+text-align:center;
+}
+
+.top p{
+text-align:center;
+margin-top:10px;
+font-size:20px;
+}
+
+.card{
+background:white;
+width:90%;
+margin:-40px auto 30px;
+border-radius:25px;
+padding:25px;
+box-shadow:0 3px 15px rgba(0,0,0,0.1);
+}
+
+.input-box{
+background:#fff;
+border:2px solid #eee;
+border-radius:15px;
+padding:16px;
+margin-bottom:18px;
+display:flex;
+align-items:center;
+}
+
+.icon{
+font-size:22px;
+margin-right:12px;
+color:#5c0000;
+}
+
+.input{
+border:none;
+outline:none;
+width:100%;
+font-size:18px;
+}
+
+.btn{
+width:100%;
+background:linear-gradient(to right,#3b0000,#8b0000);
+border:none;
+padding:18px;
+border-radius:16px;
+color:white;
+font-size:24px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.bottom{
+text-align:center;
+margin-top:25px;
+font-size:20px;
+}
+
+.login{
+color:#7a0000;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="back" onclick="window.location.href='/'">←</div>
+
+<div class="dark">🌙 Dark</div>
+
+<h1>Create Account</h1>
+
+<p>Fill in the details below to get started</p>
+
+</div>
+
+<div class="card">
+
+<div class="input-box">
+<div class="icon">👤</div>
+<input type="text" class="input" placeholder="Full Name">
+</div>
+
+<div class="input-box">
+<div class="icon">🪪</div>
+<input type="text" class="input" placeholder="Username">
+</div>
+
+<div class="input-box">
+<div class="icon">✉️</div>
+<input type="email" class="input" placeholder="Email Address">
+</div>
+
+<div class="input-box">
+<div class="icon">🇳🇬</div>
+<input type="text" class="input" placeholder="Phone Number">
+</div>
+
+<div class="input-box">
+<div class="icon">🔒</div>
+<input type="password" class="input" placeholder="Password">
+</div>
+
+<div class="input-box">
+<div class="icon">🔒</div>
+<input type="password" class="input" placeholder="Confirm Password">
+</div>
+
+<div class="input-box">
+<div class="icon">🎁</div>
+<input type="text" class="input" placeholder="Referral Code (Optional)">
+</div>
+
+<button class="btn" onclick="window.location.href='/dashboard'">
+Create Account
+</button>
+
+<div class="bottom">
+Already have an account?
+<span class="login" onclick="window.location.href='/'">
+Login
+</span>
 </div>
 
 </div>
@@ -210,16 +405,14 @@ Don’t have an account?
 
 
 
-// DASHBOARD
+// DASHBOARD PAGE
 app.get("/dashboard", (req, res) => {
 
 res.send(`
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
 
 <style>
 
@@ -236,65 +429,39 @@ padding-bottom:120px;
 }
 
 .header{
-background:linear-gradient(to right,#5b0000,#d10000);
-padding:25px;
+background:linear-gradient(to right,#3b0000,#d40000);
+padding:25px 20px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 color:white;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
 }
 
 .logo{
-font-size:30px;
+font-size:28px;
 font-weight:bold;
 }
 
-.right{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.notify{
-font-size:35px;
-position:relative;
-}
-
-.badge{
-position:absolute;
-top:-5px;
-right:-10px;
-background:red;
-color:white;
-font-size:12px;
-width:20px;
-height:20px;
+.profile{
+width:50px;
+height:50px;
 border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.avatar{
-width:55px;
-height:55px;
 background:white;
-border-radius:50%;
+color:#7a0000;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
-color:#7a0000;
+font-size:28px;
 font-weight:bold;
 }
 
 .notice{
-background:#f8efe9;
+background:#f7efe8;
 margin:20px;
 padding:18px;
-border-radius:18px;
+border-radius:15px;
 display:flex;
 justify-content:space-between;
 font-weight:bold;
@@ -304,21 +471,20 @@ font-weight:bold;
 background:white;
 margin:20px;
 padding:25px;
-border-radius:30px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+border-radius:25px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
 .balance{
-font-size:55px;
+font-size:65px;
 font-weight:bold;
-color:#7a0000;
+color:#8b0000;
 margin:20px 0;
 }
 
 .actions{
 display:flex;
 gap:15px;
-margin-top:20px;
 }
 
 .btn1{
@@ -326,9 +492,9 @@ flex:1;
 padding:18px;
 border:none;
 border-radius:15px;
-background:linear-gradient(to right,#5b0000,#d10000);
+background:#8b0000;
 color:white;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 }
 
@@ -336,10 +502,10 @@ font-weight:bold;
 flex:1;
 padding:18px;
 border-radius:15px;
-border:3px solid #7a0000;
+border:3px solid #8b0000;
 background:white;
-color:#7a0000;
-font-size:20px;
+color:#8b0000;
+font-size:22px;
 font-weight:bold;
 }
 
@@ -347,16 +513,8 @@ font-weight:bold;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 20px;
-margin-top:10px;
-}
-
-.section h2{
-font-size:25px;
-}
-
-.view{
-color:#7a0000;
+margin:20px;
+font-size:20px;
 font-weight:bold;
 }
 
@@ -364,17 +522,17 @@ font-weight:bold;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-padding:20px;
+padding:0 20px;
 }
 
 .box{
 background:white;
-border-radius:25px;
 padding:30px 15px;
+border-radius:22px;
 text-align:center;
-box-shadow:0 4px 10px rgba(0,0,0,0.06);
 font-size:22px;
 font-weight:bold;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
 .icon{
@@ -382,55 +540,25 @@ font-size:50px;
 margin-bottom:15px;
 }
 
-.tx{
+.transaction{
 background:white;
 margin:20px;
-padding:18px;
+padding:20px;
 border-radius:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 4px 10px rgba(0,0,0,0.06);
-}
-
-.lefttx{
-display:flex;
-gap:15px;
-align-items:center;
-}
-
-.mtn{
-background:#ffd400;
-padding:18px;
-border-radius:18px;
-font-weight:bold;
-}
-
-.name{
-font-size:18px;
-font-weight:bold;
-}
-
-.time{
-color:gray;
-margin-top:5px;
-}
-
-.amount{
-font-size:22px;
-font-weight:bold;
-color:#7a0000;
 }
 
 .bottomnav{
 position:fixed;
 bottom:0;
 left:0;
-right:0;
-background:linear-gradient(to right,#5b0000,#d10000);
+width:100%;
+background:linear-gradient(to right,#7a0000,#d40000);
 display:flex;
 justify-content:space-around;
-padding:18px 0;
+padding:15px 0;
 border-top-left-radius:25px;
 border-top-right-radius:25px;
 color:white;
@@ -442,7 +570,7 @@ text-align:center;
 }
 
 .navicon{
-font-size:30px;
+font-size:32px;
 margin-bottom:5px;
 }
 
@@ -453,22 +581,9 @@ margin-bottom:5px;
 
 <div class="header">
 
-<div class="logo">
-FadaqData
-</div>
+<div class="logo">FadaqData</div>
 
-<div class="right">
-
-<div class="notify">
-🔔
-<div class="badge">3</div>
-</div>
-
-<div class="avatar">
-F
-</div>
-
-</div>
+<div class="profile">F</div>
 
 </div>
 
@@ -494,8 +609,8 @@ F
 </div>
 
 <div class="section">
-<h2>Quick Services</h2>
-<div class="view">View all</div>
+<div>Quick Services</div>
+<div>View all</div>
 </div>
 
 <div class="grid">
@@ -512,7 +627,7 @@ Data
 
 <div class="box">
 <div class="icon">💸</div>
-Airtime to Cash
+Airtime2Cash
 </div>
 
 <div class="box">
@@ -533,26 +648,18 @@ Exam PIN
 </div>
 
 <div class="section">
-<h2>Recent Transactions</h2>
-<div class="view">View all</div>
+<div>Recent Transactions</div>
+<div>View all</div>
 </div>
 
-<div class="tx">
-
-<div class="lefttx">
-
-<div class="mtn">MTN</div>
+<div class="transaction">
 
 <div>
-<div class="name">MTN 500MB SME</div>
-<div class="time">May 28, 2026 • 5:00 PM</div>
+<h3>MTN 500MB SME</h3>
+<p>May 28, 2026 • 5:00 PM</p>
 </div>
 
-</div>
-
-<div class="amount">
-- ₦100
-</div>
+<h2 style="color:#8b0000;">- ₦100</h2>
 
 </div>
 
@@ -591,222 +698,8 @@ Profile
 
 });
 
-// REGISTER PAGE
-app.get("/register", (req, res) => {
-
-res.send(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f5f5f5;
-min-height:100vh;
-}
-
-.top{
-background:linear-gradient(to right,#3b0000,#7a0000);
-height:260px;
-padding:30px;
-color:white;
-position:relative;
-border-bottom-left-radius:40px;
-border-bottom-right-radius:40px;
-}
-
-.back{
-font-size:40px;
-position:absolute;
-left:25px;
-top:30px;
-cursor:pointer;
-}
-
-.dark{
-position:absolute;
-right:25px;
-top:30px;
-background:#2a0b00;
-border:2px solid #b86a2d;
-padding:10px 20px;
-border-radius:30px;
-font-size:20px;
-}
-
-.title{
-margin-top:90px;
-text-align:center;
-font-size:50px;
-font-weight:bold;
-}
-
-.sub{
-text-align:center;
-font-size:20px;
-margin-top:10px;
-}
-
-.card{
-background:white;
-width:92%;
-margin:-40px auto 30px;
-padding:30px 20px;
-border-radius:35px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.input-box{
-width:100%;
-margin-bottom:22px;
-position:relative;
-}
-
-.input{
-width:100%;
-padding:22px 20px 22px 60px;
-border:2px solid #eee;
-border-radius:18px;
-font-size:18px;
-background:white;
-}
-
-.icon{
-position:absolute;
-left:20px;
-top:22px;
-font-size:22px;
-}
-
-.eye{
-position:absolute;
-right:20px;
-top:22px;
-font-size:22px;
-}
-
-.btn{
-width:100%;
-padding:22px;
-border:none;
-border-radius:18px;
-background:linear-gradient(to right,#3b0000,#7a0000);
-color:white;
-font-size:24px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.bottom{
-text-align:center;
-margin-top:35px;
-font-size:22px;
-}
-
-.login{
-color:#7a0000;
-font-weight:bold;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="top">
-
-<div class="back" onclick="window.location.href='/'">
-←
-</div>
-
-<div class="dark">
-🌙 Dark
-</div>
-
-<div class="title">
-Create Account
-</div>
-
-<div class="sub">
-Fill in the details below to get started
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="input-box">
-<div class="icon">👤</div>
-<input type="text" class="input" placeholder="Full Name">
-</div>
-
-<div class="input-box">
-<div class="icon">🪪</div>
-<input type="text" class="input" placeholder="Username">
-</div>
-
-<div class="input-box">
-<div class="icon">✉️</div>
-<input type="email" class="input" placeholder="Email Address">
-</div>
-
-<div class="input-box">
-<div class="icon">🇳🇬</div>
-<input type="text" class="input" placeholder="Phone Number">
-</div>
-
-<div class="input-box">
-<div class="icon">🔒</div>
-<div class="eye">👁️</div>
-<input type="password" class="input" placeholder="Password">
-</div>
-
-<div class="input-box">
-<div class="icon">🔒</div>
-<div class="eye">👁️</div>
-<input type="password" class="input" placeholder="Confirm Password">
-</div>
-
-<div class="input-box">
-<div class="icon">🎁</div>
-<input type="text" class="input" placeholder="Referral Code (Optional)">
-</div>
-
-<button class="btn" onclick="window.location.href='/dashboard'">
-Create Account
-</button>
-
-<div class="bottom">
-Already have an account?
-<span class="login" onclick="window.location.href='/'">
-Login
-</span>
-</div>
-
-</div>
-
-</body>
-</html>
-`);
-
-});
-
-
-
 
 
 app.listen(PORT, () => {
 console.log("Server running on port " + PORT);
 });
-
