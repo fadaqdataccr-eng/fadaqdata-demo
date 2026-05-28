@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Buy Data</title>
 
@@ -118,7 +119,10 @@ FadaqData
 Wallet Balance 👁️
 </div>
 
-<div class="balance" id="walletBalance">
+<div
+class="balance"
+id="walletBalance"
+>
 ₦0
 </div>
 
@@ -224,40 +228,39 @@ async function buyData(){
 const network =
 document.getElementById("network").value;
 
-const amount =
-parseInt(
-document.getElementById("plan").value
-);
+const plan =
+document.getElementById("plan").value;
 
 const phone =
 document.getElementById("phone").value;
 
 // VALIDATION
-if(!phone){
+if(!network || !plan || !phone){
 
-alert("Enter phone number");
+alert("All fields required");
 return;
 
 }
 
-if(balance < amount){
+if(balance < parseInt(plan)){
 
 alert("Insufficient balance");
 return;
 
 }
 
-try{
-
-// BUTTON LOADING
+// LOADING
 document.querySelector("button").innerText =
 "Processing Purchase...";
+
+try{
 
 // API REQUEST
 const response =
 await fetch(
 "https://fadaqdata-server.onrender.com/buy-data",
 {
+
 method:"POST",
 
 headers:{
@@ -266,13 +269,14 @@ headers:{
 
 body:JSON.stringify({
 
-network:network,
-phone:phone,
-amount:amount
+network: network,
+mobile_number: phone,
+plan: plan
 
 })
 
 }
+
 );
 
 const data =
@@ -283,14 +287,14 @@ console.log(data);
 // SUCCESS
 if(data.success){
 
-balance -= amount;
+balance -= parseInt(plan);
 
 localStorage.setItem(
 "walletBalance",
 balance
 );
 
-// SAVE TRANSACTION
+// TRANSACTION
 let transaction = {
 
 id:"TRX" + Date.now(),
@@ -301,7 +305,7 @@ network:network,
 
 phone:phone,
 
-amount:"₦" + amount,
+amount:"₦" + plan,
 
 status:"Successful",
 
@@ -329,7 +333,9 @@ localStorage.setItem(
 JSON.stringify(transaction)
 );
 
-alert("Data Purchase Successful");
+alert(
+"Data Purchase Successful"
+);
 
 // REDIRECT
 window.location.href =
@@ -348,9 +354,7 @@ data.message ||
 
 console.log(error);
 
-alert(
-"Network Error"
-);
+alert("Network Error");
 
 }
 
