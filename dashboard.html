@@ -1,4 +1,164 @@
-<!-- ADD THIS INSIDE THE CONTAINER AFTER BUY AIRTIME CARD -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+background:#8B0000;
+font-family:Arial,sans-serif;
+color:white;
+}
+
+.container{
+width:90%;
+max-width:450px;
+margin:auto;
+padding:20px 0 120px;
+}
+
+.logo{
+font-size:55px;
+font-weight:bold;
+text-align:center;
+margin:30px 0;
+}
+
+.card{
+background:#c00000;
+padding:25px;
+border-radius:25px;
+margin-bottom:25px;
+}
+
+.balance{
+font-size:50px;
+font-weight:bold;
+text-align:center;
+margin:20px 0;
+}
+
+.btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:white;
+color:#7a0000;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.box{
+background:#b00000;
+padding:20px;
+border-radius:20px;
+margin-top:15px;
+}
+
+.bottomnav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#8B0000;
+padding:15px;
+display:flex;
+justify-content:space-around;
+}
+
+.navbtn{
+background:white;
+padding:15px 30px;
+border-radius:18px;
+color:#7a0000;
+font-weight:bold;
+text-decoration:none;
+font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+FadaqData
+</div>
+
+<div class="card">
+
+<h2 id="welcome">
+Welcome
+</h2>
+
+<div class="box">
+
+<h3>
+Wallet Balance 👁
+</h3>
+
+<div class="balance"
+id="wallet">
+₦0.00
+</div>
+
+<button class="btn"
+onclick="window.location.href='fundwallet.html'">
+💳 Fund Wallet
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+📶 Buy Data
+</h2>
+
+<p>
+Purchase affordable data bundles instantly
+</p>
+
+<button class="btn"
+onclick="window.location.href='buydata.html'">
+Buy Now
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>
+📞 Buy Airtime
+</h2>
+
+<p>
+Recharge airtime instantly
+</p>
+
+<button class="btn"
+onclick="window.location.href='buyairtime.html'">
+Buy Airtime
+</button>
+
+</div>
 
 <div class="card">
 
@@ -33,3 +193,120 @@ Logout
 </button>
 
 </div>
+
+</div>
+
+<div class="bottomnav">
+
+<a href="dashboard.html"
+class="navbtn">
+🏠 Home
+</a>
+
+<a href="profile.html"
+class="navbtn">
+👤 Profile
+</a>
+
+</div>
+
+<script type="module">
+
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
+
+authDomain: "fadaqdata-3bd14.firebaseapp.com",
+
+projectId: "fadaqdata-3bd14",
+
+storageBucket: "fadaqdata-3bd14.appspot.com",
+
+messagingSenderId: "609845657857",
+
+appId: "1:609845657857:web:48817ce972c054e203db00"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+onAuthStateChanged(auth,
+async(user)=>{
+
+if(user){
+
+const docRef =
+doc(db,"users",user.uid);
+
+const docSnap =
+await getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data =
+docSnap.data();
+
+document.getElementById(
+"welcome"
+).innerHTML =
+"Welcome, " + data.name;
+
+document.getElementById(
+"wallet"
+).innerHTML =
+"₦" + data.wallet;
+
+}
+
+}else{
+
+window.location.href =
+"login.html";
+
+}
+
+});
+
+window.logout =
+function(){
+
+signOut(auth)
+.then(()=>{
+
+window.location.href =
+"login.html";
+
+});
+
+};
+
+</script>
+
+</body>
+</html>
