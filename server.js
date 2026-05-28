@@ -4,14 +4,20 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+
+
+// LOGIN PAGE
 app.get("/", (req, res) => {
 
 res.send(`
-
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>FadaqData Login</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FadaqData</title>
+
+<style>
 
 *{
 margin:0;
@@ -133,39 +139,89 @@ color:#7a0000;
 font-weight:bold;
 }
 
-</style></head><body><div class="top"><div class="logo">
+</style>
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="logo">
 FadaqData
-</div><div class="subtitle">
+</div>
+
+<div class="subtitle">
 Fadaqdata Your Data, Your Way – Anytime, Anywhere.
-</div></div><div class="card"><div class="welcome">
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="welcome">
 Welcome Back! 👋
-</div><div class="small">
+</div>
+
+<div class="small">
 Login to continue to your account
-</div><input type="text" class="input" placeholder="Email, Username or Phone Number"><input type="password" class="input" placeholder="Password"><div class="row"><div>
+</div>
+
+<input type="text" class="input" placeholder="Email, Username or Phone Number">
+
+<input type="password" class="input" placeholder="Password">
+
+<div class="row">
+
+<div>
 <input type="checkbox"> Remember Me
-</div><div class="forgot">
+</div>
+
+<div class="forgot">
 Forgot Password?
-</div></div><button class="login-btn" onclick="window.location.href='/dashboard'">
+</div>
+
+</div>
+
+<button class="login-btn" onclick="window.location.href='/dashboard'">
 Login
-</button><div class="or">
+</button>
+
+<div class="or">
 OR
-</div><button class="google">
+</div>
+
+<button class="google">
 Continue with Google
-</button><div class="bottom">
+</button>
+
+<div class="bottom">
 Don’t have an account?
 <span class="register"> Register</span>
-</div></div></body>
-</html>
-`);});
+</div>
 
+</div>
+
+</body>
+</html>
+`);
+
+});
+
+
+
+
+// DASHBOARD
 app.get("/dashboard", (req, res) => {
 
 res.send(`
-
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Dashboard</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+
+<style>
 
 *{
 margin:0;
@@ -390,67 +446,152 @@ font-size:30px;
 margin-bottom:5px;
 }
 
-</style></head><body><div class="header"><div class="logo">
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="logo">
 FadaqData
-</div><div class="right"><div class="notify">
+</div>
+
+<div class="right">
+
+<div class="notify">
 🔔
 <div class="badge">3</div>
-</div><div class="avatar">
+</div>
+
+<div class="avatar">
 F
-</div></div></div><div class="notice">
+</div>
+
+</div>
+
+</div>
+
+<div class="notice">
 <div>📢 MTN Share & Sell temporarily unavailable</div>
 <div>View all</div>
-</div><div class="card"><h2>Wallet Balance 👁️</h2><div class="balance">₦0</div><div class="actions"><button class="btn1">Fund Wallet</button>
+</div>
+
+<div class="card">
+
+<h2>Wallet Balance 👁️</h2>
+
+<div class="balance">₦0</div>
+
+<div class="actions">
+
+<button class="btn1">Fund Wallet</button>
 
 <button class="btn2">Transfer</button>
 
-</div></div><div class="section">
+</div>
+
+</div>
+
+<div class="section">
 <h2>Quick Services</h2>
 <div class="view">View all</div>
-</div><div class="grid"><div class="box">
+</div>
+
+<div class="grid">
+
+<div class="box">
 <div class="icon">📱</div>
 Airtime
-</div><div class="box">
+</div>
+
+<div class="box">
 <div class="icon">📶</div>
 Data
-</div><div class="box">
+</div>
+
+<div class="box">
 <div class="icon">💸</div>
 Airtime to Cash
-</div><div class="box">
+</div>
+
+<div class="box">
 <div class="icon">📺</div>
 Cable TV
-</div><div class="box">
+</div>
+
+<div class="box">
 <div class="icon">⚡</div>
 Electricity
-</div><div class="box">
+</div>
+
+<div class="box">
 <div class="icon">🎓</div>
 Exam PIN
-</div></div><div class="section">
+</div>
+
+</div>
+
+<div class="section">
 <h2>Recent Transactions</h2>
 <div class="view">View all</div>
-</div><div class="tx"><div class="lefttx"><div class="mtn">MTN</div><div>
+</div>
+
+<div class="tx">
+
+<div class="lefttx">
+
+<div class="mtn">MTN</div>
+
+<div>
 <div class="name">MTN 500MB SME</div>
 <div class="time">May 28, 2026 • 5:00 PM</div>
-</div></div><div class="amount">
+</div>
+
+</div>
+
+<div class="amount">
 - ₦100
-</div></div><div class="bottomnav"><div class="navitem">
+</div>
+
+</div>
+
+<div class="bottomnav">
+
+<div class="navitem">
 <div class="navicon">🏠</div>
 Home
-</div><div class="navitem">
+</div>
+
+<div class="navitem">
 <div class="navicon">💼</div>
 Wallet
-</div><div class="navitem">
+</div>
+
+<div class="navitem">
 <div class="navicon">📋</div>
 Services
-</div><div class="navitem">
+</div>
+
+<div class="navitem">
 <div class="navicon">🧾</div>
 Transactions
-</div><div class="navitem">
+</div>
+
+<div class="navitem">
 <div class="navicon">👤</div>
 Profile
-</div></div></body>
+</div>
+
+</div>
+
+</body>
 </html>
-`);});
+`);
+
+});
+
+
 
 app.listen(PORT, () => {
 console.log("Server running on port " + PORT);
