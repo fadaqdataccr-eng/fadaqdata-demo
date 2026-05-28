@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard</title>
 
@@ -14,93 +11,96 @@ content="width=device-width, initial-scale=1.0">
 body{
 margin:0;
 padding:0;
-background:#8B0000;
-font-family:Arial,sans-serif;
+background:#990000;
+font-family:Arial;
 color:white;
 }
 
 .container{
-width:90%;
-max-width:450px;
-margin:auto;
-padding:20px 0 120px;
+padding:20px;
+padding-bottom:120px;
 }
 
 .logo{
-font-size:55px;
-font-weight:bold;
 text-align:center;
-margin:30px 0;
+font-size:70px;
+font-weight:bold;
+margin-top:40px;
 }
 
 .card{
-background:#c00000;
+background:#cc0000;
 padding:25px;
 border-radius:25px;
-margin-bottom:25px;
+margin-top:30px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
 
-.balancebox{
-background:#b00000;
-padding:20px;
+.balance-box{
+background:#bb0000;
+padding:25px;
 border-radius:20px;
-margin-top:15px;
-}
-
-.balancehead{
-font-size:24px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.eye{
-cursor:pointer;
-font-size:24px;
+margin-top:20px;
+text-align:center;
 }
 
 .balance{
-font-size:55px;
+font-size:65px;
 font-weight:bold;
-text-align:center;
-margin:20px 0;
-}
-
-.btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-color:#7a0000;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
 margin-top:20px;
 }
 
-.bottomnav{
+.eye{
+font-size:30px;
+cursor:pointer;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+margin-top:25px;
+font-size:28px;
+font-weight:bold;
+background:white;
+color:#660000;
+cursor:pointer;
+}
+
+.title{
+font-size:40px;
+font-weight:bold;
+}
+
+.desc{
+font-size:24px;
+margin-top:15px;
+}
+
+.bottom-nav{
 position:fixed;
 bottom:0;
 left:0;
-right:0;
-background:#8B0000;
-padding:15px;
+width:100%;
+background:#990000;
 display:flex;
 justify-content:space-around;
+padding:15px 0;
 }
 
-.navbtn{
+.nav-btn{
 background:white;
-padding:15px 30px;
-border-radius:18px;
-color:#7a0000;
+padding:15px 35px;
+border-radius:15px;
 font-weight:bold;
+color:#660000;
 text-decoration:none;
-font-size:20px;
+font-size:25px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -113,27 +113,28 @@ FadaqData
 
 <div class="card">
 
-<h2 id="welcome">
-Welcome
+<h2>
+Welcome,
+<span id="username"></span>
 </h2>
 
-<div class="balancebox">
+<div class="balance-box">
 
-<div class="balancehead">
+<h3>
 Wallet Balance
-<span class="eye"
-onclick="toggleBalance()">
-👁
+<span class="eye" onclick="toggleBalance()">
+👁️
 </span>
+</h3>
+
+<div class="balance" id="wallet">
+₦0
 </div>
 
-<div class="balance"
-id="wallet">
-₦0.00
-</div>
-
-<button class="btn"
-onclick="window.location.href='fundwallet.html'">
+<button
+class="btn"
+onclick="window.location.href='fund-wallet.html'"
+>
 💳 Fund Wallet
 </button>
 
@@ -143,16 +144,18 @@ onclick="window.location.href='fundwallet.html'">
 
 <div class="card">
 
-<h2>
+<div class="title">
 📶 Buy Data
-</h2>
+</div>
 
-<p>
+<div class="desc">
 Purchase affordable data bundles instantly
-</p>
+</div>
 
-<button class="btn"
-onclick="window.location.href='buydata.html'">
+<button
+class="btn"
+onclick="window.location.href='buy-data.html'"
+>
 Buy Now
 </button>
 
@@ -160,91 +163,42 @@ Buy Now
 
 <div class="card">
 
-<h2>
+<div class="title">
 📞 Buy Airtime
-</h2>
+</div>
 
-<p>
+<div class="desc">
 Recharge airtime instantly
-</p>
+</div>
 
-<button class="btn"
-onclick="window.location.href='buyairtime.html'">
+<button
+class="btn"
+onclick="window.location.href='buy-airtime.html'"
+>
 Buy Airtime
 </button>
 
 </div>
 
-<div class="card">
-
-<h2>
-📜 Transaction History
-</h2>
-
-<p>
-View all your transactions and receipts
-</p>
-
-<button class="btn"
-onclick="window.location.href='history.html'">
-View History
-</button>
-
 </div>
 
-<div class="card">
+<div class="bottom-nav">
 
-<h2>
-🚪 Logout
-</h2>
-
-<p>
-Securely logout from your account
-</p>
-
-<button class="btn"
-onclick="logout()">
-Logout
-</button>
-
-</div>
-
-</div>
-
-<div class="bottomnav">
-
-<a href="dashboard.html"
-class="navbtn">
+<a href="dashboard.html" class="nav-btn">
 🏠 Home
 </a>
 
-<a href="profile.html"
-class="navbtn">
+<a href="profile.html" class="nav-btn">
 👤 Profile
 </a>
 
 </div>
 
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
-import {
-initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-import {
-getAuth,
-onAuthStateChanged,
-signOut
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-getFirestore,
-doc,
-getDoc
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
 
 const firebaseConfig = {
 
@@ -254,7 +208,7 @@ authDomain: "fadaqdata-3bd14.firebaseapp.com",
 
 projectId: "fadaqdata-3bd14",
 
-storageBucket: "fadaqdata-3bd14.appspot.com",
+storageBucket: "fadaqdata-3bd14.firebasestorage.app",
 
 messagingSenderId: "609845657857",
 
@@ -262,94 +216,64 @@ appId: "1:609845657857:web:48817ce972c054e203db00"
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-const auth =
-getAuth(app);
+const db = firebase.firestore();
 
-const db =
-getFirestore(app);
+const user =
+JSON.parse(localStorage.getItem("user"));
 
-let walletBalance = 0;
+if(!user){
 
-let hidden = false;
-
-onAuthStateChanged(auth,
-async(user)=>{
-
-if(user){
-
-const docRef =
-doc(db,"users",user.uid);
-
-const docSnap =
-await getDoc(docRef);
-
-if(docSnap.exists()){
-
-const data =
-docSnap.data();
-
-document.getElementById(
-"welcome"
-).innerHTML =
-"Welcome, " + data.name;
-
-walletBalance =
-data.wallet || 0;
-
-document.getElementById(
-"wallet"
-).innerHTML =
-"₦" + walletBalance;
+window.location.href = "login.html";
 
 }
+
+document.getElementById("username").innerHTML =
+user.name || "User";
+
+let balanceVisible = true;
+
+const walletEl =
+document.getElementById("wallet");
+
+function toggleBalance(){
+
+if(balanceVisible){
+
+walletEl.innerHTML = "₦******";
+
+balanceVisible = false;
 
 }else{
 
-window.location.href =
-"login.html";
+loadWallet();
+
+balanceVisible = true;
 
 }
 
-});
+}
 
-window.toggleBalance =
-function(){
+async function loadWallet(){
 
-hidden = !hidden;
+const snap = await db
+.collection("users")
+.doc(user.uid)
+.get();
 
-if(hidden){
+if(snap.exists){
 
-document.getElementById(
-"wallet"
-).innerHTML =
-"••••••";
+const data = snap.data();
 
-}else{
-
-document.getElementById(
-"wallet"
-).innerHTML =
-"₦" + walletBalance;
+walletEl.innerHTML =
+"₦" + (data.wallet || 0);
 
 }
 
-};
+}
 
-window.logout =
-function(){
-
-signOut(auth)
-.then(()=>{
-
-window.location.href =
-"login.html";
-
-});
-
-};
+loadWallet();
 
 </script>
 
