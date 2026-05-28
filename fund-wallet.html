@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Fund Wallet</title>
 
@@ -11,81 +12,87 @@
 <style>
 
 body{
-margin:0;
-padding:0;
-background:#990000;
-font-family:Arial;
-color:white;
+    margin:0;
+    padding:0;
+    background:#8B0000;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
-padding:20px;
-padding-bottom:120px;
-text-align:center;
+    width:90%;
+    max-width:450px;
+    margin:auto;
+    padding:40px 0 120px;
 }
 
 .logo{
-font-size:70px;
-font-weight:bold;
-margin-top:40px;
+    text-align:center;
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
 .card{
-background:#cc0000;
-padding:25px;
-border-radius:25px;
-margin-top:30px;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+    background:#e60000;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.title{
+    font-size:30px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .balance{
-font-size:60px;
-font-weight:bold;
-margin:30px 0;
+    text-align:center;
+    font-size:60px;
+    font-weight:bold;
+    margin-bottom:30px;
 }
 
 input{
-width:90%;
-padding:20px;
-border:none;
-border-radius:15px;
-font-size:25px;
-margin-top:20px;
-outline:none;
+    width:100%;
+    padding:20px;
+    border:none;
+    border-radius:18px;
+    font-size:20px;
+    margin-bottom:25px;
+    box-sizing:border-box;
 }
 
 button{
-width:90%;
-padding:20px;
-border:none;
-border-radius:15px;
-background:white;
-color:#660000;
-font-size:30px;
-font-weight:bold;
-margin-top:25px;
-cursor:pointer;
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#6b0000;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#990000;
-display:flex;
-justify-content:space-around;
-padding:15px 0;
+    position:fixed;
+    bottom:20px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-around;
 }
 
 .nav-btn{
-background:white;
-padding:15px 35px;
-border-radius:15px;
-font-weight:bold;
-color:#660000;
-text-decoration:none;
-font-size:25px;
+    background:white;
+    color:#6b0000;
+    padding:18px 35px;
+    border-radius:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 </style>
@@ -95,187 +102,147 @@ font-size:25px;
 
 <div class="container">
 
-<div class="logo">
-FadaqData
-</div>
+    <div class="logo">
+        FadaqData
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<h1>
-💳 Fund Wallet
-</h1>
+        <div class="title">
+            💳 Fund Wallet
+        </div>
 
-<div class="balance" id="walletBalance">
-₦0
-</div>
+        <div class="balance"
+            id="walletBalance">
+            ₦0
+        </div>
 
-<input
-type="number"
-id="amount"
-placeholder="Enter Amount"
-/>
+        <input type="number"
+            id="amount"
+            placeholder="Enter Amount">
 
-<button onclick="payNow()">
-Fund Wallet
-</button>
+        <button onclick="fundWallet()">
+            Fund Wallet
+        </button>
 
-</div>
+    </div>
 
 </div>
 
 <div class="bottom-nav">
 
-<a href="dashboard.html" class="nav-btn">
-🏠 Home
-</a>
+    <a href="dashboard.html"
+        class="nav-btn">
+        🏠 Home
+    </a>
 
-<a href="profile.html" class="nav-btn">
-👤 Profile
-</a>
+    <a href="profile.html"
+        class="nav-btn">
+        👤 Profile
+    </a>
 
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script>
 
-const firebaseConfig = {
+/* CHECK LOGIN */
+const currentUser =
+JSON.parse(localStorage.getItem("currentUser"));
 
-apiKey: "AIzaSyAVdVj9N71EKFVo782SeydXqjTRoW24oZs",
-
-authDomain: "fadaqdata-3bd14.firebaseapp.com",
-
-projectId: "fadaqdata-3bd14",
-
-storageBucket: "fadaqdata-3bd14.firebasestorage.app",
-
-messagingSenderId: "609845657857",
-
-appId: "1:609845657857:web:48817ce972c054e203db00"
-
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-const user =
-JSON.parse(localStorage.getItem("user"));
-
-if(!user){
-
-window.location.href = "login.html";
-
+if(!currentUser){
+    window.location.href = "login.html";
 }
 
-const walletBalance =
-document.getElementById("walletBalance");
+/* GET USERS */
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
 
-async function loadWallet(){
+/* FIND USER */
+let userIndex = users.findIndex(
+    user => user.email === currentUser.email
+);
 
-const doc = await db
-.collection("users")
-.doc(user.uid)
-.get();
-
-if(doc.exists){
-
-walletBalance.innerHTML =
-"₦" + (doc.data().wallet || 0);
-
+if(userIndex === -1){
+    window.location.href = "login.html";
 }
 
-}
+/* USER */
+let updatedUser = users[userIndex];
 
-loadWallet();
+/* SHOW BALANCE */
+document.getElementById("walletBalance").innerText =
+"₦" + (updatedUser.balance || 0);
 
-function payNow(){
+/* FUND WALLET */
+function fundWallet(){
 
-const amount =
-document.getElementById("amount").value;
+    const amount =
+    parseInt(document.getElementById("amount").value);
 
-if(!amount || amount < 100){
+    if(!amount || amount < 100){
+        alert("Minimum amount is ₦100");
+        return;
+    }
 
-alert("Minimum funding is ₦100");
+    let handler = PaystackPop.setup({
 
-return;
+        key: 'pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c',
 
-}
+        email: updatedUser.email,
 
-let handler = PaystackPop.setup({
+        amount: amount * 100,
 
-key: "pk_live_10503cfa475d0450ac4b7c990b6f36052734cd7c",
+        currency: 'NGN',
 
-email: user.email,
+        callback: function(response){
 
-amount: amount * 100,
+            /* UPDATE BALANCE */
+            updatedUser.balance =
+            (updatedUser.balance || 0) + amount;
 
-currency: "NGN",
+            /* SAVE TRANSACTION */
+            if(!updatedUser.transactions){
+                updatedUser.transactions = [];
+            }
 
-callback: async function(response){
+            updatedUser.transactions.unshift({
 
-const userRef = db
-.collection("users")
-.doc(user.uid);
+                type:"Wallet Funding",
 
-const snap = await userRef.get();
+                amount:amount,
 
-let currentBalance = 0;
+                reference:response.reference,
 
-if(snap.exists){
+                date:new Date().toLocaleString()
 
-currentBalance =
-snap.data().wallet || 0;
+            });
 
-}
+            /* UPDATE USERS */
+            users[userIndex] = updatedUser;
 
-const newBalance =
-Number(currentBalance) +
-Number(amount);
+            localStorage.setItem(
+                "users",
+                JSON.stringify(users)
+            );
 
-await userRef.set({
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify(updatedUser)
+            );
 
-wallet: newBalance
+            alert("Wallet Funded Successfully ✅");
 
-}, { merge:true });
+            window.location.href =
+            "dashboard.html";
+        },
 
-await db.collection("transactions").add({
+        onClose:function(){
+            console.log("Payment Closed");
+        }
 
-userId: user.uid,
+    });
 
-type: "Wallet Funding",
-
-amount: Number(amount),
-
-reference: response.reference,
-
-status: "Successful",
-
-date: new Date().toLocaleString()
-
-});
-
-alert("Wallet Funded Successfully ✅");
-
-loadWallet();
-
-window.location.href =
-"dashboard.html";
-
-},
-
-onClose: function(){
-
-alert("Payment Cancelled");
-
-}
-
-});
-
-handler.openIframe();
-
+    handler.openIframe();
 }
 
 </script>
