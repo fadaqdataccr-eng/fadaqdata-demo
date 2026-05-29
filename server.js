@@ -567,9 +567,14 @@ app.get("/dashboard", (req, res) => {
 
     <div class="wallet">
 
-      <h2>Wallet Balance 👁️</h2>
+      <h2>
+  Wallet Balance
+  <span onclick="toggleBalance()" style="cursor:pointer;">👁️</span>
+</h2>
 
-      <div class="balance">₦25,450.00</div>
+<div class="balance" id="balance">
+  ₦25,450.00
+</div>
 
       <div class="actions">
 
@@ -624,6 +629,21 @@ app.get("/dashboard", (req, res) => {
       <div>🧾<br>Transactions</div>
       <div>👤<br>Profile</div>
     </div>
+<script>
+let visible = true;
+
+function toggleBalance() {
+  const balance = document.getElementById("balance");
+
+  if (visible) {
+    balance.innerHTML = "******";
+  } else {
+    balance.innerHTML = "₦25,450.00";
+  }
+
+  visible = !visible;
+}
+</script>
 
   </body>
   </html>
