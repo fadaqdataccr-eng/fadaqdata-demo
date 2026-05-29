@@ -531,123 +531,143 @@ app.get("/dashboard", (req, res) => {
         cursor:pointer;
       }
 
-      .icon{
-        font-size:40px;
-        margin-bottom:15px;
-      }
 
-      .bottomnav{
-        position:fixed;
-        bottom:0;
-        width:100%;
-        background:#b30000;
-        display:flex;
-        justify-content:space-around;
-        padding:12px 0;
-        color:white;
-        font-size:14px;
-      }
+/* =========================
+   DASHBOARD
+========================= */
+app.get("/dashboard", (req, res) => {
+res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FadaqData Dashboard</title>
 
-      .bottomnav div{
-        text-align:center;
-      }
-    </style>
-  </head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f3f3f3;padding-bottom:90px}
+.header{
+background:linear-gradient(to right,#650000,#ff0000);
+padding:25px;
+color:white;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
+}
+.topbar{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:28px;font-weight:bold}
+.profile{
+width:50px;height:50px;border-radius:50%;
+background:white;color:#650000;
+display:flex;align-items:center;justify-content:center;
+font-weight:bold;font-size:24px;
+}
+.card{
+background:white;
+width:92%;
+margin:20px auto;
+padding:20px;
+border-radius:25px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.balance{font-size:42px;color:#7b0000;font-weight:bold;margin:15px 0}
+.tier{color:gray}
+.actions{display:flex;gap:10px;margin-top:15px}
+.btn{
+flex:1;padding:15px;border:none;border-radius:15px;
+font-size:18px;font-weight:bold
+}
+.fund{background:#b00000;color:white}
+.transfer{background:white;border:2px solid #b00000;color:#b00000}
+.section{width:92%;margin:20px auto}
+.section h2{margin-bottom:15px}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+.service{
+background:white;border-radius:20px;padding:25px;
+text-align:center;
+font-size:18px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+text-decoration:none;color:black;
+}
+.icon{font-size:35px;margin-bottom:10px}
+.bottomnav{
+position:fixed;bottom:0;left:0;width:100%;
+background:#b00000;color:white;
+display:flex;justify-content:space-around;
+padding:12px 0;
+}
+.bottomnav div{text-align:center}
+</style>
 
-  <body>
-
-    <div class="header">
-
-      <div class="nav">
-        <div class="logo">FadaqData</div>
-        <div class="profile">F</div>
-      </div>
-
-    </div>
-
-    <div class="wallet">
-
-      <h2>
-  Wallet Balance
-  <span onclick="toggleBalance()" style="cursor:pointer;">👁️</span>
-</h2>
-
-<div class="balance" id="balance">
-  ₦25,450.00
-</div>
-
-      <div class="actions">
-
-        <button class="btn fund"
-          onclick="window.location.href='/fund-wallet'">
-          Fund Wallet
-        </button>
-
-        <button class="btn transfer">
-          Transfer
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="services">
-
-      <h2>Quick Services</h2>
-
-      <div class="grid">
-
-        <div class="box"
-          onclick="window.location.href='/airtime'">
-          <div class="icon">📱</div>
-          Airtime
-        </div>
-
-        <div class="box">
-          <div class="icon">📶</div>
-          Data
-        </div>
-
-        <div class="box">
-          <div class="icon">💸</div>
-          Airtime2Cash
-        </div>
-
-        <div class="box">
-          <div class="icon">📺</div>
-          Cable TV
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="bottomnav">
-      <div>🏠<br>Home</div>
-      <div>💼<br>Wallet</div>
-      <div>📋<br>Services</div>
-      <div>🧾<br>Transactions</div>
-      <div>👤<br>Profile</div>
-    </div>
 <script>
-let visible = true;
-
-function toggleBalance() {
-  const balance = document.getElementById("balance");
-
-  if (visible) {
-    balance.innerHTML = "******";
-  } else {
-    balance.innerHTML = "₦25,450.00";
-  }
-
-  visible = !visible;
+let visible=true;
+function toggleBalance(){
+const bal=document.getElementById("bal");
+if(visible){
+bal.innerHTML="******";
+}else{
+bal.innerHTML="₦25,450.00";
+}
+visible=!visible;
 }
 </script>
+</head>
 
-  </body>
-  </html>
-  `);
+<body>
+
+<div class="header">
+<div class="topbar">
+<div class="logo">FadaqData</div>
+<div style="display:flex;gap:15px;align-items:center">
+<div>🔔</div>
+<div class="profile">F</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Wallet Balance <span onclick="toggleBalance()">👁️</span></h2>
+<div id="bal" class="balance">₦25,450.00</div>
+<div class="tier">Account Tier 1</div>
+
+<div class="actions">
+<button class="btn fund" onclick="location.href='/fund-wallet'">Fund Wallet</button>
+<button class="btn transfer">Transfer</button>
+</div>
+</div>
+
+<div class="section">
+<h2>Quick Services</h2>
+
+<div class="grid">
+<a class="service" href="/airtime"><div class="icon">📱</div>Airtime</a>
+<a class="service" href="/buy-data"><div class="icon">📶</div>Data</a>
+<div class="service"><div class="icon">💸</div>Airtime2Cash</div>
+<div class="service"><div class="icon">📺</div>Cable TV</div>
+<div class="service"><div class="icon">⚡</div>Electricity</div>
+<div class="service"><div class="icon">🎓</div>Exam PIN</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Recent Transactions</h2>
+<p style="color:gray">No transactions yet</p>
+</div>
+
+<div class="bottomnav">
+<div>🏠<br>Home</div>
+<div>💼<br>Wallet</div>
+<div>📋<br>Services</div>
+<div>🧾<br>History</div>
+<div>👤<br>Profile</div>
+</div>
+
+</body>
+</html>
+`);
 });
 
 /* =========================
