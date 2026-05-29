@@ -728,9 +728,8 @@ app.get("/airtime", (req, res) => {
       }
       
       .mtn{
-        background:#ffd800;
+      background:white;
       }
-
       .airtel{
         color:red;
       }
