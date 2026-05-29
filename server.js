@@ -826,20 +826,20 @@ app.get("/airtime", (req, res) => {
       <div class="networks">
 
   <div class="network mtn">
-    <img src="/images/New-mtn-logo.jpg" alt="MTN">
-  </div>
+  <img src="/images/New-mtn-logo.jpg" alt="MTN">
+</div>
 
-  <div class="network airtel">
-    <img src="/images/Airtel_Logo-01.png" alt="Airtel">
-  </div>
+<div class="network airtel">
+  <img src="/images/Airtel_logo-01.png" alt="Airtel">
+</div>
 
-  <div class="network glo">
-    <img src="/images/recharge_com_glo_product_card.png" alt="Glo">
-  </div>
+<div class="network glo">
+  <img src="/images/recharge_com_glo_product_card.png" alt="Glo">
+</div>
 
-  <div class="network nine">
-    <img src="/images/T2(9mobile)_big.png" alt="9mobile">
-  </div>
+<div class="network nine">
+  <img src="/images/T2(9mobile)_big.png" alt="9mobile">
+</div>
   
   
   </div>
