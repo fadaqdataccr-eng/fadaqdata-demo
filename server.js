@@ -709,7 +709,8 @@ app.get("/airtime", (req, res) => {
       }
 
       .network{
-      height:85px;
+      height:90px;
+      width:100%;
       border-radius:20px;
       border:2px solid #eee;
       display:flex;
@@ -718,7 +719,6 @@ app.get("/airtime", (req, res) => {
       background:white;
       padding:10px;
       overflow:hidden;
-      width:100%;
       }
    
       .network img{
